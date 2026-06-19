@@ -1030,7 +1030,9 @@ function doImport() {
     const isRozhyshche = e.rожище === true;
     const isLviv = e.lviv === true;
     const isLutsk = e.lutsk === true;
-    return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk;
+    const result = hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk;
+    if (!result) console.log('FILTERED OUT:', e.name, e.dept, {hasF1, hasTab, isLviv, isLutsk, isRozhyshche});
+    return result;
   });
 
   const allEmps = baseEmps.map(base => {
