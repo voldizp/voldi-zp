@@ -1009,12 +1009,15 @@ function doImport() {
   // === STEP 9: Build employees from existing base data + new calculations ===
   txt.textContent = 'Розраховуємо ЗП...'; fill.style.width = '70%';
 
-  // Use previous month as base, but skip people who are truly absent
-  // (not in нараховано AND not in табель = звільнені або не працюють)
-  const prevHistory = Object.keys(HISTORY).sort().reverse()
-    .map(k => HISTORY[k])
-    .find(h => h && h.employees && h.employees.length > 0);
-  const prevEmps = prevHistory ? prevHistory.employees : [];
+  // Always use April base (hardcoded) as the master employee list
+  // This ensures Lviv/Lutsk/special people are always included
+  const APRIL_KEY = '2026-04';
+  const aprilBase = HISTORY[APRIL_KEY];
+  const prevEmps = aprilBase && aprilBase.employees && aprilBase.employees.length > 0
+    ? aprilBase.employees
+    : (Object.keys(HISTORY).sort().reverse()
+        .map(k => HISTORY[k])
+        .find(h => h && h.employees && h.employees.length > 0) || {employees:[]}).employees;
 
   const baseEmps = prevEmps.filter(e => {
     const KNOWN_DEPTS = ['Виробництво','Керівники цехів','Цех цукерок','Цех вафель','Цех глазурі','Логістика','Технічний відділ','Охорона','Львів','Луцьк'];
