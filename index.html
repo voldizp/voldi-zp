@@ -1547,9 +1547,10 @@ loadFromGithub();
 
 
 // ===== GITHUB SYNC =====
+let GH_TOKEN = localStorage.getItem('gh_token') || '';
 const GH_USER = 'voldizp';
 const GH_REPO = 'voldi-zp';
-let GH_TOKEN = localStorage.getItem('gh_token') || '';
+
 const GH_FILE = 'data.json';
 const GH_API = 'https://api.github.com/repos/' + GH_USER + '/' + GH_REPO + '/contents/' + GH_FILE;
 
