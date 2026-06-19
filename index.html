@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ЗП Калькулятор — ТзОВ ТВК ВОЛДІ</title>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>:root{--bg:#f2f1ed;--sf:#fff;--sf2:#f7f6f2;--bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);--tx:#1a1a18;--tx2:#5a5a55;--tx3:#9a9a94;--ac:#2d5a3d;--acb:#e8f0eb;--act:#1e4029;--gn:#1e6b3a;--gnb:#eaf4ee;--rd:#a02020;--rdb:#fdf0f0;--or:#b85c00;--orb:#fff3e8;--bl:#1a4a8a;--blb:#e8f0fa;--r:10px;--rs:6px}*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}.hdr{background:var(--ac);color:#fff;padding:1.1rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}.hdr h1{font-size:19px;font-weight:700;font-family:Georgia,serif;flex:1}.month-sel{height:34px;font-size:13px;padding:0 10px;border:none;border-radius:var(--rs);background:rgba(255,255,255,.2);color:#fff;outline:none;cursor:pointer;min-width:150px}.month-sel option{color:var(--tx);background:var(--sf)}.upload-btn{height:34px;padding:0 14px;font-size:13px;border:1.5px solid rgba(255,255,255,.4);border-radius:var(--rs);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}.upload-btn:hover{background:rgba(255,255,255,.25)}.sbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:.65rem 1.5rem;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}.sw{position:relative;flex:1;min-width:200px;max-width:380px}.sw input{width:100%;height:38px;font-size:14px;padding:0 12px 0 36px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf2);color:var(--tx);outline:none}.sw input:focus{border-color:var(--ac);background:#fff}.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:15px}.dsel{height:38px;font-size:13px;padding:0 10px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf2);color:var(--tx);outline:none;cursor:pointer}.rc{font-size:12px;color:var(--tx3);margin-left:auto}.tab-btn{height:38px;padding:0 14px;font-size:13px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf2);color:var(--tx);cursor:pointer;white-space:nowrap}.tab-btn:hover{background:var(--acb);border-color:var(--ac)}.tab-btn.active{background:var(--ac);color:#fff;border-color:var(--ac)}.drop{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--sf);border:1.5px solid var(--bd2);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:280px;overflow-y:auto;z-index:200;display:none}.drop.open{display:block}.di{padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--bd);font-size:13px}.di:last-child{border-bottom:none}.di:hover,.di.sel{background:var(--acb)}.hi{background:#fff0b0;border-radius:2px}.main{padding:1.25rem 1.5rem;max-width:1200px;margin:0 auto}.empty{text-align:center;padding:4rem 2rem;color:var(--tx3)}.empty .eic{font-size:48px;margin-bottom:1rem;opacity:.35}.empty h2{font-size:17px;color:var(--tx2);margin-bottom:.4rem}.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:center;justify-content:center}.modal{background:var(--sf);border-radius:var(--r);padding:1.5rem;width:90%;box-shadow:0 16px 48px rgba(0,0,0,.2)}.modal h2{font-size:17px;font-weight:700;margin-bottom:1rem;font-family:Georgia,serif}.month-input-row{display:flex;gap:8px;align-items:center;margin-bottom:1rem}.month-input-row label{font-size:13px;font-weight:600;color:var(--tx2);white-space:nowrap}.month-input-row input[type=month]{height:36px;font-size:13px;padding:0 10px;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);outline:none;flex:1}.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;border-top:1px solid var(--bd);padding-top:1rem}.btn-cancel{height:36px;padding:0 16px;font-size:13px;border:1.5px solid var(--bd2);border-radius:var(--rs);background:transparent;color:var(--tx2);cursor:pointer}.btn-cancel:hover{background:var(--sf2)}.btn-import{height:36px;padding:0 20px;font-size:13px;border:none;border-radius:var(--rs);background:var(--ac);color:#fff;cursor:pointer;font-weight:600}.btn-import:hover{background:#245030}.btn-import:disabled{opacity:.4;cursor:not-allowed}.progress{display:none;margin-top:.75rem}.progress-bar{height:4px;background:var(--bd2);border-radius:2px;overflow:hidden}.progress-fill{height:100%;background:var(--ac);border-radius:2px;transition:width .3s}.progress-text{font-size:12px;color:var(--tx3);margin-top:4px}.card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);overflow:hidden;animation:fi .18s ease}@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.ctop{background:var(--ac);color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}.av{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}.ctop h2{font-size:16px;font-weight:700;line-height:1.2;font-family:Georgia,serif}.ctop .sub{font-size:12px;opacity:.8;margin-top:2px}.bdgs{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.bdg{font-size:11px;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.18);color:#fff;white-space:nowrap}.sums{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--bd)}.sc{padding:.85rem 1.25rem;border-right:1px solid var(--bd)}.sc:last-child{border-right:none}.sl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);margin-bottom:4px}.sv{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}.sv.g{color:var(--gn)}.sv.r{color:var(--rd)}.sv.b{color:var(--bl)}.ss{font-size:11px;color:var(--tx3);margin-top:2px}.sec{padding:.85rem 1.5rem;border-top:1px solid var(--bd)}.sec-t{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);margin-bottom:.65rem;padding-bottom:.5rem;border-bottom:1px solid var(--bd);font-weight:600}.rows{display:flex;flex-direction:column}.row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}.row:last-child{border-bottom:none}.row .rl{color:var(--tx2)}.row .rv{font-weight:600;font-variant-numeric:tabular-nums}.row .rv.pos{color:var(--gn)}.row .rv.neg{color:var(--rd)}.row .rv.mut{color:var(--tx3);font-weight:400}.rtot{background:var(--sf2);margin:0 -1.5rem;padding:7px 1.5rem;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);font-size:14px;font-weight:700;display:flex;justify-content:space-between}.tag{display:inline-block;font-size:10px;padding:1px 5px;border-radius:4px;margin-left:5px;vertical-align:middle}.tag.nv{background:var(--rdb);color:var(--rd)}.tag.ok{background:var(--gnb);color:var(--gn)}.stb{height:4px;background:var(--bd2);border-radius:2px;overflow:hidden;margin-top:5px}.stf{height:100%;background:var(--ac);border-radius:2px}.back{font-size:12px;color:var(--tx3);cursor:pointer;border:none;background:none;padding:5px 0;margin-bottom:.65rem;text-decoration:underline;text-underline-offset:2px;display:block}.back:hover{color:var(--ac)}.dept-wrap{overflow-x:auto;margin-bottom:1.5rem}.dept-table{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}.dept-table thead th{font-size:10px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;padding:6px 8px;border-bottom:2px solid var(--bd2);background:var(--sf2);text-align:right;position:sticky;top:0;z-index:2;white-space:nowrap}.dept-table thead th:first-child{text-align:left;width:120px}.dept-table thead th:nth-child(2){text-align:left;width:160px}.dept-table thead th.sep{border-left:2px solid var(--bd2)}.dept-table tbody tr{border-bottom:1px solid var(--bd);cursor:pointer;transition:background .1s}.dept-table tbody tr:hover{background:var(--acb)}.dept-table tbody td{padding:6px 8px;text-align:right;font-variant-numeric:tabular-nums;color:var(--tx);white-space:nowrap}.dept-table tbody td:first-child{text-align:left;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dept-table tbody td:nth-child(2){text-align:left;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dept-table tbody td.sep{border-left:2px solid var(--bd)}.dept-table tbody td.pos{color:var(--gn);font-weight:600}.dept-table tbody td.neg{color:var(--rd);font-weight:600}.dept-table tbody td.mut{color:var(--tx3)}.dept-table tfoot tr{border-top:2px solid var(--bd2);background:var(--sf2);font-weight:700}.dept-table tfoot td{padding:7px 8px;text-align:right;font-variant-numeric:tabular-nums}.dept-table tfoot td:first-child,.dept-table tfoot td:nth-child(2){text-align:left}.dept-table tfoot td.sep{border-left:2px solid var(--bd2)}.dept-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem}.dept-title-row h2{font-size:16px;font-weight:700;font-family:Georgia,serif;color:var(--tx)}.dept-totals{display:flex;gap:1rem;flex-wrap:wrap}.dt-chip{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:.4rem .8rem;font-size:12px}.dt-chip .dtl{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em}.dt-chip .dtv{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}.dt-chip .dtv.g{color:var(--gn)}.dt-chip .dtv.b{color:var(--bl)}.dt-chip .dtv.o{color:var(--or)}.zv-wrap{overflow-x:auto}.zv-table{width:100%;border-collapse:collapse;font-size:13px}.zv-table th{font-size:11px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;padding:8px 12px;border-bottom:2px solid var(--bd2);background:var(--sf2);text-align:right;white-space:nowrap}.zv-table th:nth-child(1),.zv-table th:nth-child(2){text-align:left}.zv-table td{padding:9px 12px;border-bottom:1px solid var(--bd);text-align:right;font-variant-numeric:tabular-nums}.zv-table td:nth-child(1){text-align:center;color:var(--tx3);font-size:12px;width:36px}.zv-table td:nth-child(2){text-align:left;font-weight:600}.zv-table tr:hover td{background:var(--acb)}.zv-table .zv-tot{background:var(--sf2);font-weight:700;border-top:2px solid var(--bd2)}.zv-table .zv-tot td{padding:10px 12px}.zv-f1{color:var(--rd);font-weight:600}.zv-f2{color:var(--gn);font-weight:600}.zv-header{background:var(--ac);color:#fff;border-radius:var(--r) var(--r) 0 0;padding:1rem 1.5rem}.zv-header h2{font-size:17px;font-weight:700;font-family:Georgia,serif}.zv-header p{font-size:12px;opacity:.75;margin-top:3px}.zv-card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);overflow:hidden;margin-bottom:1.5rem}.zv-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-bottom:1px solid var(--bd)}.zv-sc{padding:.85rem 1.25rem;border-right:1px solid var(--bd)}.zv-sc:last-child{border-right:none}.zv-sl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);margin-bottom:4px}.zv-sv{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}.zv-sv.r{color:var(--rd)}.zv-sv.g{color:var(--gn)}.zv-sv.b{color:var(--bl)}.zv-extra{padding:1rem 1.5rem;border-top:1px solid var(--bd);display:grid;grid-template-columns:1fr 1fr;gap:1rem}.zv-block{background:var(--sf2);border-radius:var(--rs);padding:.75rem 1rem}.zv-block h4{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--tx3);margin-bottom:.5rem}.zv-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--bd)}.zv-row:last-child{border-bottom:none}.zv-row .zl{color:var(--tx2)}.zv-row .zr{font-weight:600;font-variant-numeric:tabular-nums}.gotivka-box{margin:0 0 1rem;background:var(--gnb);border:1.5px solid rgba(30,107,58,.25);border-radius:var(--r);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}.gotivka-box .gb-label{font-size:12px;color:var(--gn);text-transform:uppercase;letter-spacing:.06em;font-weight:600}.gotivka-box .gb-val{font-size:28px;font-weight:700;color:var(--gn);font-variant-numeric:tabular-nums}.gotivka-box .gb-sub{font-size:11px;color:var(--gn);opacity:.7;margin-top:2px}.notes-section{padding:1rem 1.5rem;border-top:1px solid var(--bd)}.notes-section h4{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:.65rem;font-weight:600}.notes-area{width:100%;min-height:72px;font-size:13px;font-family:sans-serif;padding:.6rem .8rem;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);resize:vertical;outline:none;line-height:1.5}.notes-area:focus{border-color:var(--ac);background:#fff}.notes-area:disabled{background:var(--sf2);color:var(--tx2);cursor:default}.approval-row{display:flex;align-items:center;gap:.75rem;margin-top:.65rem;flex-wrap:wrap}.btn-approve{height:34px;padding:0 16px;font-size:13px;border:none;border-radius:var(--rs);background:var(--ac);color:#fff;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:6px}.btn-approve:hover{background:#1e4029}.btn-unapprove{height:28px;padding:0 10px;font-size:11px;border:1px solid var(--bd2);border-radius:var(--rs);background:transparent;color:var(--tx3);cursor:pointer}.btn-unapprove:hover{background:var(--rdb);color:var(--rd);border-color:var(--rd)}.approval-stamp{font-size:12px;color:var(--gn);display:flex;align-items:center;gap:5px}.approval-stamp.empty{color:var(--tx3)}.dept-note-wrap{padding:.5rem 0 0}.dept-note-area{width:100%;min-height:48px;font-size:12px;font-family:sans-serif;padding:.4rem .6rem;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);resize:none;outline:none}.dept-note-area:focus{border-color:var(--ac);background:#fff}.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--tx);color:#fff;padding:.65rem 1.1rem;border-radius:var(--rs);font-size:13px;z-index:400;animation:fi .2s ease;display:none}.toast.show{display:block}.toast.ok{background:var(--gn)}.toast.err{background:var(--rd)}@media(max-width:700px){.hdr,.sbar,.main{padding-left:1rem;padding-right:1rem}.sums{grid-template-columns:1fr 1fr}}</style>
+</head>
+<body>
+
+
+<header class="hdr">
+  <h1>ЗП Калькулятор <span style="font-size:13px;opacity:.7;font-family:sans-serif;">ТзОВ ТВК ВОЛДІ</span></h1>
+  <div style="display:flex;gap:4px;background:rgba(0,0,0,.2);border-radius:var(--rs);padding:3px">
+    <button id="btnKolky" onclick="switchLocation('kolky')" style="height:28px;padding:0 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer;background:#fff;color:var(--ac);font-weight:700">Колки</button>
+    <button id="btnLviv" onclick="switchLocation('lviv')" style="height:28px;padding:0 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer;background:transparent;color:rgba(255,255,255,.8)">Львів</button>
+    <button id="btnLutsk" onclick="switchLocation('lutsk')" style="height:28px;padding:0 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer;background:transparent;color:rgba(255,255,255,.8)">Луцьк</button>
+  </div>
+  <select class="month-sel" id="monthSel"></select>
+  <button class="upload-btn" onclick="openUpload()">⬆ Завантажити місяць</button>
+  <button class="upload-btn" onclick="saveToGithub()" style="background:rgba(255,255,255,.25)">☁ Зберегти на сервер</button>
+  <button onclick="setupGhToken()" style="height:28px;padding:0 8px;font-size:11px;border:1px solid rgba(255,255,255,.3);border-radius:4px;background:transparent;color:rgba(255,255,255,.6);cursor:pointer">🔑</button>
+</header>
+<div class="sbar">
+  <div class="sw">
+    <span class="si">🔍</span>
+    <input type="text" id="si" placeholder="Введіть прізвище або ім'я..." autocomplete="off" spellcheck="false">
+    <div class="drop" id="drop"></div>
+  </div>
+  <select class="dsel" id="ds">
+    <option value="">Всі відділи</option>
+    <option>Виробництво</option><option>Керівники цехів</option><option>Цех цукерок</option>
+    <option>Цех вафель</option><option>Цех глазурі</option><option>Логістика</option>
+    <option>Технічний відділ</option><option>Охорона</option>
+  </select>
+  <span class="rc" id="rc"></span>
+  <button class="tab-btn" id="btnZvedena" onclick="toggleZvedena()">📊 Зведена</button>
+</div>
+<div class="main" id="main">
+  <div class="empty" id="empty"><div class="eic">📋</div><h2>Введіть прізвище для пошуку</h2><p style="font-size:13px">або виберіть відділ щоб переглянути список</p></div>
+  <div id="cv" style="display:none"></div>
+  <div id="lv" style="display:none"></div>
+  <div id="zv" style="display:none"></div>
+</div>
+<div class="modal-bg" id="modalBg" style="display:none" onclick="if(event.target===this)closeUpload()">
+  <div class="modal" style="max-width:520px">
+    <h2>⬆ Завантажити новий місяць</h2>
+    <div class="month-input-row"><label>Місяць:</label><input type="month" id="monthInput" value="2026-05"></div>
+    <div id="dropAllZone"
+         style="border:2px dashed var(--bd2);border-radius:var(--r);padding:2rem 1.5rem;text-align:center;cursor:pointer;background:var(--sf2);transition:all .15s;margin-bottom:1rem"
+         onclick="document.getElementById('allFilesInput').click()"
+         ondragover="event.preventDefault();this.style.borderColor='var(--ac)';this.style.background='var(--acb)'"
+         ondragleave="this.style.borderColor='var(--bd2)';this.style.background='var(--sf2)'"
+         ondrop="handleDropAll(event)">
+      <input type="file" id="allFilesInput" accept=".xlsx" multiple style="display:none" onchange="handleFilesAll(this.files)">
+      <div style="font-size:36px;margin-bottom:.5rem">📂</div>
+      <div style="font-size:15px;font-weight:600;color:var(--tx)">Перетягніть всі файли сюди</div>
+      <div style="font-size:12px;color:var(--tx3);margin-top:.4rem">або натисніть щоб вибрати</div>
+      <div style="font-size:11px;color:var(--tx3);margin-top:.5rem">дані.xlsx · табель · стаж · премія_за_друга</div>
+    </div>
+    <div id="filesList" style="display:none;margin-bottom:1rem">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);margin-bottom:.5rem">Розпізнані файли:</div>
+      <div id="filesListInner"></div>
+    </div>
+    <div class="progress" id="progress">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-text" id="progressText">Зчитування файлу...</div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeUpload()">Скасувати</button>
+      <button class="btn-import" id="importBtn" onclick="doImport()" disabled>Розрахувати</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+
+
+
+
+
+
+
+// ===== DATA =====
+const HISTORY = {"2026-04": {"label": "Квітень 2026", "employees": [{"name": "Павлюк Оксана Миколаївна", "dept": "Виробництво", "posada": "менеджер по персоналу", "oform": "", "oklad": 20000.0, "oklad_obr": 24600.0, "hod": 141.5, "norma": 168.0, "pct_normy": 0.84, "stavka": 20719.64, "stavka_hod": 20719.64, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 3511.0, "likar_fss": 0, "mob": 0, "inше": 5000.0, "sumish": 0, "nar_zp": 29257.14, "f1": 19874.54, "taxes": 4571.14, "kartu": 15303.4, "zagalna": 24659.5, "f2": 9382.6, "do_vypl": 9382.6}, {"name": "Білевич Віра Володимирівна", "dept": "Виробництво", "posada": "Хімік", "oform": "", "oklad": 15000.0, "oklad_obr": 16675.0, "hod": 89.5, "norma": 168.0, "pct_normy": 0.53, "stavka": 8883.41, "stavka_hod": 8883.41, "prem_norma": 0, "stazh_years": 2.0, "stazh_prem": 300.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": 0, "nar_zp": 9261.91, "f1": 7280.0, "taxes": 1674.4, "kartu": 5605.6, "zagalna": 7509.01, "f2": 1981.91, "do_vypl": 1981.91}, {"name": "Зінчук Тетяна Миколаївна", "dept": "Виробництво", "posada": "Обліківець", "oform": "", "oklad": 14649.0, "oklad_obr": 17915.0, "hod": 168.0, "norma": 168.0, "pct_normy": 1.0, "stavka": 17915.0, "stavka_hod": 17915.0, "prem_norma": 0.0, "stazh_years": 9.0, "stazh_prem": 1350.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 100.0, "inше": 0, "sumish": 0, "nar_zp": 19365.0, "f1": 14200.0, "taxes": 3266.0, "kartu": 10934.0, "zagalna": 16099.0, "f2": 5165.0, "do_vypl": 5165.0}, {"name": "Ляхно Олена Юріївна", "dept": "Виробництво", "posada": "Мікробіолог", "oform": "", "oklad": 25000.0, "oklad_obr": 29393.0, "hod": 148.5, "norma": 168.0, "pct_normy": 0.88, "stavka": 25981.31, "stavka_hod": 25981.31, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 4252.57, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": 0, "nar_zp": 30403.38, "f1": 19011.56, "taxes": 4372.66, "kartu": 14638.9, "zagalna": 26011.22, "f2": 11391.82, "do_vypl": 11391.82}, {"name": "Миронюк Ніна Іванівна (СЮ)", "dept": "Виробництво", "posada": "Підсобний роюітник", "oform": "", "oklad": 9000.0, "oklad_obr": 11001.0, "hod": 165.0, "norma": 168.0, "pct_normy": 0.98, "stavka": 10804.55, "stavka_hod": 10804.55, "prem_norma": 0, "stazh_years": 5.0, "stazh_prem": 750.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": 0, "nar_zp": 11557.55, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 9553.55, "f2": 2857.55, "do_vypl": 2857.55}, {"name": "Качковський Віктор Михайлович", "dept": "Виробництво", "posada": "Інженер з охорони праці", "oform": "", "oklad": 25000.0, "oklad_obr": 30060.0, "hod": 56.0, "norma": 168.0, "pct_normy": 0.33, "stavka": 10020.0, "stavka_hod": 10020.0, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": 0, "nar_zp": 10132.0, "f1": 8000.0, "taxes": 1840.0, "kartu": 6160.0, "zagalna": 8180.0, "f2": 2132.0, "do_vypl": 2132.0}, {"name": "Динісова Надія Василівна", "dept": "Керівники цехів", "posada": "Начальник цеху", "oform": "", "oklad": 19090.0, "oklad_obr": 23000.0, "hod": 97.5, "norma": 168.0, "pct_normy": 0.58, "plan_t": 85.5, "fakt_t": 80.76, "pct_plan": 0.94, "stavka": 13348.21, "prem_tonazh": 0, "prem_plan": 0.0, "stazh_years": 13.0, "stazh_prem": 1950.0, "nochni": 0, "transport": 0, "vidpusk": 3167.25, "likar_fss": 0, "mob": 200.0, "inше": 0, "nar_zp": 18665.46, "f1": 12440.48, "taxes": 2861.31, "kartu": 9579.17, "zagalna": 18804.15, "f2": 6224.98, "avans": 0, "do_vypl": 6224.98}, {"name": "Волох Ангеліна Анатоліївна (СЮ)", "dept": "Керівники цехів", "posada": "Майстер зміни", "oform": "", "oklad": 15320.0, "oklad_obr": 17321.0, "hod": 126.5, "norma": 168.0, "pct_normy": 0.75, "plan_t": 85.5, "fakt_t": 80.76, "pct_plan": 0.94, "stavka": 13042.3, "prem_tonazh": 0, "prem_plan": 0.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "nar_zp": 13042.3, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 13041.3, "f2": 4342.3, "avans": 2000.0, "do_vypl": 2342.3}, {"name": "Курдельчук Валентина Василівна", "dept": "Керівники цехів", "posada": "Майстер зміни", "oform": "", "oklad": 15320.0, "oklad_obr": 19000.0, "hod": 156.5, "norma": 168.0, "pct_normy": 0.93, "plan_t": 85.5, "fakt_t": 80.76, "pct_plan": 0.94, "stavka": 17699.4, "prem_tonazh": 0, "prem_plan": 0.0, "stazh_years": 10.0, "stazh_prem": 1500.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "nar_zp": 19199.4, "f1": 16000.0, "taxes": 3680.0, "kartu": 12320.0, "zagalna": 17519.4, "f2": 3199.4, "avans": 0, "do_vypl": 3199.4}, {"name": "Шатковська Тамара Олексіївна", "dept": "Керівники цехів", "posada": "Майстер зміни", "oform": "", "oklad": 15320.0, "oklad_obr": 19000.0, "hod": 151.5, "norma": 168.0, "pct_normy": 0.9, "plan_t": 85.5, "fakt_t": 80.76, "pct_plan": 0.94, "stavka": 17133.93, "prem_tonazh": 0, "prem_plan": 0.0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "nar_zp": 17283.93, "f1": 16000.0, "taxes": 3680.0, "kartu": 12320.0, "zagalna": 15603.93, "f2": 1283.93, "avans": 0, "do_vypl": 1283.93}, {"name": "Андрійчук Людмила Петрівна", "dept": "Керівники цехів", "posada": "Начальник цеху глазурі", "oform": "", "oklad": 12550.0, "oklad_obr": 16000.0, "hod": 168.0, "norma": 168.0, "pct_normy": 1.0, "plan_t": 85.5, "fakt_t": 80.76, "pct_plan": 0.94, "stavka": 16000.0, "prem_tonazh": 0, "prem_plan": 0.0, "stazh_years": 8.0, "stazh_prem": 1200.0, "nochni": 0, "transport": 4000.0, "vidpusk": 1142.56, "likar_fss": 0, "mob": 100.0, "inше": 4000.0, "nar_zp": 29442.56, "f1": 14778.92, "taxes": 3399.15, "kartu": 11379.77, "zagalna": 23543.41, "f2": 14663.64, "avans": 0, "do_vypl": 14663.64, "sumish": 3000.0}, {"name": "Романюк Наталія Андріївна", "dept": "Керівники цехів", "posada": "Начальник цеху", "oform": "", "oklad": 13000.0, "oklad_obr": 16450.0, "hod": 128.0, "norma": 168.0, "pct_normy": 0.76, "plan_t": 5340.0, "fakt_t": 2249.1, "pct_plan": 0.42, "stavka": 12533.33, "prem_tonazh": 2500, "prem_plan": 0.0, "stazh_years": 2.0, "stazh_prem": 300.0, "nochni": 0, "transport": 0, "vidpusk": 2519.15, "likar_fss": 0, "mob": 100, "inше": 0, "nar_zp": 17952.48, "f1": 14110.06, "taxes": 3245.31, "kartu": 10864.75, "zagalna": 14707.17, "f2": 3842.42, "avans": 0, "do_vypl": 3842.42}, {"name": "Агапітова Інна Ярославівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 139.5, "norma": 168.0, "stavka": 14532.08, "stavka_hod": 14532.08, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 14560.58, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 12531.08, "f2": 5860.58, "avans": 1000.0, "do_vypl": 4860.58}, {"name": "Бандура Людмила Петрівна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 18220.0, "hod": 122.5, "norma": 168.0, "stavka": 13285.42, "stavka_hod": 13285.42, "prem_norma": 0, "stazh_years": 5.0, "stazh_prem": 750.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": -678.07, "nar_zp": 13402.85, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 10137.35, "f2": -597.15, "avans": 0, "do_vypl": -597.15}, {"name": "Березовська Лариса Сергіївна", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "штат", "oklad": 16000.0, "oklad_obr": 19220.0, "hod": 127.5, "norma": 168.0, "stavka": 14586.61, "stavka_hod": 14586.61, "prem_norma": 0, "stazh_years": 8.0, "stazh_prem": 1200.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 1000.0, "nar_zp": 16827.11, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 13566.61, "f2": 2827.11, "avans": 0, "do_vypl": 2827.11}, {"name": "Васюхник Леся Антонівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 78.0, "norma": 168.0, "stavka": 8125.46, "stavka_hod": 8125.46, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 8215.46, "f1": 0, "taxes": 0, "kartu": 0.0, "zagalna": 8125.46, "f2": 8215.46, "avans": 1000.0, "do_vypl": 7215.46}, {"name": "Васюхник Любов Павлівна (СЮ)", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 126.0, "norma": 168.0, "stavka": 13875.75, "stavka_hod": 13875.75, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 13917.75, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 11874.75, "f2": 5217.75, "avans": 1000.0, "do_vypl": 4217.75}, {"name": "Войтюк Тетяна Василівна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "б/о", "oklad": 15500.0, "oklad_obr": 15500.0, "hod": 0, "norma": 168.0, "stavka": 0.0, "stavka_hod": 0.0, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 168.0, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 0.0, "f2": 168.0, "avans": 0, "do_vypl": 168.0}, {"name": "Гайдучик Світлана Валентинівна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 18220.0, "hod": 146.5, "norma": 168.0, "stavka": 15888.27, "stavka_hod": 15888.27, "prem_norma": 0, "stazh_years": 13.0, "stazh_prem": 1950.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 17859.77, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 14618.27, "f2": 3859.77, "avans": 0, "do_vypl": 3859.77}, {"name": "Гапончук Ольга Федорівна", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "штат", "oklad": 16000.0, "oklad_obr": 19220.0, "hod": 143.5, "norma": 168.0, "stavka": 16417.08, "stavka_hod": 16417.08, "prem_norma": 0, "stazh_years": 7.0, "stazh_prem": 1050.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 17491.58, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 14247.08, "f2": 3491.58, "avans": 0, "do_vypl": 3491.58}, {"name": "Гапончук Світлана Володимирівна", "dept": "Цех цукерок", "posada": "Рецептурник", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 83.0, "norma": 168.0, "stavka": 9140.38, "stavka_hod": 9140.38, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 9225.38, "f1": 0, "taxes": 0, "kartu": 0.0, "zagalna": 9140.38, "f2": 9225.38, "avans": 1000.0, "do_vypl": 8225.38}, {"name": "Горбач Таміла Володимирівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 9.0, "norma": 168.0, "stavka": 937.55, "stavka_hod": 937.55, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 1096.55, "f1": 0, "taxes": 0, "kartu": 0.0, "zagalna": 937.55, "f2": 1096.55, "avans": 0, "do_vypl": 1096.55}, {"name": "Грачук Наталія Вікторівна", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "штат", "oklad": 16000.0, "oklad_obr": 19220.0, "hod": 68.5, "norma": 168.0, "stavka": 7836.73, "stavka_hod": 7836.73, "prem_norma": 0, "stazh_years": 4.0, "stazh_prem": 600.0, "nochni": 0, "transport": 0, "vidpusk": 4679.92, "likar_fss": 0, "inше": -131.65, "nar_zp": 13084.5, "f1": 12316.28, "taxes": 2832.74, "kartu": 9483.54, "zagalna": 10152.25, "f2": 768.22, "avans": 0, "do_vypl": 768.22}, {"name": "Гузюк Тетяна Вікторівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 133.5, "norma": 168.0, "stavka": 13907.04, "stavka_hod": 13907.04, "prem_norma": 0, "stazh_years": 4.0, "stazh_prem": 600.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 1000.0, "nar_zp": 15541.54, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 13506.04, "f2": 6841.54, "avans": 1000.0, "do_vypl": 5841.54}, {"name": "Демковська Тетяна Миколаївна", "dept": "Цех цукерок", "posada": "Рецептурник", "oform": "штат", "oklad": 16000.0, "oklad_obr": 19220.0, "hod": 154.5, "norma": 168.0, "stavka": 17675.54, "stavka_hod": 17675.54, "prem_norma": 0, "stazh_years": 9.0, "stazh_prem": 1350.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 19039.04, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 15805.54, "f2": 5039.04, "avans": 0, "do_vypl": 5039.04}, {"name": "Євтушевич Світлана Антонівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 127.5, "norma": 168.0, "stavka": 13282.01, "stavka_hod": 13282.01, "prem_norma": 0, "stazh_years": 6.0, "stazh_prem": 900.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 14222.51, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 12181.01, "f2": 5522.51, "avans": 1000.0, "do_vypl": 4522.51}, {"name": "Єфімова Любов Андріївна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 25.5, "norma": 168.0, "stavka": 2656.4, "stavka_hod": 2656.4, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 2798.9, "f1": 0, "taxes": 0, "kartu": 0.0, "zagalna": 2656.4, "f2": 2798.9, "avans": 0, "do_vypl": 2798.9}, {"name": "Забєліна Наталія Василівна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 123.5, "norma": 168.0, "stavka": 12865.32, "stavka_hod": 12865.32, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 13059.82, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 11014.32, "f2": 4359.82, "avans": 1000.0, "do_vypl": 3359.82}, {"name": "Зінчук Галина Сергіївна (СЮ)", "dept": "Цех цукерок", "posada": "Рецептурник", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 139.5, "norma": 168.0, "stavka": 15362.44, "stavka_hod": 15362.44, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 15540.94, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 13511.44, "f2": 6840.94, "avans": 1000.0, "do_vypl": 5840.94}, {"name": "Калькова Наталія Іванівна 2922610920", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 140.0, "norma": 168.0, "stavka": 14584.17, "stavka_hod": 14584.17, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 14612.17, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 12583.17, "f2": 5912.17, "avans": 1000.0, "do_vypl": 4912.17}, {"name": "Климець Валентина Євстафіївна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 114.0, "norma": 168.0, "stavka": 11875.68, "stavka_hod": 11875.68, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 11929.68, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 9874.68, "f2": 3229.68, "avans": 1000.0, "do_vypl": 2229.68}, {"name": "Ковальчук Людмила Григорівна", "dept": "Цех цукерок", "posada": "Оператор пакувальних автоматів", "oform": "штат", "oklad": 16000.0, "oklad_obr": 19220.0, "hod": 77.5, "norma": 168.0, "stavka": 8866.37, "stavka_hod": 8866.37, "prem_norma": 0, "stazh_years": 13.0, "stazh_prem": 1950.0, "nochni": 0, "transport": 0, "vidpusk": 7684.17, "likar_fss": 452.04, "inше": 0, "nar_zp": 19043.08, "f1": 15136.27, "taxes": 3481.34, "kartu": 11654.93, "zagalna": 15471.23, "f2": 3906.81, "avans": 0, "do_vypl": 3906.81}, {"name": "Конончук Лариса Євгенівна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 116.0, "norma": 168.0, "stavka": 12084.02, "stavka_hod": 12084.02, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 12286.02, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 10233.02, "f2": 3586.02, "avans": 1000.0, "do_vypl": 2586.02}, {"name": "Кратюк Сергій Петрович (СЮ)", "dept": "Цех цукерок", "posada": "Вантажник", "oform": "б/о", "oklad": 15500.0, "oklad_obr": 15500.0, "hod": 0.0, "norma": 168.0, "stavka": 0.0, "stavka_hod": 0.0, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 168.0, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 0.0, "f2": 168.0, "avans": 0, "do_vypl": 168.0}, {"name": "Лаценко Ірина Іванівна (СЮ)", "dept": "Цех цукерок", "posada": "Рецептурник", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 127.5, "norma": 168.0, "stavka": 14040.94, "stavka_hod": 14040.94, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 14081.44, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 12039.94, "f2": 5381.44, "avans": 1000.0, "do_vypl": 4381.44}, {"name": "Лищук Ольга Андріївна (СЮ)", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "б/о", "oklad": 16500.0, "oklad_obr": 16500.0, "hod": 0.0, "norma": 168.0, "stavka": 0.0, "stavka_hod": 0.0, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 168.0, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 0.0, "f2": 168.0, "avans": 0, "do_vypl": 168.0}, {"name": "Лотник Марина Іванівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 129.0, "norma": 168.0, "stavka": 13438.27, "stavka_hod": 13438.27, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 13477.27, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 11437.27, "f2": 4777.27, "avans": 1000.0, "do_vypl": 3777.27}, {"name": "Метешко Наталія Володимирівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 80.0, "norma": 168.0, "stavka": 8333.81, "stavka_hod": 8333.81, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 8421.81, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 6332.81, "f2": -278.19, "avans": 1000.0, "do_vypl": -1278.19}, {"name": "Миронюк Марія Петрівна (СЮ)", "dept": "Цех цукерок", "posada": "Оператор пакувальних автоматів", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 132.0, "norma": 168.0, "stavka": 14536.5, "stavka_hod": 14536.5, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 14572.5, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 12535.5, "f2": 5872.5, "avans": 1000.0, "do_vypl": 4872.5}, {"name": "Миронюк Надія Петрівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 155.5, "norma": 168.0, "stavka": 16198.84, "stavka_hod": 16198.84, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 16211.34, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 14197.84, "f2": 7511.34, "avans": 1000.0, "do_vypl": 6511.34}, {"name": "Михайловська Анастасія Сергіївна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 18220.0, "hod": 74.5, "norma": 168.0, "stavka": 8079.7, "stavka_hod": 8079.7, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 6461.56, "likar_fss": 0, "inше": -1377.27, "nar_zp": 13257.49, "f1": 14097.92, "taxes": 3242.52, "kartu": 10855.4, "zagalna": 9921.47, "f2": -840.43, "avans": 0, "do_vypl": -840.43}, {"name": "Моісеєнко Таісія Євгенівна (осн.)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 18220.0, "hod": 84.0, "norma": 168.0, "stavka": 9110.0, "stavka_hod": 9110.0, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 9344.0, "f1": 8272.73, "taxes": 1902.73, "kartu": 6370.0, "zagalna": 7357.27, "f2": 1071.27, "avans": 0, "do_vypl": 1071.27}, {"name": "Наглюк Олександр Сергійович", "dept": "Цех цукерок", "posada": "оператор пакувальних автоматів", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 29.5, "norma": 168.0, "stavka": 3248.69, "stavka_hod": 3248.69, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 2585.38, "nar_zp": 5972.57, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 5834.07, "f2": 5972.57, "avans": 0, "do_vypl": 5972.57}, {"name": "Огребчук Аліна Василівна", "dept": "Цех цукерок", "posada": "Рецептурник", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 129.0, "norma": 168.0, "stavka": 14206.12, "stavka_hod": 14206.12, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 14245.12, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 12205.12, "f2": 5545.12, "avans": 1000.0, "do_vypl": 4545.12}, {"name": "Пахольчук Лариса Євгенівна", "dept": "Цех цукерок", "posada": "Оператор пакувальних автоматів", "oform": "штат", "oklad": 16000.0, "oklad_obr": 19220.0, "hod": 151.0, "norma": 168.0, "stavka": 17275.12, "stavka_hod": 17275.12, "prem_norma": 0, "stazh_years": 13.0, "stazh_prem": 1950.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 19242.12, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 16005.12, "f2": 5242.12, "avans": 0, "do_vypl": 5242.12}, {"name": "Підвальна Ольга Михайлівна (СЮ)", "dept": "Цех цукерок", "posada": "Рецептурник", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 129.0, "norma": 168.0, "stavka": 14206.12, "stavka_hod": 14206.12, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 14245.12, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 12205.12, "f2": 5545.12, "avans": 1000.0, "do_vypl": 4545.12}, {"name": "Пінчук Тетяна Володимирівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "б/о", "oklad": 15500.0, "oklad_obr": 15500.0, "hod": 0.0, "norma": 168.0, "stavka": 0.0, "stavka_hod": 0.0, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 168.0, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 0.0, "f2": 168.0, "avans": 0, "do_vypl": 168.0}, {"name": "Попович Марина Володимирівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 96.5, "norma": 168.0, "stavka": 10052.66, "stavka_hod": 10052.66, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 10124.16, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 8051.66, "f2": 1424.16, "avans": 1000.0, "do_vypl": 424.16}, {"name": "Регешук Микола Севастянович (СЮ)", "dept": "Цех цукерок", "posada": "Вантажник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 160.5, "norma": 168.0, "stavka": 16719.71, "stavka_hod": 16719.71, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 16727.21, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 14718.71, "f2": 8027.21, "avans": 1000.0, "do_vypl": 7027.21}, {"name": "Регешук Наталія Іванівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 114.0, "norma": 168.0, "stavka": 11875.68, "stavka_hod": 11875.68, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 12079.68, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 10024.68, "f2": 3379.68, "avans": 1000.0, "do_vypl": 2379.68}, {"name": "Рудь Валентина Євгеніївна (осн.)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 18220.0, "hod": 84.0, "norma": 168.0, "stavka": 9110.0, "stavka_hod": 9110.0, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 9344.0, "f1": 8272.73, "taxes": 1902.73, "kartu": 6370.0, "zagalna": 7357.27, "f2": 1071.27, "avans": 0, "do_vypl": 1071.27}, {"name": "Саєнко Світлана Олександрівна", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "штат", "oklad": 16000.0, "oklad_obr": 19220.0, "hod": 167.0, "norma": 168.0, "stavka": 19105.6, "stavka_hod": 19105.6, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 19256.6, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 16035.6, "f2": 5256.6, "avans": 0, "do_vypl": 5256.6}, {"name": "Свинаренко Наталія Богданівна (СЮ)", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 127.0, "norma": 168.0, "stavka": 13985.88, "stavka_hod": 13985.88, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 14026.88, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 11984.88, "f2": 5326.88, "avans": 1000.0, "do_vypl": 4326.88}, {"name": "Свиридюк Світлана Володимирівна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 118.0, "norma": 168.0, "stavka": 12292.37, "stavka_hod": 12292.37, "prem_norma": 0, "stazh_years": 4.0, "stazh_prem": 600.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 12942.37, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 10891.37, "f2": 4242.37, "avans": 1000.0, "do_vypl": 3242.37}, {"name": "Сокол Богдан Миколайович", "dept": "Цех цукерок", "posada": "Оператор пакувальних автоматів", "oform": "штат", "oklad": 16000.0, "oklad_obr": 20600.0, "hod": 158.0, "norma": 168.0, "stavka": 19373.81, "stavka_hod": 19373.81, "prem_norma": 0, "stazh_years": 7.0, "stazh_prem": 1050.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": -4186.25, "nar_zp": 16247.56, "f1": 21650.0, "taxes": 4979.5, "kartu": 16670.5, "zagalna": 11258.06, "f2": -5402.44, "avans": 0, "do_vypl": -5402.44}, {"name": "Терешко Тетяна Василівна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 18220.0, "hod": 50.0, "norma": 168.0, "stavka": 5422.62, "stavka_hod": 5422.62, "prem_norma": 0, "stazh_years": 13.0, "stazh_prem": 1950.0, "nochni": 0, "transport": 0, "vidpusk": 8642.91, "likar_fss": 1371.81, "inше": 0, "nar_zp": 17505.34, "f1": 14469.77, "taxes": 3328.05, "kartu": 11141.72, "zagalna": 14059.29, "f2": 3035.57, "avans": 0, "do_vypl": 3035.57}, {"name": "Ткаченко Оксана Олегівна (СЮ)", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 0.0, "norma": 168.0, "stavka": 0.0, "stavka_hod": 0.0, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 168.0, "f1": 0, "taxes": 0, "kartu": 0.0, "zagalna": 0.0, "f2": 168.0, "avans": 0, "do_vypl": 168.0}, {"name": "Турик Сергій Олександрович", "dept": "Цех цукерок", "posada": "Вантажник", "oform": "б/о", "oklad": 15500.0, "oklad_obr": 15500.0, "hod": 144.5, "norma": 168.0, "stavka": 13331.85, "stavka_hod": 13331.85, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 13355.35, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 13331.85, "f2": 13355.35, "avans": 4000.0, "do_vypl": 9355.35}, {"name": "Фальчук Леся Юхимівна", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "штат", "oklad": 16000.0, "oklad_obr": 19220.0, "hod": 89.0, "norma": 168.0, "stavka": 10182.02, "stavka_hod": 10182.02, "prem_norma": 0, "stazh_years": 5.0, "stazh_prem": 750.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 11011.02, "f1": 7636.36, "taxes": 1756.36, "kartu": 5880.0, "zagalna": 9175.66, "f2": 3374.66, "avans": 0, "do_vypl": 3374.66}, {"name": "Філюк Віталій Миколайович (СЮ)", "dept": "Цех цукерок", "posada": "Оператор пакувальних автоматів", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 126.0, "norma": 168.0, "stavka": 13875.75, "stavka_hod": 13875.75, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 13917.75, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 11874.75, "f2": 5217.75, "avans": 1000.0, "do_vypl": 4217.75}, {"name": "Філюк Ірина Олександрівна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 18220.0, "hod": 132.5, "norma": 168.0, "stavka": 14369.94, "stavka_hod": 14369.94, "prem_norma": 0, "stazh_years": 13.0, "stazh_prem": 1950.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 16355.44, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 13099.94, "f2": 2355.44, "avans": 0, "do_vypl": 2355.44}, {"name": "Філюк Наталія Анатоліївна (СЮ)", "dept": "Цех цукерок", "posada": "Рецептурник", "oform": "ЦПХ", "oklad": 16500.0, "oklad_obr": 18501.0, "hod": 119.5, "norma": 168.0, "stavka": 13159.94, "stavka_hod": 13159.94, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 13208.44, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 11158.94, "f2": 4508.44, "avans": 0, "do_vypl": 4508.44}, {"name": "Чорненко Ольга Миколаївна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 121.0, "norma": 168.0, "stavka": 12604.89, "stavka_hod": 12604.89, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 12651.89, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 10603.89, "f2": 3951.89, "avans": 1000.0, "do_vypl": 2951.89}, {"name": "Шулипа Тетяна Олександрівна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 18220.0, "hod": 93.5, "norma": 168.0, "stavka": 10140.3, "stavka_hod": 10140.3, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": -490.28, "nar_zp": 9724.52, "f1": 10818.18, "taxes": 2488.18, "kartu": 8330.0, "zagalna": 7161.84, "f2": -1093.66, "avans": 0, "do_vypl": -1093.66}, {"name": "Щербачук Світлана Василівна (осн.)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 18220.0, "hod": 153.0, "norma": 168.0, "stavka": 16593.21, "stavka_hod": 16593.21, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": -438.52, "nar_zp": 16169.69, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 12934.69, "f2": 2169.69, "avans": 0, "do_vypl": 2169.69}, {"name": "Щетініна Любов Миколаївна", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "штат", "oklad": 15000.0, "oklad_obr": 16989.5, "hod": 127.5, "norma": 168.0, "stavka": 12893.82, "stavka_hod": 12893.82, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 13084.32, "f1": 8650.0, "taxes": 1989.5, "kartu": 6660.5, "zagalna": 11054.32, "f2": 4434.32, "avans": 0, "do_vypl": 4434.32}, {"name": "Якоб'юк Галина Віталіївна", "dept": "Цех цукерок", "posada": "Вафельник", "oform": "штат", "oklad": 16000.0, "oklad_obr": 19220.0, "hod": 150.0, "norma": 168.0, "stavka": 17160.71, "stavka_hod": 17160.71, "prem_norma": 0, "stazh_years": 3.0, "stazh_prem": 450.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 17628.71, "f1": 14000.0, "taxes": 3220.0, "kartu": 10780.0, "zagalna": 14390.71, "f2": 3628.71, "avans": 0, "do_vypl": 3628.71}, {"name": "Ярмолюк Наталія Василівна (СЮ)", "dept": "Цех цукерок", "posada": "Цукерник", "oform": "ЦПХ", "oklad": 15500.0, "oklad_obr": 17501.0, "hod": 81.5, "norma": 168.0, "stavka": 8490.07, "stavka_hod": 8490.07, "prem_norma": 0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 8576.57, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 6489.07, "f2": -123.43, "avans": 0, "do_vypl": -123.43}, {"name": "Борщевич Марія Василівна", "dept": "Цех вафель", "posada": "Пекар", "oform": "", "oklad": 15000.0, "oklad_obr": 18348.8, "hod": 125.5, "norma": 168.0, "stavka": 13706.99, "stavka_hod": 13706.99, "prem_norma": 0, "stazh_years": 4.0, "stazh_prem": 600.0, "nochni": 0, "transport": 0, "vidpusk": 2325.75, "likar_fss": 0, "inше": 0, "nar_zp": 16675.24, "f1": 13576.65, "taxes": 3122.63, "kartu": 10454.02, "zagalna": 13510.11, "f2": 3098.59, "do_vypl": 3098.59}, {"name": "Горбач Жанна Андріївна", "dept": "Цех вафель", "posada": "Пекар", "oform": "", "oklad": 15000.0, "oklad_obr": 18348.8, "hod": 109.5, "norma": 168.0, "stavka": 11959.49, "stavka_hod": 11959.49, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 942.45, "likar_fss": 0, "inше": -466.94, "nar_zp": 12643.5, "f1": 12193.36, "taxes": 2804.47, "kartu": 9388.89, "zagalna": 9780.52, "f2": 450.14, "do_vypl": 450.14}, {"name": "Кушнірчук Людмила Іванівна", "dept": "Цех вафель", "posada": "Пекар", "oform": "", "oklad": 15000.0, "oklad_obr": 18348.8, "hod": 117.0, "norma": 168.0, "stavka": 12778.63, "stavka_hod": 12778.63, "prem_norma": 0, "stazh_years": 6.0, "stazh_prem": 900.0, "nochni": 0, "transport": 0, "vidpusk": 1854.84, "likar_fss": 0, "inше": 0, "nar_zp": 15584.47, "f1": 13105.74, "taxes": 3014.32, "kartu": 10091.42, "zagalna": 12519.15, "f2": 2478.73, "do_vypl": 2478.73}, {"name": "Сидорчук Катерина Миколаївна", "dept": "Цех вафель", "posada": "Пекар", "oform": "", "oklad": 15000.0, "oklad_obr": 18348.8, "hod": 117.0, "norma": 168.0, "stavka": 12778.63, "stavka_hod": 12778.63, "prem_norma": 0, "stazh_years": 5.0, "stazh_prem": 750.0, "nochni": 0, "transport": 0, "vidpusk": 2359.1, "likar_fss": 0, "inше": 0, "nar_zp": 15938.73, "f1": 13610.0, "taxes": 3130.3, "kartu": 10479.7, "zagalna": 12757.43, "f2": 2328.73, "do_vypl": 2328.73}, {"name": "Зінчук Сергій Вікторович", "dept": "Цех глазурі", "posada": "оператор лінії приготування шоколадних мас (ЦПХ)", "oform": "", "oklad": 15000.0, "oklad_obr": 17001.0, "hod": 74.0, "norma": 168.0, "stavka": 7488.54, "stavka_hod": 7488.54, "prem_norma": 0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "inше": 0, "nar_zp": 7732.54, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 7638.54, "f2": 7732.54, "avans": 0, "do_vypl": 7732.54}, {"name": "Каразія Андрій Іванович (СЮ)", "dept": "Цех глазурі", "posada": "оператор лінії приготування шоколадних мас", "oform": "", "oklad": 15000.0, "oklad_obr": 19600.0, "hod": 170.0, "norma": 168.0, "stavka": 19600.0, "stavka_hod": 19600.0, "prem_norma": 220.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 1396.78, "likar_fss": 0, "inше": -3943.18, "nar_zp": 17273.6, "f1": 21678.5, "taxes": 4986.06, "kartu": 16692.44, "zagalna": 12287.54, "f2": -4404.9, "avans": 0, "do_vypl": -4404.9}, {"name": "Ковальчук Андрій Леонтійович", "dept": "Цех глазурі", "posada": "оператор лінії приготування шоколадних мас", "oform": "", "oklad": 15000.0, "oklad_obr": 17774.72, "hod": 133.0, "norma": 168.0, "stavka": 14071.65, "stavka_hod": 14071.65, "prem_norma": 0, "stazh_years": 2.0, "stazh_prem": 300.0, "nochni": 0, "transport": 0, "vidpusk": 784.28, "likar_fss": 0, "inше": 0, "nar_zp": 15190.93, "f1": 11752.05, "taxes": 2702.97, "kartu": 9049.08, "zagalna": 12452.96, "f2": 3438.88, "avans": 0, "do_vypl": 3438.88}, {"name": "Мандзюк Юрій Миколайович", "dept": "Цех глазурі", "posada": "оператор лінії приготування шоколадних мас", "oform": "", "oklad": 15000.0, "oklad_obr": 17774.72, "hod": 37.5, "norma": 168.0, "stavka": 3967.57, "stavka_hod": 3967.57, "prem_norma": 0, "stazh_years": 6.0, "stazh_prem": 900.0, "nochni": 0, "transport": 0, "vidpusk": 772.52, "likar_fss": 0, "inше": 0, "nar_zp": 5770.59, "f1": 4062.71, "taxes": 934.42, "kartu": 3128.29, "zagalna": 4705.67, "f2": 1707.88, "avans": 0, "do_vypl": 1707.88}, {"name": "Гірин Федір Васильович", "dept": "Логістика", "posada": "Вантажник ЦПХ", "oform": "", "oklad": 13000.0, "oklad_obr": 15001.0, "hod": 0.0, "norma": 168.0, "stazh_years": 0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "shtraf": 0, "perekydka": 0, "inше": 0, "nar_zp": 0.0, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 0.0, "f2": 0.0, "avans": 0, "do_vypl": 0.0}, {"name": "Гічко Олександр Володимирович", "dept": "Логістика", "posada": "Вантажник ЦПХ", "oform": "", "oklad": 12000.0, "oklad_obr": 14001.0, "hod": 150.5, "norma": 168.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "shtraf": 0, "perekydka": 0, "inше": 0, "nar_zp": 12542.56, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 10541.56, "f2": 3842.56, "avans": 1000.0, "do_vypl": 2842.56}, {"name": "Зінчук Святослав Олександрович", "dept": "Логістика", "posada": "Вантажник ЦПХ", "oform": "", "oklad": 13000.0, "oklad_obr": 15438.0, "hod": 116.0, "norma": 168.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 6664.99, "likar_fss": 1060.02, "mob": 0, "shtraf": 0, "perekydka": 0, "inше": 0, "nar_zp": 18384.58, "f1": 14952.28, "taxes": 3439.02, "kartu": 11513.26, "zagalna": 14945.56, "f2": 3432.3, "avans": 0, "do_vypl": 3432.3}, {"name": "Новак Олександр", "dept": "Логістика", "posada": "Завідувач складу сировини", "oform": "", "oklad": 15000.0, "oklad_obr": 15000.0, "hod": 169.5, "norma": 168.0, "stazh_years": 6.0, "stazh_prem": 900.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 100.0, "shtraf": 0, "perekydka": 0, "inше": 0, "nar_zp": 16133.93, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 16133.93, "f2": 16133.93, "avans": 8000.0, "do_vypl": 8133.93}, {"name": "Сачковський Юрій Володимирович", "dept": "Логістика", "posada": "Завідувач складу сировини", "oform": "", "oklad": 15000.0, "oklad_obr": 18450.0, "hod": 128.5, "norma": 168.0, "stazh_years": 12.0, "stazh_prem": 1800.0, "nochni": 0, "transport": 0, "vidpusk": 4083.04, "likar_fss": 0, "mob": 100.0, "shtraf": 0, "perekydka": 0, "inше": 0, "nar_zp": 20095.09, "f1": 14992.13, "taxes": 3448.19, "kartu": 11543.94, "zagalna": 16646.9, "f2": 5102.96, "avans": 0, "do_vypl": 5102.96}, {"name": "Симонович Олександр Петрович", "dept": "Логістика", "posada": "Водій", "oform": "", "oklad": 12160.0, "oklad_obr": 16760.0, "hod": 96.5, "norma": 168.0, "stazh_years": 2.0, "stazh_prem": 300.0, "nochni": 0, "transport": 0, "vidpusk": 9818.06, "likar_fss": 0, "mob": 100.0, "shtraf": 0, "perekydka": 0, "inше": -5037.82, "nar_zp": 14807.26, "f1": 21727.15, "taxes": 4997.24, "kartu": 16729.91, "zagalna": 12047.26, "f2": -4682.64, "avans": 0, "do_vypl": -4682.64}, {"name": "Снитюк Микола Петрович (СЮ)", "dept": "Логістика", "posada": "Вантажник ЦПХ", "oform": "", "oklad": 13000.0, "oklad_obr": 15001.0, "hod": 175.0, "norma": 168.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "shtraf": 0, "perekydka": 0, "inше": 0, "nar_zp": 15626.04, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 13625.04, "f2": 6926.04, "avans": 1000.0, "do_vypl": 5926.04}, {"name": "Попов Андрій Валерійович", "dept": "Логістика", "posada": "Вантажник б/0", "oform": "", "oklad": 13000.0, "oklad_obr": 15001.0, "hod": 177.5, "norma": 168.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "shtraf": 0, "perekydka": 0, "inше": 0, "nar_zp": 15849.27, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 13848.27, "f2": 7149.27, "avans": 1000.0, "do_vypl": 6149.27}, {"name": "Хмілевська Ірина Володимирівна", "dept": "Логістика", "posada": "логіст", "oform": "", "oklad": 25000.0, "oklad_obr": 25000.0, "hod": 157.5, "norma": 168.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "shtraf": 0, "perekydka": 0, "inше": 0, "nar_zp": 23437.5, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 23437.5, "f2": 23437.5, "avans": 8000.0, "do_vypl": 15437.5}, {"name": "Блажко Андрій Олегович", "dept": "Технічний відділ", "posada": "Налагоджувальник устаткування у виробництві харчової продукції", "oform": "", "oklad": 19000.0, "oklad_obr": 23600.0, "hod": 78.0, "norma": 168.0, "stavka": 10957.14, "stavka_hod": 10957.14, "stazh_years": 13.0, "stazh_prem": 1950.0, "nochni": 0, "transport": 0, "vidpusk": 10303.88, "likar_fss": 0, "mob": 0, "sumish": 0, "inше": 0, "nar_zp": 23211.02, "f1": 23096.06, "taxes": 5312.09, "kartu": 17783.97, "zagalna": 17898.93, "f2": 114.96, "avans": 0, "do_vypl": 114.96}, {"name": "Горбач Олександр Васильович", "dept": "Технічний відділ", "posada": "кнс   /опл за дні", "oform": "", "oklad": 3019.0, "oklad_obr": 4100.0, "hod": 168.0, "norma": 168.0, "stavka": 4100.0, "stavka_hod": 4100.0, "stazh_years": 7.0, "stazh_prem": 1050.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "sumish": 0, "inше": -441.0, "nar_zp": 4709.0, "f1": 4700.0, "taxes": 1081.0, "kartu": 3619.0, "zagalna": 3628.0, "f2": 9.0, "avans": 0, "do_vypl": 9.0}, {"name": "Лаценко Юрій Миколайович", "dept": "Технічний відділ", "posada": "Механік", "oform": "", "oklad": 20000.0, "oklad_obr": 23450.0, "hod": 170.0, "norma": 168.0, "stavka": 23729.17, "stavka_hod": 23450.0, "stazh_years": 2.0, "stazh_prem": 300.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "sumish": 0, "inше": 0, "nar_zp": 24029.17, "f1": 15000.0, "taxes": 3450.0, "kartu": 11550.0, "zagalna": 20579.17, "f2": 9029.17, "avans": 0, "do_vypl": 9029.17}, {"name": "Матвійчук Олександр Анатолійович", "dept": "Технічний відділ", "posada": "Налагоджувальник устаткування у виробництві харчової продукції", "oform": "", "oklad": 19000.0, "oklad_obr": 21001.0, "hod": 174.0, "norma": 168.0, "stavka": 21751.04, "stavka_hod": 21001.0, "stazh_years": 1.0, "stazh_prem": 150.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "sumish": 0, "inше": 0, "nar_zp": 21901.04, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 19900.04, "f2": 13201.04, "avans": 3000.0, "do_vypl": 10201.04}, {"name": "Павлов Сергій Сергійович", "dept": "Технічний відділ", "posada": "Механік", "oform": "", "oklad": 22000.0, "oklad_obr": 26600.0, "hod": 168.0, "norma": 168.0, "stavka": 26600.0, "stavka_hod": 26600.0, "stazh_years": 5.0, "stazh_prem": 750.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "sumish": 0, "inше": 0, "nar_zp": 27350.0, "f1": 24650.0, "taxes": 5669.5, "kartu": 18980.5, "zagalna": 21680.5, "f2": 2700.0, "avans": 0, "do_vypl": 2700.0}, {"name": "Третяк Роман Ярославович (осн.)", "dept": "Технічний відділ", "posada": "Головний механік", "oform": "", "oklad": 32000.0, "oklad_obr": 37750.0, "hod": 179.0, "norma": 168.0, "stavka": 40221.73, "stavka_hod": 37750.0, "stazh_years": 5.0, "stazh_prem": 750.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 100.0, "sumish": 0, "inше": 0, "nar_zp": 41071.73, "f1": 25000.0, "taxes": 5750.0, "kartu": 19250.0, "zagalna": 35321.73, "f2": 16071.73, "avans": 0, "do_vypl": 16071.73}, {"name": "Швець Олександр Михайлович", "dept": "Технічний відділ", "posada": "Налагоджувальник устаткування у виробництві харчової продукції", "oform": "", "oklad": 19000.0, "oklad_obr": 23600.0, "hod": 182.5, "norma": 168.0, "stavka": 25636.9, "stavka_hod": 23600.0, "stazh_years": 9.0, "stazh_prem": 1350.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "sumish": 0, "inше": 0, "nar_zp": 26986.9, "f1": 24650.0, "taxes": 5669.5, "kartu": 18980.5, "zagalna": 21317.4, "f2": 2336.9, "avans": 0, "do_vypl": 2336.9}, {"name": "Безереу Тетяна Петрівна", "dept": "Охорона", "posada": "Сторож", "oform": "", "oklad": 7200.0, "oklad_obr": 9661, "hod": 192.0, "norma": 240, "stavka": 7360.8, "stavka_hod": 9201.0, "prem_norma": 500.0, "prem_vyyavl": 300.0, "stazh_years": 7.0, "stazh_prem": 1050.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": 0, "nar_zp": 10751.0, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 8750.0, "f2": 2051.0, "do_vypl": 2051.0}, {"name": "Гичка Леонід Володимирович", "dept": "Охорона", "posada": "Начальник охорони", "oform": "", "oklad": 15000.0, "oklad_obr": 19830, "hod": 120.0, "norma": 176, "stavka": 14164.29, "stavka_hod": 14164.29, "prem_norma": 1000.0, "prem_vyyavl": 500.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0.0, "sumish": -170.0, "nar_zp": 14994.29, "f1": 15272.73, "taxes": 3512.73, "kartu": 11760.0, "zagalna": 11481.56, "f2": -278.44, "do_vypl": -278.44}, {"name": "Ковальчук Павло Федорович", "dept": "Охорона", "posada": "Сторож", "oform": "", "oklad": 7200.0, "oklad_obr": 8739.44, "hod": 168.0, "norma": 240, "stavka": 6117.61, "stavka_hod": 7647.01, "prem_norma": 500.0, "prem_vyyavl": 300.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": 0, "nar_zp": 8147.01, "f1": 10600.0, "taxes": 1539.44, "kartu": 9060.56, "zagalna": 6607.57, "f2": -2452.99, "do_vypl": -2452.99}, {"name": "Романюк Олександр Андріянович (СЮ)", "dept": "Охорона", "posada": "Сторож", "oform": "", "oklad": 7200.0, "oklad_obr": 9661, "hod": 192.0, "norma": 240, "stavka": 7360.8, "stavka_hod": 9201.0, "prem_norma": 500.0, "prem_vyyavl": 300.0, "stazh_years": 5.0, "stazh_prem": 750.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": 0, "nar_zp": 10451.0, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 8450.0, "f2": 1751.0, "do_vypl": 1751.0}, {"name": "Шатковський Юрій Михайлович", "dept": "Охорона", "posada": "Сторож", "oform": "", "oklad": 7200.0, "oklad_obr": 9661, "hod": 168.0, "norma": 240, "stavka": 6440.7, "stavka_hod": 8050.88, "prem_norma": 500.0, "prem_vyyavl": 300.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": -471.2, "nar_zp": 8079.68, "f1": 8700.0, "taxes": 2001.0, "kartu": 6699.0, "zagalna": 6078.68, "f2": -620.32, "do_vypl": -620.32}, {"name": "Смоляк", "dept": "Охорона", "posada": "контролер КПП", "oform": "", "oklad": 2200.0, "oklad_obr": 2200, "hod": 168.0, "norma": 176, "stavka": 2200.0, "stavka_hod": 2200.0, "prem_norma": 0.0, "prem_vyyavl": 0.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": 0, "nar_zp": 2200.0, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 2200.0, "f2": 2200.0, "do_vypl": 2200.0, "note": "Рожище", "rожище": true}, {"name": "Фердолевська", "dept": "Охорона", "posada": "контролер КПП", "oform": "", "oklad": 2200.0, "oklad_obr": 2200, "hod": 168.0, "norma": 176, "stavka": 2200.0, "stavka_hod": 2200.0, "prem_norma": 0.0, "prem_vyyavl": 0.0, "stazh_years": 0.0, "stazh_prem": 0.0, "nochni": 0, "transport": 0, "vidpusk": 0, "likar_fss": 0, "mob": 0, "inше": 0, "sumish": 0, "nar_zp": 2200.0, "f1": 0.0, "taxes": 0.0, "kartu": 0.0, "zagalna": 2200.0, "f2": 2200.0, "do_vypl": 2200.0, "note": "Рожище", "rожище": true}, {"name": "Лопоха Василь Васильович", "dept": "Логістика", "posada": "Вантажник", "oform": "штат", "oklad": 13000, "oklad_obr": 13000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0}, {"name": "Монастирська Наталія Леонідівна", "dept": "Львів", "posada": "Інспектор з військового обліку", "oform": "штат", "oklad": 12000, "oklad_obr": 12000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_povor_f1": true}, {"name": "Левицька Оксана Іванівна", "dept": "Львів", "posada": "Аналітик", "oform": "штат", "oklad": 30000, "oklad_obr": 30000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_sales_pct": 0.0005}, {"name": "Михалина Олеся Іванівна", "dept": "Львів", "posada": "Менеджер з постачання", "oform": "штат", "oklad": 18500, "oklad_obr": 18500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 200, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_mob_fixed": 200, "lviv_sales_pct": 0.00025}, {"name": "Петелицький Павло", "dept": "Львів", "posada": "Аналітик", "oform": "штат", "oklad": 25000, "oklad_obr": 25000, "norma": 176, "hod": 0, "stazh_years": 3, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_dopl": 1500, "rожище": false}, {"name": "Яльохін Ярослав", "dept": "Львів", "posada": "Маркетолог", "oform": "ФОП", "oklad": 10000, "oklad_obr": 10000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_pct": 0.06}, {"name": "Савицька Ірина Степанівна", "dept": "Львів", "posada": "Юрист", "oform": "штат", "oklad": 13500, "oklad_obr": 13500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true}, {"name": "Варгас Василь", "dept": "Львів", "posada": "Аналітик", "oform": "штат", "oklad": 13500, "oklad_obr": 13500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "no_stazh": true}, {"name": "Худяков Сергій", "dept": "Львів", "posada": "Програміст", "oform": "штат", "oklad": 5000, "oklad_obr": 5000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true}, {"name": "Козак Ірина", "dept": "Львів", "posada": "Технолог", "oform": "штат", "oklad": 0, "oklad_obr": 0, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true}, {"name": "Тимочко Орест Богданович", "dept": "Львів", "posada": "Головний юрисконсульт", "oform": "штат", "oklad": 12500, "oklad_obr": 12500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_shokobum": 4171, "lviv_povor_f1": true}, {"name": "Демянчук Тарас", "dept": "Львів", "posada": "Відповідальний за інтернет продажі", "oform": "штат", "oklad": 8000, "oklad_obr": 8000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true}, {"name": "Гапончук Владислав Євгенович", "dept": "Львів", "posada": "Системний адміністратор", "oform": "штат", "oklad": 8500, "oklad_obr": 8500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true}, {"name": "Оліщак Лілія", "dept": "Львів", "posada": "ФОП", "oform": "ФОП", "oklad": 1500, "oklad_obr": 1500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_fixed": 1500}, {"name": "Петелицький Михайло", "dept": "Львів", "posada": "ФОП", "oform": "ФОП", "oklad": 1500, "oklad_obr": 1500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_fixed": 1500, "no_prem": true, "no_stazh": true}, {"name": "Сафатюк Олександра", "dept": "Львів", "posada": "ФОП", "oform": "ФОП", "oklad": 1500, "oklad_obr": 1500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_fixed": 1500}, {"name": "Стевчак Юрій", "dept": "Львів", "posada": "ФОП", "oform": "ФОП", "oklad": 1500, "oklad_obr": 1500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_fixed": 1500}, {"name": "Басараб Назар", "dept": "Львів", "posada": "ФОП", "oform": "ФОП", "oklad": 1500, "oklad_obr": 1500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_fixed": 1500}, {"name": "Дуліба Святослав", "dept": "Львів", "posada": "ФОП", "oform": "ФОП", "oklad": 1500, "oklad_obr": 1500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_fixed": 1500}, {"name": "Горінецький Марко", "dept": "Львів", "posada": "ФОП", "oform": "ФОП", "oklad": 1500, "oklad_obr": 1500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_fixed": 1500}, {"name": "Тарабанюк Олена", "dept": "Львів", "posada": "ФОП", "oform": "ФОП", "oklad": 1500, "oklad_obr": 1500, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true, "lviv_fop_fixed": 1500}, {"name": "Слюсар Вікторія Віталіївна", "dept": "Луцьк", "posada": "Бухгалтер", "oform": "штат", "oklad": 23000, "oklad_obr": 23000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lutsk": true, "lutsk_sumish_fixed": 2500, "lviv_sales_pct": 0.0004}, {"name": "Ленартович Валентина Анатоліївна", "dept": "Луцьк", "posada": "Обліковець", "oform": "штат", "oklad": 23000, "oklad_obr": 23000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lutsk": true, "lutsk_sumish_fixed": 3000, "lutsk_pryb_fixed": 800, "lviv_sales_pct": 0.0004}, {"name": "Деміш Наталя Іванівна", "dept": "Луцьк", "posada": "Головний бухгалтер", "oform": "штат", "oklad": 30000, "oklad_obr": 30000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 100, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lutsk": true, "lviv_sales_pct": 0.0009, "lutsk_pdv_pct": 0.01, "lutsk_f1_oklad": 25000, "lviv_mob_fixed": 100, "lutsk_f1_base": 25000}, {"name": "Гнинюк Марія Сергіївна", "dept": "Луцьк", "posada": "Бухгалтер", "oform": "штат", "oklad": 20000, "oklad_obr": 20000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lutsk": true, "lutsk_target_hands": 20000}, {"name": "Ільчишин Аліна", "dept": "Львів", "posada": "—", "oform": "штат", "oklad": 25000, "oklad_obr": 25000, "norma": 176, "hod": 0, "stazh_years": 0, "nar_zp": 0, "f1": 0, "taxes": 0, "kartu": 0, "f2": 0, "avans": 0, "do_vypl": 0, "zagalna": 0, "stavka": 0, "stazh_prem": 0, "mob": 0, "sumish": 0, "inше": 0, "vidpusk": 0, "likar_fss": 0, "prem_norma": 0, "lviv": true}]}};
+
+// ===== STATE =====
+let currentMonth = '2026-04';
+let currentLocation = 'kolky';
+let lvivUnlocked = false;
+
+const KOLKY_DEPTS = ['Виробництво','Керівники цехів','Цех цукерок','Цех вафель','Цех глазурі','Логістика','Технічний відділ','Охорона'];
+const LVIV_DEPTS  = ['Львів'];
+const LUTSK_DEPTS = ['Луцьк'];
+
+function switchLocation(loc) {
+  currentLocation = loc;
+  const btnK = $('btnKolky'), btnL = $('btnLviv'), btnLt = $('btnLutsk');
+  [['btnKolky','kolky'],['btnLviv','lviv'],['btnLutsk','lutsk']].forEach(([id,l]) => {
+    const b = $(id); if (!b) return;
+    b.style.background = loc===l ? '#fff' : 'transparent';
+    b.style.color = loc===l ? 'var(--ac)' : 'rgba(255,255,255,.8)';
+    b.style.fontWeight = loc===l ? '700' : '400';
+  });
+  const ds = $('ds');
+  const activeDepts = loc==='kolky' ? KOLKY_DEPTS : loc==='lviv' ? LVIV_DEPTS : LUTSK_DEPTS;
+  ds.innerHTML = '<option value="">Всі відділи</option>' +
+    activeDepts.map(d => '<option>'+d+'</option>').join('');
+  dept = ''; ds.value = '';
+  if (loc === 'lviv') {
+    const pwd = prompt('Введіть пароль для доступу до Львова:');
+    if (pwd !== '1975') { alert('Невірний пароль'); return; }
+    lvivUnlocked = true;
+    dept = 'Львів'; ds.value = 'Львів'; showList('Львів');
+  } else if (loc === 'lutsk') {
+    dept = 'Луцьк'; ds.value = 'Луцьк'; showList('Луцьк');
+  } else {
+    showEmpty();
+  }
+}
+let currentData = [];
+let dept = '', query = '', filtered = [], selIdx = -1;
+let zpFileData = null, tabFileData = null;
+
+// ===== INIT =====
+function init() {
+  buildMonthSelector();
+  setMonth('2026-04');
+}
+
+function buildMonthSelector() {
+  const sel = document.getElementById('monthSel');
+  sel.innerHTML = '';
+  const months = Object.keys(HISTORY).sort().reverse();
+  months.forEach(k => {
+    const o = document.createElement('option');
+    o.value = k;
+    o.textContent = HISTORY[k].label;
+    sel.appendChild(o);
+  });
+  sel.value = currentMonth;
+  sel.onchange = () => setMonth(sel.value);
+}
+
+function closeAll() {
+  zvShowing = false;
+  $('btnZvedena').classList.remove('active');
+  $('zv').style.display='none';
+  $('cv').style.display='none';
+  $('lv').style.display='none';
+  $('empty').style.display='none';
+}
+
+function setMonth(key) {
+  currentMonth = key;
+  closeAll();
+  currentData = HISTORY[key] ? HISTORY[key].employees : [];
+  document.getElementById('monthSel').value = key;
+  // Reset search
+  document.getElementById('si').value = '';
+  dept = ''; query = '';
+  document.getElementById('ds').value = '';
+  showEmpty();
+  hideDrop();
+}
+
+// ===== HELPERS =====
+const $=id=>document.getElementById(id);
+const fmt=n=>n?Math.round(Math.abs(n)).toLocaleString('uk-UA')+' ₴':'—';
+const pct=n=>n?Math.round(n*100)+'%':'0%';
+const ini=name=>{const p=name.split(' ');return p.length>=2?(p[0][0]+p[1][0]).toUpperCase():name.slice(0,2).toUpperCase();};
+const hi=(t,q)=>q?t.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<span class="hi">$1</span>'):t;
+const ob=o=>o==='штат'?'<span class="lbg bs">штат</span>':o==='ЦПХ'?'<span class="lbg bc">ЦПХ</span>':o?'<span class="lbg bb">'+o+'</span>':'';
+const sf=v=>{const f=parseFloat(v);return isNaN(f)?0:Math.round(f*100)/100;};
+
+function showToast(msg, type='ok') {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ===== SEARCH =====
+const siEl=$('si'), dropEl=$('drop');
+
+siEl.addEventListener('input', e => {
+  query = e.target.value.trim();
+  showDrop(query);
+  if (!query) { hideDrop(); dept ? showList(dept) : showEmpty(); }
+});
+
+siEl.addEventListener('keydown', e => {
+  const items = dropEl.querySelectorAll('.di');
+  if (e.key === 'ArrowDown') { e.preventDefault(); selIdx = Math.min(selIdx+1, items.length-1); items.forEach((el,i) => el.classList.toggle('sel', i===selIdx)); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); selIdx = Math.max(selIdx-1, 0); items.forEach((el,i) => el.classList.toggle('sel', i===selIdx)); }
+  else if (e.key === 'Enter') { if (selIdx>=0&&filtered[selIdx]) showCard(filtered[selIdx]); else if (filtered[0]) showCard(filtered[0]); }
+  else if (e.key === 'Escape') hideDrop();
+});
+
+dropEl.addEventListener('click', e => {
+  const di = e.target.closest('.di');
+  if (!di) return;
+  const emp = filtered[+di.dataset.i];
+  if (emp) { siEl.value = emp.name; showCard(emp); }
+});
+
+document.addEventListener('click', e => { if (!e.target.closest('.sw')) hideDrop(); });
+
+$('ds').addEventListener('change', e => {
+  dept = e.target.value;
+  hideDrop();
+  // Close зведена if open
+  if (zvShowing) {
+    zvShowing = false;
+    $('btnZvedena').classList.remove('active');
+    $('zv').style.display = 'none';
+  }
+  query ? showDrop(query) : dept ? showList(dept) : showEmpty();
+});
+
+function showDrop(q) {
+  if (!q) { hideDrop(); return; }
+  filtered = currentData.filter(e => e.name.toLowerCase().includes(q.toLowerCase()) && (!dept || e.dept === dept)).slice(0, 10);
+  if (!filtered.length) { hideDrop(); return; }
+  dropEl.innerHTML = filtered.map((e, i) =>
+    '<div class="di" data-i="'+i+'"><div class="lav" style="width:28px;height:28px;font-size:11px">'+ini(e.name)+'</div>'
+    +'<div style="flex:1;min-width:0"><div style="font-weight:600">'+hi(e.name,q)+'</div>'
+    +'<div style="font-size:11px;color:var(--tx2)">'+e.posada+'</div></div>'
+    +'<div style="font-size:11px;color:var(--tx3)">'+e.dept+'</div></div>'
+  ).join('');
+  dropEl.classList.add('open');
+  selIdx = -1;
+}
+
+function hideDrop() { dropEl.classList.remove('open'); }
+
+function showEmpty() {
+  $('zv').style.display='none'; $('cv').style.display='none'; $('lv').style.display='none';
+  $('btnZvedena').classList.remove('active'); zvShowing=false;
+  $('empty').style.display=''; $('rc').textContent='';
+}
+
+function showList(d) {
+  $('empty').style.display='none'; $('cv').style.display='none';
+  $('zv').style.display='none'; $('btnZvedena').classList.remove('active'); zvShowing=false;
+  $('lv').style.display='';
+  const emps = currentData.filter(e => e.dept === d);
+  $('rc').textContent = emps.length + ' осіб';
+
+  // Totals
+  const tot = (key) => emps.reduce((s, e) => s + (e[key]||0), 0);
+  const fmtT = n => n ? Math.round(n).toLocaleString('uk-UA') + ' ₴' : '—';
+  const fmtC = n => n ? Math.round(n).toLocaleString('uk-UA') : '—';
+
+  const tNarZp = tot('nar_zp'), tKartu = tot('kartu'), tTaxes = tot('taxes');
+  const tF2 = tot('f2'), tAvans = tot('avans');
+  const tDv = emps.reduce((s, e) => {
+    const dv = (e.do_vypl !== undefined && (e.do_vypl !== 0 || e.avans > 0)) ? e.do_vypl : (e.f2 || 0);
+    return s + dv;
+  }, 0);
+
+  // Detect columns present in this dept
+  const hasPlan = emps.some(e => e.plan_t !== undefined);
+  const hasStazh = emps.some(e => e.stazh_prem > 0);
+  const hasTonazh = emps.some(e => e.prem_tonazh !== undefined);
+  const hasPlanPrem = emps.some(e => e.prem_plan !== undefined);
+  const hasNochni = emps.some(e => e.nochni > 0);
+  const hasTransport = emps.some(e => e.transport > 0);
+  const hasVidpusk = emps.some(e => e.vidpusk > 0);
+  const hasMob = emps.some(e => e.mob > 0);
+  const hasSumish = emps.some(e => e.sumish !== undefined && e.sumish !== 0);
+  const hasInше = emps.some(e => e.inше !== undefined && e.inше !== 0);
+  const hasAvans = emps.some(e => e.avans > 0);
+
+  // Build header
+  let th = '<tr>'
+    + '<th>Посада</th>'
+    + '<th>ПІБ</th>'
+    + '<th>Год.</th>'
+    + '<th>%&nbsp;норми</th>';
+  if (hasPlan) th += '<th>План&nbsp;т</th><th>Факт&nbsp;т</th><th>%&nbsp;плану</th>';
+  th += '<th>Оклад</th><th>Ставка</th>';
+  if (hasStazh) th += '<th>Стаж</th><th>Надбавка</th>';
+  if (hasTonazh) th += '<th>Пр. тонаж</th>';
+  if (hasPlanPrem) th += '<th>Пр. план</th>';
+  if (hasNochni) th += '<th>Нічні</th>';
+  if (hasTransport) th += '<th>Транспорт</th>';
+  if (hasVidpusk) th += '<th>Відпуск.</th>';
+  if (hasMob) th += '<th>Моб.</th>';
+  if (hasSumish) th += '<th>Суміщ.</th>';
+  if (hasInше) th += '<th>Доплата (інше)</th>';
+  th += '<th class="sep">Нарах. ЗП</th>'
+    + '<th>Нарах. Ф1</th>'
+    + '<th>Податки</th>'
+    + '<th>На картку Ф1</th>'
+    + '<th class="sep">ЗП&nbsp;Ф2</th>';
+  if (hasAvans) th += '<th>Аванс</th>';
+  th += '<th>До виплати</th></tr>';
+
+  // Build rows
+  const rows = emps.map((e, i) => {
+    const dv = (e.do_vypl !== undefined && (e.do_vypl !== 0 || e.avans > 0)) ? e.do_vypl : (e.f2 || 0);
+    let td = '<tr data-idx="'+i+'">'
+      + '<td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;text-align:left">'+e.posada+'</td>'
+      + '<td style="max-width:160px;text-align:left">'+e.name+(e.oform?'<br><span style="font-size:10px;color:var(--tx3)">'+e.oform+'</span>':'')+'</td>'
+      + '<td>'+(e.hod||0)+'</td>'
+      + '<td class="mut">'+(e.pct_normy?Math.round(e.pct_normy*100)+'%':'—')+'</td>';
+    if (hasPlan) td += '<td class="mut">'+(e.plan_t||'—')+'</td><td class="mut">'+(e.fakt_t||'—')+'</td><td class="mut">'+(e.pct_plan?Math.round(e.pct_plan*100)+'%':'—')+'</td>';
+    td += '<td class="mut">'+Math.round(e.oklad||0).toLocaleString('uk-UA')+'</td>'
+      + '<td>'+Math.round(e.stavka||0).toLocaleString('uk-UA')+'</td>';
+    if (hasStazh) td += '<td class="mut">'+(e.stazh_years||0)+'</td><td>'+(e.stazh_prem>0?Math.round(e.stazh_prem).toLocaleString('uk-UA'):'—')+'</td>';
+    if (hasTonazh) td += '<td class="'+(e.prem_tonazh>0?'pos':'mut')+'">'+(e.prem_tonazh>0?Math.round(e.prem_tonazh).toLocaleString('uk-UA'):'—')+'</td>';
+    if (hasPlanPrem) td += '<td class="'+(e.prem_plan>0?'pos':'mut')+'">'+(e.prem_plan>0?Math.round(e.prem_plan).toLocaleString('uk-UA'):'—')+'</td>';
+    if (hasNochni) td += '<td>'+(e.nochni>0?Math.round(e.nochni).toLocaleString('uk-UA'):'—')+'</td>';
+    if (hasTransport) td += '<td>'+(e.transport>0?Math.round(e.transport).toLocaleString('uk-UA'):'—')+'</td>';
+    if (hasVidpusk) td += '<td>'+(e.vidpusk>0?Math.round(e.vidpusk).toLocaleString('uk-UA'):'—')+'</td>';
+    if (hasMob) td += '<td>'+(e.mob>0?Math.round(e.mob).toLocaleString('uk-UA'):'—')+'</td>';
+    if (hasSumish) td += '<td class="'+(e.sumish<0?'neg':e.sumish>0?'pos':'mut')+'">'+(e.sumish?Math.round(e.sumish).toLocaleString('uk-UA'):'—')+'</td>';
+    if (hasInше) td += '<td class="'+(e.inше<0?'neg':e.inше>0?'pos':'mut')+'">'+(e.inше?Math.round(e.inше).toLocaleString('uk-UA'):'—')+'</td>';
+    td += '<td class="sep" style="font-weight:700;color:var(--bl)">'+Math.round(e.nar_zp||0).toLocaleString('uk-UA')+'</td>'
+      + '<td>'+Math.round(e.f1||0).toLocaleString('uk-UA')+'</td>'
+      + '<td class="neg">'+Math.round(e.taxes||0).toLocaleString('uk-UA')+'</td>'
+      + '<td class="pos">'+Math.round(e.kartu||0).toLocaleString('uk-UA')+'</td>'
+      + '<td class="sep '+(e.f2<0?'neg':e.f2>0?'pos':'mut')+'">'+Math.round(e.f2||0).toLocaleString('uk-UA')+'</td>';
+    if (hasAvans) td += '<td style="color:var(--or)">'+(e.avans>0?Math.round(e.avans).toLocaleString('uk-UA'):'—')+'</td>';
+    td += '<td class="'+(dv<0?'neg':dv>0?'pos':'mut')+'">'+Math.round(dv).toLocaleString('uk-UA')+'</td>'
+      + '</tr>';
+    return td;
+  }).join('');
+
+  // Build footer totals
+  let tf = '<tr>'
+    + '<td colspan="2" style="text-align:left">Разом: '+emps.length+' осіб</td>'
+    + '<td>'+emps.reduce((s,e)=>s+(e.hod||0),0).toFixed(1)+'</td>'
+    + '<td></td>';
+  if (hasPlan) tf += '<td></td><td></td><td></td>';
+  tf += '<td></td><td></td>';
+  if (hasStazh) tf += '<td></td><td>'+Math.round(tot('stazh_prem')).toLocaleString('uk-UA')+'</td>';
+  if (hasTonazh) tf += '<td>'+Math.round(tot('prem_tonazh')).toLocaleString('uk-UA')+'</td>';
+  if (hasPlanPrem) tf += '<td>'+Math.round(tot('prem_plan')).toLocaleString('uk-UA')+'</td>';
+  if (hasNochni) tf += '<td>'+Math.round(tot('nochni')).toLocaleString('uk-UA')+'</td>';
+  if (hasTransport) tf += '<td>'+Math.round(tot('transport')).toLocaleString('uk-UA')+'</td>';
+  if (hasVidpusk) tf += '<td>'+Math.round(tot('vidpusk')).toLocaleString('uk-UA')+'</td>';
+  if (hasMob) tf += '<td>'+Math.round(tot('mob')).toLocaleString('uk-UA')+'</td>';
+  if (hasSumish) tf += '<td>'+Math.round(tot('sumish')).toLocaleString('uk-UA')+'</td>';
+  if (hasInше) tf += '<td>'+Math.round(tot('inше')).toLocaleString('uk-UA')+'</td>';
+  tf += '<td class="sep" style="color:var(--bl)">'+Math.round(tNarZp).toLocaleString('uk-UA')+'</td>'
+    + '<td>'+Math.round(tot('f1')).toLocaleString('uk-UA')+'</td>'
+    + '<td style="color:var(--rd)">'+Math.round(tTaxes).toLocaleString('uk-UA')+'</td>'
+    + '<td style="color:var(--gn)">'+Math.round(tKartu).toLocaleString('uk-UA')+'</td>'
+    + '<td class="sep" style="color:var(--gn)">'+Math.round(tF2).toLocaleString('uk-UA')+'</td>';
+  if (hasAvans) tf += '<td style="color:var(--or)">'+Math.round(tAvans).toLocaleString('uk-UA')+'</td>';
+  tf += '<td style="color:var(--gn)">'+Math.round(tDv).toLocaleString('uk-UA')+'</td></tr>';
+
+  $('lv').innerHTML =
+    '<div class="dept-title-row">'
+    +'<h2>'+d+' <span style="font-size:13px;font-weight:400;color:var(--tx3);font-family:sans-serif">'+emps.length+' осіб · '+HISTORY[currentMonth].label+'</span></h2>'
+    +'<div class="dept-totals">'
+    +'<div class="dt-chip"><div class="dtl">Нарах. ЗП</div><div class="dtv b">'+Math.round(tNarZp).toLocaleString('uk-UA')+' ₴</div></div>'
+    +'<div class="dt-chip"><div class="dtl">На картки Ф1</div><div class="dtv g">'+Math.round(tKartu).toLocaleString('uk-UA')+' ₴</div></div>'
+    +(tAvans>0?'<div class="dt-chip"><div class="dtl">Авансів видано</div><div class="dtv o">'+Math.round(tAvans).toLocaleString('uk-UA')+' ₴</div></div>':'')
+    +'<div class="dt-chip"><div class="dtl">До виплати готівкою</div><div class="dtv g">'+Math.round(tDv).toLocaleString('uk-UA')+' ₴</div></div>'
+    +'</div></div>'
+    +'<div class="dept-wrap">'
+    +'<table class="dept-table">'
+    +'<thead>'+th+'</thead>'
+    +'<tbody>'+rows+'</tbody>'
+    +'<tfoot>'+tf+'</tfoot>'
+    +'</table></div>';
+
+  // Dept note
+  const deptNoteText = getNoteData(currentMonth, 'dept_'+d, 'text') || '';
+  const deptApproved = getNoteData(currentMonth, 'dept_'+d, 'approved');
+  $('lv').insertAdjacentHTML('beforeend',
+    '<div class="dept-note-wrap">'
+    +'<div style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:5px">Примітка по відділу</div>'
+    +'<textarea class="dept-note-area dept-note-ta" rows="2" data-dept="'+d+'" placeholder="Примітка..."'+(deptApproved?' disabled':'')+'>'+deptNoteText+'</textarea>'
+    +'<div class="approval-row" style="margin-top:.4rem">'
+    +buildApprovalBtn(currentMonth,'dept_'+d)
+    +'</div></div>'
+  );
+
+  // Dept note change listener
+  $('lv').querySelectorAll('.dept-note-ta').forEach(ta => {
+    ta.addEventListener('change', () => saveDeptNote(ta.dataset.dept, ta.value));
+  });
+
+  // Click row → open card
+  $('lv').querySelectorAll('tbody tr').forEach((el, i) => {
+    el.addEventListener('click', () => showCard(emps[i]));
+  });
+}
+
+function r(lbl, val, cls, tag) {
+  if (!val && val !== 0) return '';
+  return '<div class="row"><span class="rl">'+lbl+(tag||'')+'</span><span class="rv '+(cls||'')+'">'+val+'</span></div>';
+}
+
+function showCard(e) {
+  if (e && e.dept === 'Львів' && !lvivUnlocked) {
+    showLvivPwdModal(e); return;
+  }
+  doShowCard(e);
+}
+
+function showLvivPwdModal(emp) {
+  const bg = document.createElement('div');
+  bg.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:flex;align-items:center;justify-content:center';
+  const box = document.createElement('div');
+  box.style.cssText = 'background:#fff;border-radius:10px;padding:1.5rem;width:320px;box-shadow:0 16px 48px rgba(0,0,0,.2)';
+  const h3 = document.createElement('h3');
+  h3.textContent = '🔒 Доступ до Львова'; h3.style.fontFamily='Georgia,serif'; h3.style.marginBottom='1rem';
+  const inp = document.createElement('input');
+  inp.type='password'; inp.placeholder='Введіть пароль...';
+  inp.style.cssText='width:100%;height:38px;font-size:14px;padding:0 10px;border:1.5px solid #ccc;border-radius:6px;margin-bottom:1rem;outline:none;display:block;box-sizing:border-box';
+  const row = document.createElement('div'); row.style.cssText='display:flex;gap:8px;justify-content:flex-end';
+  const btnC = document.createElement('button');
+  btnC.textContent='Скасувати'; btnC.style.cssText='height:34px;padding:0 16px;border:1.5px solid #ccc;border-radius:6px;background:transparent;cursor:pointer';
+  const btnO = document.createElement('button');
+  btnO.textContent='Увійти'; btnO.style.cssText='height:34px;padding:0 16px;border:none;border-radius:6px;background:#2d5a3d;color:#fff;cursor:pointer;font-weight:600';
+  row.appendChild(btnC); row.appendChild(btnO);
+  box.appendChild(h3); box.appendChild(inp); box.appendChild(row);
+  bg.appendChild(box); document.body.appendChild(bg); inp.focus();
+  btnC.onclick = () => bg.remove();
+  const ok = () => {
+    if (inp.value==='1975') { lvivUnlocked=true; bg.remove(); doShowCard(emp); }
+    else { inp.style.borderColor='red'; inp.value=''; inp.placeholder='Невірний пароль'; }
+  };
+  btnO.onclick = ok;
+  inp.addEventListener('keydown', ev => { if (ev.key==='Enter') ok(); });
+}
+
+function doShowCard(e) {
+  hideDrop();
+  $('empty').style.display='none'; $('lv').style.display='none';
+  $('zv').style.display='none'; $('btnZvedena').classList.remove('active'); zvShowing=false;
+  $('cv').style.display=''; $('rc').textContent='';
+  const hasPlan = e.plan_t !== undefined;
+  const dv = (e.do_vypl !== undefined && (e.do_vypl !== 0 || e.avans > 0)) ? e.do_vypl : (e.f2 || 0);
+  const dvs = dv>0?'cash':dv<0?'neg':'';
+  const stPct = Math.min((e.stazh_years||0)/30*100, 100);
+  let det = '';
+  if (e.stavka) det += r('Ставка від відпрацьованих годин', fmt(e.stavka), '');
+  // Поворотна премія не показується в нарахуваннях - вона в розподілі
+  if (e.prem_norma !== undefined && e.prem_norma > 0) det += r(e.dept==='Охорона' ? 'Премія за відсутність алкоголю' : 'Премія за виконання норми год.', fmt(e.prem_norma), 'pos');
+  if (e.prem_tonazh !== undefined && e.dept === 'Керівники цехів') det += r('Премія за тонаж', e.prem_tonazh>0?fmt(e.prem_tonazh):'0 ₴', e.prem_tonazh>0?'pos':'mut', '<span class="tag '+(e.prem_tonazh>0?'ok':'nv')+'">'+(e.prem_tonazh>0?'нараховано':'не нараховано')+'</span>');
+  if (e.prem_plan !== undefined && e.dept === 'Керівники цехів') det += r('Премія за виконання плану', e.prem_plan>0?fmt(e.prem_plan):'0 ₴', e.prem_plan>0?'pos':'mut', '<span class="tag '+(e.prem_plan>0?'ok':'nv')+'">'+(e.prem_plan>0?'нараховано':'не нараховано')+'</span>');
+  if (e.prem_vyyavl !== undefined && e.prem_vyyavl > 0) det += r(e.dept==='Охорона' ? 'Премія за виявлення алкоголю' : 'Премія за виявлення порушень', fmt(e.prem_vyyavl), 'pos');
+  if (e.stazh_prem > 0) det += r('За стаж ('+Math.round(e.stazh_years)+' р. × 150 ₴)', fmt(e.stazh_prem), 'pos');
+  if (e.nochni > 0) det += r('Нічні / святкові / вихідні', fmt(e.nochni), 'pos');
+  if (e.transport > 0) det += r('Компенсація транспорту', fmt(e.transport), 'pos');
+  if (e.vidpusk > 0) det += r('Відпускні / лікарняні', fmt(e.vidpusk), 'pos');
+  if (e.likar_fss > 0) det += r('Лікарняні за рах. ФСС', fmt(e.likar_fss), 'pos');
+  if (e.mob > 0) det += r('Доплата моб. зв’язок', fmt(e.mob), 'pos');
+  if (e.sumish !== undefined && e.sumish > 0) det += r('Доплата за суміщення посад', fmt(e.sumish), 'pos');
+  if (e.sumish !== undefined && e.sumish < 0) det += r('Утримання (суміщення)', fmt(e.sumish), 'neg');
+  if (e.perekydka !== undefined && e.perekydka > 0) det += r('Перекидка на Ф1', fmt(e.perekydka), 'pos');
+  if (e.shtraf !== undefined && e.shtraf < 0) det += r('Штраф', fmt(e.shtraf), 'neg');
+  // Show individual доплати
+  if (e.dopList && e.dopList.length) {
+    e.dopList.forEach(function(d) {
+      const desc = (d.desc||'').toLowerCase();
+      // Skip суміщення/замін items - shown separately as e.sumish
+      if (desc.includes('суміщ') || desc.includes('сумісн')) return;
+      // Skip моб items - shown separately
+      if (desc.includes('моб')) return;
+      const label = d.desc || 'Доплата';
+      det += r(label.charAt(0).toUpperCase()+label.slice(1), fmt(d.amt), d.amt>0?'pos':'neg');
+    });
+  } else {
+    if (e.inше !== undefined && e.inше > 0) det += r('Доплата (інше)', fmt(e.inше), 'pos');
+    if (e.inше !== undefined && e.inше < 0) det += r('Утримання (інше)', fmt(e.inше), 'neg');
+  }
+  // Show drug separately
+  if (e.drug && e.drug > 0) det += r('Премія за приведи друга', fmt(e.drug), 'pos');
+  if (e.lutsk_sumish && e.lutsk_sumish > 0) det += r('Доплата за суміщення', fmt(e.lutsk_sumish), 'pos');
+  if (e.lutsk_pryb && e.lutsk_pryb > 0) det += r('Доплата за прибирання', fmt(e.lutsk_pryb), 'pos');
+  if (e.lutsk_pdv && e.lutsk_pdv > 0) det += r('% від повернення ПДВ', fmt(e.lutsk_pdv), 'pos');
+  // Шокобум для Тимочко
+  if (e.lviv_shokobum) det += r('Шокобум оплачує за Моджі', fmt(e.lviv_shokobum), 'mut');
+  // % від продажів
+  if (e.lviv_sales && e.lviv_sales > 0) det += r('% від продажів', fmt(e.lviv_sales), 'pos');
+  // ФОП надбавка
+  if (e.lviv_fop_pct_bonus && e.lviv_fop_pct_bonus > 0) det += r('Надбавка ФОП (+6%)', fmt(e.lviv_fop_pct_bonus), 'pos');
+  if (e.lviv_fop_dopl && e.lviv_fop_dopl > 0) det += r('Доплата ФОП', fmt(e.lviv_fop_dopl), 'pos');
+
+  $('cv').innerHTML = '<button class="back" onclick="goBack()">← Назад</button><div class="card">'
+    +'<div class="ctop"><div class="av">'+ini(e.name)+'</div><div><h2>'+e.name+'</h2><div class="sub">'+e.posada+' · '+e.dept+'</div></div>'
+    +'<div class="bdgs">'+(e.oform?'<span class="bdg">'+e.oform+'</span>':'')
+    +'<span class="bdg">'+(e.hod||0)+' / '+(e.norma||168)+' год.</span>'
+    +(hasPlan?'<span class="bdg">план '+e.fakt_t+' / '+e.plan_t+' т ('+pct(e.pct_plan)+')</span>':'')
+    +'</div></div>'
+    +'<div class="sums">'
+    +'<div class="sc"><div class="sl">Нараховано ЗП</div><div class="sv b">'+(e.nar_zp?Math.round(e.nar_zp).toLocaleString('uk-UA')+' ₴':'—')+'</div><div class="ss">загальна сума</div></div>'
+    +'<div class="sc"><div class="sl">На картку Ф1</div><div class="sv g">'+(e.kartu>0?Math.round(e.kartu).toLocaleString('uk-UA')+' ₴':'—')+'</div><div class="ss">безготівково</div></div>'
+    +(e.taxes>0?'<div class="sc"><div class="sl">Податки</div><div class="sv r">− '+Math.round(e.taxes-(e.povor||0)*0.23).toLocaleString('uk-UA')+' ₴</div><div class="ss">фактично</div></div>':'')
+    +'<div class="sc" style="background:var(--acb)"><div class="sl" style="color:var(--act)">ЗП на руки загалом</div><div class="sv g">'+Math.round((e.kartu||0)+(dv||0)).toLocaleString('uk-UA')+' ₴</div><div class="ss">картка + готівка</div></div>'
+    +'<div class="sc"><div class="sl">Аванс</div><div class="sv" style="color:'+(e.avans>0?'var(--or)':'var(--tx3)')+'">'+(e.avans>0?Math.round(e.avans).toLocaleString('uk-UA')+' ₴':'—')+'</div><div class="ss">'+(e.avans>0?'видано':'')+'</div></div>'
+    +'<div class="sc"><div class="sl">Ф2 до виплати готівкою</div><div class="sv '+(dv>0?'g':dv<0?'r':'')+'" title="'+(e.povor&&e.povor>0?'ЗП готівка: '+Math.round(dv-Math.round(e.povor*0.23)).toLocaleString('uk-UA')+' грн | компенсація податків: +'+Math.round(e.povor*0.23).toLocaleString('uk-UA')+' грн':'')+'">'+(dv?Math.round(Math.abs(dv)).toLocaleString('uk-UA')+' ₴':'—')+'</div><div class="ss">'+(dv<0?'⚠ переплата':e.povor&&e.povor>0?'готівка + компенс.':'готівкою')+'</div></div>'
+    +'</div>'
+    
+    +'<div class="sec"><div class="sec-t">Нарахування — деталі</div><div class="rows">'
+    +'<div class="row"><span class="rl">Оклад (чистий) / для розрахунку</span><span class="rv mut">'+Math.round(e.oklad).toLocaleString('uk-UA')+' ₴ / '+Math.round(e.oklad_obr).toLocaleString('uk-UA')+' ₴</span></div>'
+    +'<div class="row"><span class="rl">Відпрацьовано / норма</span><span class="rv mut">'+(e.hod||0)+' год. / '+(e.norma||168)+' год. ('+pct(e.pct_normy||0)+')</span></div>'
+    +(hasPlan?'<div class="row"><span class="rl">Виконання плану виробництва</span><span class="rv mut">'+e.fakt_t+' т з '+e.plan_t+' т = <b>'+pct(e.pct_plan)+'</b></span></div>':'')
+    +det
+    +'<div class="rtot"><span>Нараховано ЗП (загалом)</span><span style="color:var(--bl)">'+(e.nar_zp?Math.round(e.nar_zp).toLocaleString('uk-UA')+' ₴':'—')+'</span></div>'
+    +'</div></div>'
+    +'<div class="sec"><div class="sec-t">Розподіл та виплата</div><div class="rows">'
+    +'<div class="row"><span class="rl">Нараховано Ф1</span><span class="rv">'+(e.f1?Math.round(e.f1).toLocaleString('uk-UA')+' ₴':'—')+'</span></div>'
+    +(e.povor>0?'<div class="row"><span class="rl" style="padding-left:12px;color:var(--tx3)">в т.ч. оклад</span><span class="rv mut">'+Math.round(e.f1-e.povor).toLocaleString('uk-UA')+' ₴</span></div>':'')
+    +(e.povor>0?'<div class="row"><span class="rl" style="padding-left:12px;color:var(--tx3)">в т.ч. поворотна премія</span><span class="rv mut">'+Math.round(e.povor).toLocaleString('uk-UA')+' ₴</span></div>':'')
+    +'<div class="row"><span class="rl">Податки (23%)</span><span class="rv neg">'+(e.taxes?'− '+Math.round(e.taxes).toLocaleString('uk-UA')+' ₴':'—')+'</span></div>'
+    +(e.povor>0?'<div class="row"><span class="rl" style="padding-left:12px;color:var(--tx3)">відшкодування податків з премії</span><span class="rv pos">+'+Math.round(e.povor*0.23).toLocaleString('uk-UA')+' ₴</span></div>':'')
+    +'<div class="row"><span class="rl">На картку Ф1</span><span class="rv pos">'+(e.kartu>0?Math.round(e.kartu).toLocaleString('uk-UA')+' ₴':'—')+'</span></div>'
+    +'<div class="row"><span class="rl">ЗП Ф2 (готівкова частина)</span><span class="rv '+(e.f2>0?'pos':e.f2<0?'neg':'')+'">'+(e.f2!==undefined?Math.round(e.f2).toLocaleString('uk-UA')+' ₴':'—')+(e.f2<0?' ← повернення':'')+'</span></div>'
+    +'<div class="row"><span class="rl">Аванс (введи вручну)</span><span class="rv"><input type="number" min="0" step="100" value="'+(e.avans||0)+'" style="width:100px;height:26px;font-size:13px;padding:0 6px;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);text-align:right;outline:none" onchange="updateAvans(\'' + e.name + '\', this.value)"></span></div>'
+    +'<div class="rtot"><span>До виплати готівкою</span><span style="color:'+(dv>0?'var(--gn)':dv<0?'var(--rd)':'var(--tx2)')+'">'+( dv!==0?Math.round(Math.abs(dv)).toLocaleString('uk-UA')+' ₴'+(dv<0?' (переплата)':''):'—')+'</span></div>'
+    +'</div></div>'
+   
+    +'</div>';
+}
+
+function goBack() { $('cv').style.display='none'; dept ? showList(dept) : showEmpty(); }
+
+// ===== UPLOAD MODAL =====
+function openUpload() {
+  fileData = {dany:null, tab:null, stazh:null, drug:null, _detectedMonth:null};
+  $('importBtn').disabled = true;
+  $('progress').style.display = 'none';
+  const fl=$('filesList'); if(fl) fl.style.display='none';
+  const inner=$('filesListInner'); if(inner) inner.innerHTML='';
+  $('modalBg').style.display = 'flex';
+}
+
+function closeUpload() { $('modalBg').style.display = 'none'; }
+
+
+// File storage
+let fileData = { dany: null, tab: null, stazh: null, drug: null };
+
+function detectMonth(fn) {
+  const n = fn.toLowerCase();
+  const monthMap = {
+    '01':'2026-01','02':'2026-02','03':'2026-03','04':'2026-04',
+    '05':'2026-05','06':'2026-06','07':'2026-07','08':'2026-08',
+    '09':'2026-09','10':'2026-10','11':'2026-11','12':'2026-12',
+    'січ':'2026-01','лют':'2026-02','бер':'2026-03','кві':'2026-04',
+    'тра':'2026-05','чер':'2026-06','лип':'2026-07','сер':'2026-08',
+    'вер':'2026-09','жов':'2026-10','лис':'2026-11','гру':'2026-12',
+  };
+  // Check for _MM_ or _MM. patterns (e.g. _03_, дані_03.xlsx)
+  const numMatch = n.match(/[_\-\s](\d{2})[_\-\.\s]/);
+  if (numMatch && monthMap[numMatch[1]]) return monthMap[numMatch[1]];
+  // Check for month name
+  for (const [key, val] of Object.entries(monthMap)) {
+    if (key.length > 2 && n.includes(key)) return val;
+  }
+  return null;
+}
+
+function detectFileType(fn) {
+  const n = fn.toLowerCase();
+  if (n.includes('стаж') || n.includes('stazh')) return 'stazh';
+  if (n.includes('друг') || n.includes('drug')) return 'drug';
+  if (n.includes('табел') || n.includes('tabel')) return 'tab';
+  return 'dany';
+}
+const TYPE_LABELS = {
+  dany:  { icon: '📊', label: 'Дані (Ф1, премії, тонаж)' },
+  tab:   { icon: '📅', label: 'Табель' },
+  stazh: { icon: '📋', label: 'Стаж' },
+  drug:  { icon: '🤝', label: 'Премія за друга' },
+};
+function handleDropAll(e) {
+  e.preventDefault();
+  const zone = document.getElementById('dropAllZone');
+  if (zone) { zone.style.borderColor='var(--bd2)'; zone.style.background='var(--sf2)'; }
+  handleFilesAll(e.dataTransfer.files);
+}
+function handleFilesAll(files) {
+  Array.from(files).forEach(function(f) { loadFileAs(detectFileType(f.name), f); });
+}
+function removeFile(type) {
+  fileData[type] = null;
+  updateFilesList();
+  if (!fileData.dany || !fileData.tab) $('importBtn').disabled = true;
+}
+function loadFileAs(type, file) {
+  // Try to detect month from filename
+  const detectedM = detectMonth(file.name);
+  if (detectedM) fileData._detectedMonth = detectedM;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      fileData[type] = XLSX.read(new Uint8Array(ev.target.result), {type:'array'});
+      updateFilesList();
+      if (fileData.dany && fileData.tab) $('importBtn').disabled = false;
+    } catch(err) { showToast('Помилка: ' + file.name, 'err'); }
+  };
+  reader.readAsArrayBuffer(file);
+}
+function updateFilesList() {
+  const inner = $('filesListInner'), list = $('filesList');
+  if (!inner || !list) return;
+  const loaded = Object.entries(fileData).filter(function(kv) { return kv[1]; });
+  if (!loaded.length) { list.style.display='none'; return; }
+  list.style.display = '';
+  // Auto-detect month from loaded file names
+  const monthInp = $('monthInput');
+  if (monthInp && fileData._detectedMonth) {
+    monthInp.value = fileData._detectedMonth;
+  }
+  inner.innerHTML = loaded.filter(function(kv) {
+    return kv[0] !== '_detectedMonth';
+  }).map(function(kv) {
+    const t = kv[0];
+    const info = TYPE_LABELS[t] || {icon:'📄', label:t};
+    return '<div style="display:flex;align-items:center;gap:.5rem;padding:5px 0;border-bottom:1px solid var(--bd);font-size:13px">'
+      + '<span>' + info.icon + '</span>'
+      + '<span style="font-weight:600">' + info.label + '</span>'
+      + '<span style="color:var(--gn);margin-left:auto">✓</span>'
+      + '<button onclick="removeFile(\'' + t + '\')" style="border:none;background:none;color:var(--tx3);cursor:pointer;padding:0 4px;font-size:14px">✕</button>'
+      + '</div>';
+  }).join('');
+}
+function processFile(type, file) { loadFileAs(type, file); }
+function handleFile(type, input) { if (input.files[0]) loadFileAs(type, input.files[0]); }
+
+function processFile(type, file) {
+  const nameEl = $(type+'Name'), statusEl = $(type+'Status');
+  if (nameEl) nameEl.textContent = file.name;
+  if (statusEl) { statusEl.textContent = 'Зчитування...'; statusEl.className = 'file-status'; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array'});
+      fileData[type] = wb;
+      if (statusEl) { statusEl.textContent = '✓ Завантажено'; statusEl.className = 'file-status ok'; }
+      // Enable button if required files present
+      if (fileData.dany && fileData.tab) $('importBtn').disabled = false;
+    } catch(err) {
+      if (statusEl) { statusEl.textContent = '✗ Помилка: '+err.message; statusEl.className = 'file-status err'; }
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function gc(ws, row, col) {
+  const cell = ws[XLSX.utils.encode_cell({r:row, c:col})];
+  return cell ? cell.v : null;
+}
+function sfv(v) { if(v===null||v===undefined||v==='') return 0; const f=parseFloat(v); return isNaN(f)?0:Math.round(f*100)/100; }
+function cleanName(s) { if(!s) return ''; return String(s).split(',')[0].trim().replace(/'/g,'\u2019'); }
+function normName(s) {
+  return s
+    .replace(/\s*\([^)]*\)\s*/g, ' ')
+    .replace(/[\u2019\u2018\u0060\u00b4']/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+// Normalize similar-looking Cyrillic letters (common typos: Ш/Щ, І/И/Й)
+function normNameFuzzy(s) {
+  return normName(s)
+    .replace(/щ/g, 'ш')   // Щатковська → Шатковська
+    .replace(/ї/g, 'і')
+    .replace(/й/g, 'и');
+}
+function matchName(name, map) {
+  if (!name) return null;
+  // 1. Exact match
+  if (map[name]) return map[name];
+  // 2. Normalized match (ignore suffixes)
+  const normN = normName(name);
+  for (const k of Object.keys(map)) {
+    if (normName(k) === normN) return map[k];
+  }
+  // 3. Partial match
+  for (const k of Object.keys(map)) {
+    if (k.includes(name) || name.includes(k)) return map[k];
+    if (normName(k).includes(normN) || normN.includes(normName(k))) return map[k];
+  }
+  // 4. Fuzzy match (Ш/Щ etc)
+  const fuzzyN = normNameFuzzy(name);
+  for (const k of Object.keys(map)) {
+    if (normNameFuzzy(k) === fuzzyN) return map[k];
+  }
+  return null;
+}
+
+function doImport() {
+  if (!fileData.dany || !fileData.tab) return;
+  const monthKey = $('monthInput').value;
+  if (!monthKey) { showToast('Оберіть місяць', 'err'); return; }
+
+  const fill = $('progressFill'), txt = $('progressText');
+  $('progress').style.display = 'block';
+  $('importBtn').disabled = true;
+
+  // === STEP 1: Parse Ф1 (нараховано) ===
+  txt.textContent = 'Читаємо Ф1...'; fill.style.width = '10%';
+  const f1Map = {}; // name -> f1 amount
+  const wsF1 = fileData.dany.Sheets['нараховано'];
+  if (wsF1) {
+    const range = XLSX.utils.decode_range(wsF1['!ref']);
+    for (let r = 0; r <= range.e.r; r++) {
+      const name = cleanName(gc(wsF1, r, 0));
+      const amt = sfv(gc(wsF1, r, 1));
+      if (name && name.length > 3 && amt > 0) f1Map[name] = amt;
+    }
+  }
+
+  // === STEP 2: Parse премії та доплати ===
+  txt.textContent = 'Читаємо премії...'; fill.style.width = '20%';
+  const doplatyMap = {}; // name -> [{amt, desc}]
+  const wsDop = fileData.dany.Sheets['премії та доплати'];
+  if (wsDop) {
+    const range = XLSX.utils.decode_range(wsDop['!ref']);
+    for (let r = 0; r <= range.e.r; r++) {
+      // Try col0 first (April format), then col1 (March format)
+      const rawName0 = gc(wsDop, r, 0);
+      const rawName1 = gc(wsDop, r, 1);
+      const nameRawDop = (rawName0 && String(rawName0).trim().length > 3) ? rawName0 : rawName1;
+      const name = cleanName(nameRawDop);
+      // Amount: try col1 (if name was col0), else col4
+      let amt, desc;
+      if (rawName0 && String(rawName0).trim().length > 3) {
+        // April format: col0=name, col1=amt, col2=desc
+        amt = sfv(gc(wsDop, r, 1));
+        desc = String(gc(wsDop, r, 2) || '');
+      } else {
+        // New March format: col1=name, col2=amt, col3=desc
+        // Old March format: col1=name, col4=amt, col5=desc
+        const amt2 = sfv(gc(wsDop, r, 2));
+        const amt4 = sfv(gc(wsDop, r, 4));
+        if (amt2 !== 0) {
+          amt = amt2;
+          desc = String(gc(wsDop, r, 3) || '');
+        } else {
+          amt = amt4;
+          desc = String(gc(wsDop, r, 5) || '');
+        }
+      }
+      if (name && name.length > 3 && amt !== 0) {
+        if (!doplatyMap[name]) doplatyMap[name] = [];
+        doplatyMap[name].push({amt, desc});
+      }
+    }
+  }
+
+  // === STEP 2a: Parse Левицька (доплати по окремому аркушу) ===
+  const levytskaMap = {}; // додаткові доплати для Левицької
+  const levSheetName = fileData.dany.SheetNames.find(s => s.toLowerCase() === 'левицька');
+  const wsLev = levSheetName ? fileData.dany.Sheets[levSheetName] : null;
+  if (wsLev) {
+    const range = XLSX.utils.decode_range(wsLev['!ref']);
+    let levTotal = 0;
+    for (let r = 0; r <= range.e.r; r++) {
+      const lbl = String(gc(wsLev,r,1)||gc(wsLev,r,0)||'').toLowerCase();
+      if (lbl.includes('сум') || lbl.includes('разом') || lbl.includes('коментар')) continue;
+      const amt = sfv(gc(wsLev,r,1));
+      if (amt !== 0) levTotal += amt;
+    }
+    if (levTotal !== 0) levytskaMap['Левицька'] = levTotal;
+  }
+
+  // === STEP 2b: Parse поворотні премії ===
+  txt.textContent = 'Читаємо поворотні премії...'; fill.style.width = '22%';
+  const povorMap = {}; // name -> amt
+  // Find поворотні премії sheet (case-insensitive)
+  const povSheetName = fileData.dany.SheetNames.find(s => s.toLowerCase().includes('поворот'));
+  const wsPov = povSheetName ? fileData.dany.Sheets[povSheetName] : null;
+  if (wsPov) {
+    const range = XLSX.utils.decode_range(wsPov['!ref']);
+    for (let r = 0; r <= range.e.r; r++) {
+      // col1=name, col2=amt
+      const nameRaw = gc(wsPov, r, 1);
+      const name = cleanName(nameRaw);
+      if (!name || name.length < 3) continue;
+      const amt = sfv(gc(wsPov, r, 2));
+      if (amt > 0) povorMap[name] = (povorMap[name]||0) + amt;
+    }
+  }
+
+  // === STEP 3: Parse відпускні ===
+  txt.textContent = 'Читаємо відпускні...'; fill.style.width = '25%';
+  const vidpuskMap = {};  // name -> vidpusk amt
+  const likarFssMap = {}; // name -> likar_fss amt
+  const wsVidp = fileData.dany.Sheets['відпускні'];
+  if (wsVidp) {
+    const range = XLSX.utils.decode_range(wsVidp['!ref']);
+    for (let r = 0; r <= range.e.r; r++) {
+      // Try col0 (April format: name in col0) or col1 (March format: name in col1)
+      const rawN0 = gc(wsVidp, r, 0);
+      const rawN1 = gc(wsVidp, r, 1);
+      const nameRaw = (rawN0 && String(rawN0).trim().length > 3) ? rawN0 : rawN1;
+      const name = cleanName(nameRaw);
+      if (!name || name.length < 3) continue;
+      if (rawN0 && String(rawN0).trim().length > 3) {
+        // April format: col0=name, col1=vidpusk
+        const amt = sfv(gc(wsVidp, r, 1));
+        if (amt > 0) vidpuskMap[name] = (vidpuskMap[name]||0) + amt;
+      } else {
+        // March format: col1=name, col2=відпускні, col3=лікарняні ФСС
+        const vidp = sfv(gc(wsVidp, r, 2));
+        const likar = sfv(gc(wsVidp, r, 3));
+        if (vidp > 0) vidpuskMap[name] = (vidpuskMap[name]||0) + vidp;
+        if (likar > 0) likarFssMap[name] = (likarFssMap[name]||0) + likar;
+      }
+    }
+  }
+
+  // === STEP 4: Parse тонаж (план/факт для цеху цукерок) ===
+  txt.textContent = 'Читаємо тонаж...'; fill.style.width = '30%';
+  let tPlan = 0, tFakt = 0, tPct = 0;
+  let vPlan=0, vFakt=0, vZagalna=0, vKryhta=0, vPctCila=0, lvivSales=0;
+  const wsTonn = fileData.dany.Sheets['тонаж'];
+  if (wsTonn) {
+    const range = XLSX.utils.decode_range(wsTonn['!ref']);
+    for (let r = 0; r <= range.e.r; r++) {
+      const b = String(gc(wsTonn,r,1)||'').toLowerCase();
+      if (b.includes('план') || b.includes('ваф') || b.includes('пот') || b.includes('к') && b.length<5) continue;
+      const p = sfv(gc(wsTonn,r,1)), f = sfv(gc(wsTonn,r,2));
+      if (p > 0 && f >= 0) {
+        if (tPlan === 0) { tPlan=p; tFakt=f; tPct=p>0?f/p:0; }
+        else if (vPlan === 0) {
+          vPlan=p; vFakt=f;
+          vZagalna=sfv(gc(wsTonn,r,4)); vKryhta=sfv(gc(wsTonn,r,5));
+          vPctCila = vZagalna>0 ? (vZagalna-vKryhta)/vZagalna*100 : sfv(gc(wsTonn,r,6));
+        }
+      }
+    }
+  }
+
+  // === STEP 5: Parse керівники цехів ===
+  txt.textContent = 'Читаємо премії керівників...'; fill.style.width = '35%';
+  const kerivMap = {}; // name -> {plan_t, fakt_t, pct_plan, prem_tonazh, prem_plan}
+  const wsKer = fileData.dany.Sheets['керівники цехів'];
+  if (wsKer) {
+    const range = XLSX.utils.decode_range(wsKer['!ref']);
+    for (let r = 0; r <= range.e.r; r++) {
+      const name = cleanName(gc(wsKer, r, 3));
+      if (!name || name.length < 3) continue;
+      const num = sfv(gc(wsKer, r, 0));
+      if (num < 1) continue;
+      const plan_t = sfv(gc(wsKer, r, 4));
+      const fakt_t = sfv(gc(wsKer, r, 5));
+      const pct_plan = sfv(gc(wsKer, r, 6));
+      // Find премія до виплати for тонаж (col 13) and план (col 17)
+      // Structure: cols 7-13 = tonazh tiers + result, cols 14-17 = plan tiers + result
+      const prem_tonazh = sfv(gc(wsKer, r, 14));
+      const prem_plan = sfv(gc(wsKer, r, 18));
+      kerivMap[name] = {plan_t, fakt_t, pct_plan, prem_tonazh, prem_plan};
+    }
+  }
+
+  // === STEP 5b: Parse охорона премії ===
+  txt.textContent = 'Читаємо премії охорони...'; fill.style.width = '38%';
+  const okhorMap = {};
+  const okhoraSheetName = fileData.dany.SheetNames.find(s => s.toLowerCase() === 'охорона');
+  const wsOkh = okhoraSheetName ? fileData.dany.Sheets[okhoraSheetName] : null;
+  if (wsOkh) {
+    const range = XLSX.utils.decode_range(wsOkh['!ref']);
+    for (let r = 0; r <= range.e.r; r++) {
+      const name = cleanName(gc(wsOkh, r, 1));
+      if (!name || name.length < 3) continue;
+      const isGychka = name.includes('Гичка');
+      const alkohol = sfv(gc(wsOkh, r, 3));
+      const vyiavl  = sfv(gc(wsOkh, r, 6));
+      const prem_norma  = (alkohol === 0) ? (isGychka ? 1000 : 500) : 0;
+      const prem_vyyavl = (vyiavl  >  0) ? (isGychka ?  500 : 300) : 0;
+      okhorMap[name] = {prem_norma, prem_vyyavl};
+    }
+  }
+
+  // ===  // === STEP 6: Parse стаж ===
+  txt.textContent = 'Читаємо стаж...'; fill.style.width = '40%';
+  const stazhMap = {};
+  if (fileData.stazh) {
+    const wsS = fileData.stazh.Sheets[fileData.stazh.SheetNames[0]];
+    if (wsS) {
+      const range = XLSX.utils.decode_range(wsS['!ref']);
+      for (let r = 0; r <= range.e.r; r++) {
+        const name = cleanName(gc(wsS, r, 0));
+        const years = sfv(gc(wsS, r, 2));
+        if (name && name.length > 3 && years < 100) stazhMap[name] = years;
+      }
+    }
+  }
+
+  // === STEP 7: Parse премія за друга ===
+  txt.textContent = 'Читаємо премію за друга...'; fill.style.width = '45%';
+  const drugMap = {}; // name -> amt (1000)
+  const [mYear, mMonth] = monthKey.split('-').map(Number);
+  const monthNamesUa = ['','січень','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
+  const monthNamesUa2 = ['','січні','лютому','березні','квітні','травні','червні','липні','серпні','вересні','жовтні','листопаді','грудні'];
+  const curMonthStr = monthNamesUa[mMonth];   // e.g. "березня"
+  const curMonthStr2 = monthNamesUa2[mMonth]; // e.g. "березні"
+
+  // prevMonth: місяць ЗП = місяць виплати - 1
+  const prevMonth = mMonth === 1 ? 12 : mMonth - 1;
+  const prevMonthStr  = monthNamesUa[prevMonth];
+  const prevMonthStr2 = monthNamesUa2[prevMonth];
+
+  function isDueThisMonth(cellVal) {
+    if (!cellVal) return false;
+    const s = String(cellVal).toLowerCase().trim();
+    if (s === 'nan' || s === '' || s.includes('не платити') || s.includes('звільни')) return false;
+    // Text: "зарплата березня" — пряма назва місяця ЗП
+    if (s.includes(curMonthStr) || s.includes(curMonthStr2)) return true;
+    // Text: "треба заплатити у [місяць]" — місяць виплати = curMonth+1, тому ЗП = curMonth
+    const nextMonth = mMonth === 12 ? 1 : mMonth + 1;
+    const nextMonthStr  = monthNamesUa[nextMonth];
+    const nextMonthStr2 = monthNamesUa2[nextMonth];
+    if ((s.includes('треба') || s.includes('заплатити')) && (s.includes(nextMonthStr) || s.includes(nextMonthStr2))) return true;
+    // Date format: дата виплати 27.MM → ЗП місяця MM-1
+    const dateMatch = s.match(/(\d{1,2})\.(\d{1,2})(?:\.(\d{4}))?/);
+    if (dateMatch) {
+      const payMonth = parseInt(dateMatch[2]);
+      const payYear  = dateMatch[3] ? parseInt(dateMatch[3]) : mYear;
+      // Місяць виплати = mMonth+1, ЗП = mMonth
+      const expectedPayMonth = mMonth === 12 ? 1 : mMonth + 1;
+      if (payMonth === expectedPayMonth && payYear === mYear) return true;
+    }
+    return false;
+  }
+
+  if (fileData.drug) {
+    const wsDrug = fileData.drug.Sheets[fileData.drug.SheetNames[0]];
+    if (wsDrug) {
+      const range = XLSX.utils.decode_range(wsDrug['!ref']);
+      for (let r = 0; r <= range.e.r; r++) {
+        const whoName = cleanName(gc(wsDrug, r, 1)); // col B = who gets paid
+        if (!whoName || whoName.length < 3) continue;
+        // Check cols J (9) and K (10) for payment due this month
+        const colJ = gc(wsDrug, r, 9);
+        const colK = gc(wsDrug, r, 10);
+        const colL = gc(wsDrug, r, 11);
+        // Skip if "не платити" or "звільни" anywhere
+        const allText = [colJ, colK, colL].map(v => String(v||'').toLowerCase()).join(' ');
+        if (allText.includes('не платити') && !allText.includes(curMonthStr)) continue;
+        let due = false;
+        if (isDueThisMonth(colJ)) due = true;
+        if (isDueThisMonth(colK)) due = true;
+        if (due) {
+          if (!drugMap[whoName]) drugMap[whoName] = 0;
+          drugMap[whoName] += 1000;
+        }
+      }
+    }
+  }
+
+  // === STEP 8: Parse табель (hours per person) ===
+  txt.textContent = 'Читаємо табель...'; fill.style.width = '55%';
+  const tabMap = {}; // name -> {hod, norma, vidpusk, likar}
+  let globalNorma = 168; // norma for this month from табель
+  const tabSheets = fileData.tab.SheetNames;
+  tabSheets.forEach(shName => {
+    const ws = fileData.tab.Sheets[shName];
+    if (!ws) return;
+    const range = XLSX.utils.decode_range(ws['!ref'] || 'A1:A1');
+    // Find norma from row 2-3
+    let normaVal = 168;
+    for (let r = 0; r <= 5; r++) {
+      for (let c = 0; c <= 5; c++) {
+        const v = sfv(gc(ws, r, c));
+        if (v >= 100 && v <= 250) { normaVal = v; globalNorma = v; break; }
+      }
+    }
+    // Find data rows (row >= 7)
+    for (let r = 6; r <= range.e.r; r++) {
+      const nameRaw = String(gc(ws, r, 1) || '');
+      if (!nameRaw || nameRaw.length < 3) continue;
+      const name = cleanName(nameRaw);
+      if (!name || name.length < 3) continue;
+      const hod = sfv(gc(ws, r, 35));
+      const vidpusk = sfv(gc(ws, r, 37));
+      const likar = sfv(gc(ws, r, 38));
+      // Always record if person is in tabель (even hod=0 means they were present but didn't work)
+      if (nameRaw && nameRaw.length > 2) {
+        tabMap[name] = {hod, norma: normaVal, vidpusk, likar};
+      }
+    }
+  });
+
+  // Read lvivSales and lvivPdv from тонаж
+  let lvivPdv = 0;
+  if (wsTonn) {
+    const rangeSales = XLSX.utils.decode_range(wsTonn['!ref']);
+    for (let r = 0; r <= rangeSales.e.r; r++) {
+      const lbl = String(gc(wsTonn,r,1)||gc(wsTonn,r,0)||'').toLowerCase();
+      if (lbl.includes('продаж') && !lbl.includes('пдв')) {
+        lvivSales = sfv(gc(wsTonn,r,2)) || sfv(gc(wsTonn,r,1));
+        if (lbl === String(gc(wsTonn,r,1)||'').toLowerCase()) lvivSales = sfv(gc(wsTonn,r,2));
+      }
+      if (lbl.includes('пдв') || lbl.includes('повернення пдв')) {
+        lvivPdv = sfv(gc(wsTonn,r,2)) || sfv(gc(wsTonn,r,1));
+        if (String(gc(wsTonn,r,1)||'').toLowerCase().includes('пдв')) lvivPdv = sfv(gc(wsTonn,r,2));
+      }
+    }
+  }
+
+  // === STEP 9: Build employees from existing base data + new calculations ===
+  txt.textContent = 'Розраховуємо ЗП...'; fill.style.width = '70%';
+
+  // Use previous month as base, but skip people who are truly absent
+  // (not in нараховано AND not in табель = звільнені або не працюють)
+  const prevHistory = Object.keys(HISTORY).sort().reverse()
+    .map(k => HISTORY[k])
+    .find(h => h && h.employees && h.employees.length > 0);
+  const prevEmps = prevHistory ? prevHistory.employees : [];
+
+  const baseEmps = prevEmps.filter(e => {
+    const KNOWN_DEPTS = ['Виробництво','Керівники цехів','Цех цукерок','Цех вафель','Цех глазурі','Логістика','Технічний відділ','Охорона','Львів','Луцьк'];
+    if (!KNOWN_DEPTS.includes(e.dept)) return false;
+    // Include if: has f1 this month OR has hours in табель OR has доплати
+    const hasF1  = matchName(e.name, f1Map)      !== null;
+    const hasTab = matchName(e.name, tabMap)     !== null;
+    const hasDop = matchName(e.name, doplatyMap) !== null;
+    const hasVidp= matchName(e.name, vidpuskMap) !== null;
+    const isRozhyshche = e.rожище === true;
+    const isLviv = e.lviv === true;
+    const isLutsk = e.lutsk === true;
+    return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk;
+  });
+
+  const allEmps = baseEmps.map(base => {
+    const name = base.name;
+    
+    // Поворотна премія: іде в Ф1, але повернуті податки (23%) йдуть в Ф2
+    const povor = base.lviv_fop_fixed ? 0 : (matchName(name, povorMap) || 0);
+    const povor_tax_refund = Math.round(povor * 0.23 * 100) / 100;
+
+    // Get Ф1 (+ поворотна премія) — ФОП fixed люди не мають Ф1
+    const f1_base = base.lviv_fop_fixed ? 0 : (matchName(name, f1Map) || 0);
+    const f1 = Math.round((f1_base + povor) * 100) / 100;
+    const taxes = Math.round(f1 * 0.23 * 100) / 100;
+    const kartu = Math.round((f1 - taxes) * 100) / 100;
+
+    // Get hours from табель
+    const tabRaw = matchName(name, tabMap);
+    const baseNorma = base.norma || 168;
+    // If not in tabель but has f1 (worked full month) → use norma as hod
+    const f1ForCheck = matchName(name, f1Map) || 0;
+    // For lviv people: if hod=0 in табель → use globalNorma (fixed salary)
+    // For others: if hod=0 in табель → respect the 0 (genuinely absent)
+    // If not in табель at all → fallback
+    let tab;
+    if (tabRaw) {
+      if ((base.lviv || base.lutsk) && tabRaw.hod === 0 && tabRaw.vidpusk === 0 && tabRaw.likar === 0) {
+        tab = {hod: globalNorma, norma: globalNorma, vidpusk: 0, likar: 0};
+      } else {
+        tab = tabRaw;
+      }
+    } else {
+      const fallbackHod = (base.lviv || base.lutsk || f1ForCheck > 0) ? globalNorma : 0;
+      tab = {hod: fallbackHod, norma: globalNorma, vidpusk: 0, likar: 0};
+    }
+    const hod = tab.hod;
+    const norma = tab.norma || baseNorma;
+    const pct_normy = norma > 0 ? Math.round(hod/norma*100)/100 : 0;
+
+    // Calculate ставка
+    const oklad_obr = base.oklad_obr || base.oklad || 0;
+    // Для відділів з премією за норму — ставка обмежена нормою, надурочні = окрема премія
+    const PREM_NORMA_DEPTS = ['Виробництво','Цех цукерок','Цех вафель','Цех глазурі'];
+    // Виключення: Павлюк не має премії за норму годин
+    const NO_PREM_NORMA = ['Павлюк'];
+    const isPremNormaDept = PREM_NORMA_DEPTS.includes(base.dept)
+      && !NO_PREM_NORMA.some(n => name.includes(n));
+    // Охорона сторожі мають норму 240 годин
+    const normaEff = (base.dept === 'Охорона' && base.posada && base.posada.toLowerCase().includes('сторож')) ? 240 : norma;
+    // Львів/Луцьк: фіксований оклад, але якщо є години в табелі — рахуємо пропорційно
+    let stavka;
+    if (base.lviv || base.lutsk) {
+      if (hod > 0) {
+        stavka = Math.round((oklad_obr * hod / normaEff) * 100) / 100;
+      } else {
+        stavka = oklad_obr;
+      }
+    } else {
+      const hodForStavka = isPremNormaDept ? Math.min(hod, normaEff) : hod;
+      stavka = Math.round((oklad_obr * hodForStavka / normaEff) * 100) / 100;
+    }
+
+    // Премія за норму годин (якщо факт > норма)
+    const hodDiff = hod - normaEff;
+    const prem_norma = isPremNormaDept && hodDiff > 0
+      ? Math.round(hodDiff * 110 * 100) / 100 : 0;
+
+    // Get stazh
+    const stazh_years = base.no_stazh ? 0 : (matchName(name, stazhMap) !== null ? matchName(name, stazhMap) : (base.stazh_years || 0));
+    const stazh_prem = Math.round(stazh_years) * 150;
+
+    // Get відпускні та лікарняні ФСС
+    const vidpusk = matchName(name, vidpuskMap) || 0;
+    const likar_fss_from_file = matchName(name, likarFssMap) || 0;
+
+    // Get доплати
+    const dopList = matchName(name, doplatyMap) || [];
+    // Левицька - додаткові доплати з окремого аркуша
+    if (name.includes('Левицька')) {
+      const levExtra = levytskaMap['Левицька'] || 0;
+      if (levExtra !== 0) dopList.push({amt: levExtra, desc: 'Додаткові доплати'});
+    }
+    let mob = 0, sumish = 0, inше = 0;
+    dopList.forEach(d => {
+      const desc = d.desc.toLowerCase();
+      if (desc.includes('моб')) mob += d.amt;
+      else if (desc.includes('суміщ') || desc.includes('сумісн')) {
+        // Доплата за суміщення рахується пропорційно: base/norma*hod
+        sumish += Math.round(d.amt / norma * hod * 100) / 100;
+      }
+      else inше += d.amt;
+    });
+
+    // Фіксовані доплати за моб. зв'язок (не залежать від файлу)
+    const FIXED_MOB = {
+      'Динісова': 200, 'Андрійчук Людмила': 100, 'Зінчук Тетяна Миколаївна': 100,
+      'Симонович': 100, 'Новак Олександр': 100, 'Сачковський': 100, 'Третяк': 100, 'Романюк Наталія': 100
+    };
+    for (const [key, amt] of Object.entries(FIXED_MOB)) {
+      if (name.includes(key)) { mob = amt; break; }
+    }
+
+    // Фіксовані доплати за суміщення посад (база для пропорційного розрахунку)
+    const FIXED_SUMISH = { 'Андрійчук Людмила': 3000 };
+    for (const [key, base] of Object.entries(FIXED_SUMISH)) {
+      if (name.includes(key)) {
+        sumish = Math.round(base / norma * hod * 100) / 100;
+        break;
+      }
+    }
+
+    // Премія за друга
+    const drug = matchName(name, drugMap) || 0;
+    if (drug > 0) inше += drug;
+    // Save drug separately for display
+    const drugAmt = drug;
+
+    // Керівники цехів - розраховуємо премії по таблиці ставок
+    let prem_tonazh = 0, prem_plan = 0, plan_t = undefined, fakt_t = undefined, pct_plan = undefined;
+    if (base.dept === 'Керівники цехів') {
+      if (name.includes('Романюк')) {
+        const pCila = vPctCila;
+        prem_tonazh = pCila<88?0 : pCila<90?1500 : pCila<92?2000 : 2500;
+        const vPlanPct = vPlan>0 ? vFakt/vPlan : 0;
+        prem_plan = vPlanPct<1.0?0 : vPlanPct<1.10?1000 : 2000;
+        plan_t=vPlan; fakt_t=vFakt; pct_plan=vPlanPct;
+      } else {
+        const fTon = tFakt;
+        if (name.includes('Динісова')) {
+          prem_tonazh = fTon<85?0 : fTon<110?3000 : fTon<120?4000 : fTon<130?5000 : fTon<140?6000 : 7000;
+          prem_plan   = tPct<1.0?0 : tPct<1.10?2000 : 4000;
+        } else if (name.includes('Андрійчук')) {
+          prem_tonazh = fTon<85?0 : fTon<110?500 : fTon<120?1000 : fTon<130?1500 : fTon<140?2000 : 2500;
+          prem_plan   = tPct<1.0?0 : tPct<1.10?500 : 1000;
+        } else {
+          // Волох, Курдельчук, Шатковська
+          prem_tonazh = fTon<85?0 : fTon<110?2000 : fTon<120?3000 : fTon<130?4000 : fTon<140?5000 : 6000;
+          prem_plan   = tPct<1.0?0 : tPct<1.10?1500 : 3000;
+        }
+        plan_t=tPlan; fakt_t=tFakt; pct_plan=tPct;
+      }
+    }
+
+    // Охорона — премії
+    let emp_prem_norma = prem_norma; // вже розрахована для цехів
+    let emp_prem_vyyavl = 0;
+    if (base.dept === 'Охорона') {
+      const okh = matchName(name, okhorMap);
+      if (okh) {
+        emp_prem_norma = okh.prem_norma;
+        emp_prem_vyyavl = okh.prem_vyyavl;
+      }
+    }
+
+    // Нараховано ЗП = ставка + стаж + відпускні + доплати + премії
+    const totalLikar = (tab.likar||0) + likar_fss_from_file;
+    // Львів спеціальні розрахунки
+    let lviv_sales = 0;
+    if (base.lviv_sales_pct && lvivSales > 0) {
+      lviv_sales = Math.round(base.lviv_sales_pct * lvivSales * 100) / 100;
+    }
+    const lviv_fop_dopl = base.lviv_fop_dopl || 0;
+    const lviv_fop_pct_bonus = base.lviv_fop_pct ? Math.round(oklad_obr * base.lviv_fop_pct * 100) / 100 : 0;
+    const lviv_shokobum = base.lviv_shokobum || 0;
+    // Луцьк специфічні доплати
+    const lutsk_sumish = base.lutsk_sumish_fixed ? Math.round(base.lutsk_sumish_fixed / normaEff * hod * 100) / 100 : 0;
+    const lutsk_pryb = base.lutsk_pryb_fixed ? Math.round(base.lutsk_pryb_fixed / normaEff * hod * 100) / 100 : 0;
+    const lutsk_pdv = (base.lutsk_pdv_pct && lvivPdv > 0) ? Math.round(base.lutsk_pdv_pct * lvivPdv * 100) / 100 : 0;
+
+    let nar_zp;
+    if (base.lviv_fop_fixed) {
+      nar_zp = base.lviv_fop_fixed;
+    } else {
+      nar_zp = Math.round((stavka + stazh_prem + vidpusk + mob + sumish + inше + prem_tonazh + prem_plan + emp_prem_norma + emp_prem_vyyavl + totalLikar + lviv_sales + lviv_fop_dopl + lviv_fop_pct_bonus + lviv_shokobum + lutsk_sumish + lutsk_pryb + lutsk_pdv) * 100) / 100;
+    }
+    // Гнинюк: гарантовано 20000 на руки → f2 = target - kartu
+    // (handled in f2 calc below)
+
+    // Ф2 = нарах. ЗП - f1_full + відшкодування податків
+    let f2;
+    if (base.rожище) {
+      // Рожище: фіксовано f2=2200
+      f2 = 2200;
+    } else if (base.lviv_fop_fixed) {
+      // ФОП фіксована сума: f2 = фіксована сума
+      f2 = base.lviv_fop_fixed;
+    } else if (base.lutsk_f1_base) {
+      // Деміш: стандартна f2, але якщо f1 > lutsk_f1_base → відшкодування тільки від різниці
+      const f1_excess = Math.max(0, f1_base - base.lutsk_f1_base);
+      const demish_refund = Math.round(f1_excess * 0.23 * 100) / 100;
+      f2 = Math.round((nar_zp - f1_base + demish_refund) * 100) / 100;
+    } else if (base.lutsk_target_hands) {
+      // Гнинюк: гарантовано 20000 + стаж на руки = kartu + f2
+      const target = base.lutsk_target_hands + stazh_prem;
+      const kartu_tmp = Math.round(f1_base * 0.77 * 100) / 100;
+      f2 = Math.round((target - kartu_tmp) * 100) / 100;
+    } else if (base.lviv_povor_f1) {
+      if (name.includes('Тимочко Орест')) {
+        // Тимочко: повертає різницю між карткою і реальною ЗП
+        // f2 = nar_zp - kartu (від'ємне = повернення)
+        const kartu_tmp = Math.round((f1_base + povor) * 0.77 * 100) / 100;
+        f2 = Math.round((nar_zp - kartu_tmp) * 100) / 100;
+      } else {
+        // Монастирська: відшкодовуємо 23% з Ф1 завжди
+        const lviv_tax_refund = Math.round(f1_base * 0.23 * 100) / 100;
+        f2 = Math.round((nar_zp - f1_base + lviv_tax_refund) * 100) / 100;
+      }
+    } else {
+      f2 = Math.round((nar_zp - f1_base - povor + povor_tax_refund) * 100) / 100;
+    }
+
+    const emp = {
+      name: base.name,
+      dept: base.dept,
+      posada: base.posada,
+      oform: base.oform || '',
+      oklad: base.oklad,
+      oklad_obr: oklad_obr,
+      hod, norma, pct_normy,
+      stavka,
+      stazh_years, stazh_prem,
+      vidpusk: vidpusk + (tab.vidpusk||0),
+      likar_fss: likar_fss_from_file + (tab.likar||0),
+      mob, sumish, inше,
+      nar_zp, f1, taxes, kartu,
+      zagalna: nar_zp,
+      f2,
+      avans: 0,
+      do_vypl: f2,
+    };
+
+    // Save поворотна премія
+    if (povor > 0) emp.povor = povor;
+
+    // Save individual доплати for display
+    if (drugAmt > 0) emp.drug = drugAmt;
+    if (lutsk_sumish > 0) emp.lutsk_sumish = lutsk_sumish;
+    if (lutsk_pryb > 0) emp.lutsk_pryb = lutsk_pryb;
+    if (lutsk_pdv > 0) emp.lutsk_pdv = lutsk_pdv;
+    if (base.lviv_shokobum) emp.lviv_shokobum = base.lviv_shokobum;
+    if (lviv_sales > 0) emp.lviv_sales = lviv_sales;
+    if (lviv_fop_pct_bonus > 0) emp.lviv_fop_pct_bonus = lviv_fop_pct_bonus;
+    if (lviv_fop_dopl > 0) emp.lviv_fop_dopl = lviv_fop_dopl;
+    emp.dopList = dopList.map(function(d) {
+      return {amt: d.amt, desc: d.desc};
+    });
+
+    // Always set prem_norma
+    emp.prem_norma = emp_prem_norma;
+    if (emp_prem_vyyavl) emp.prem_vyyavl = emp_prem_vyyavl;
+
+    if (prem_tonazh !== undefined) {
+      emp.prem_tonazh = prem_tonazh;
+      emp.prem_plan = prem_plan;
+      emp.plan_t = plan_t;
+      emp.fakt_t = fakt_t;
+      emp.pct_plan = pct_plan;
+    } else if (tPlan > 0) {
+      // For цех цукерок workers - use global тонаж data (no individual premium, just info)
+      emp.plan_t = tPlan;
+      emp.fakt_t = tFakt;
+      emp.pct_plan = tPct;
+    }
+
+    return emp;
+  });
+
+  fill.style.width = '90%';
+  txt.textContent = 'Збереження...';
+
+  const [year, month] = monthKey.split('-');
+  const monthNames = ['','Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
+  const label = monthNames[parseInt(month)] + ' ' + year;
+
+  HISTORY[monthKey] = {label, employees: allEmps, tPlan, tFakt};
+
+  setTimeout(() => {
+    buildMonthSelector();
+    setMonth(monthKey);
+    closeUpload();
+    // Reset file data
+    fileData = {dany:null, tab:null, stazh:null, drug:null};
+    $('importBtn').disabled = true;
+    showToast('✓ '+label+' розраховано. '+allEmps.length+' працівників.', 'ok');
+    $('progress').style.display = 'none';
+    fill.style.width = '0%';
+  }, 600);
+}
+
+function updateAvans(name, val) {
+  const avans = parseFloat(val) || 0;
+  // Find in current month data
+  const emps = HISTORY[currentMonth] ? HISTORY[currentMonth].employees : [];
+  const emp = emps.find(e => e.name === name);
+  if (!emp) return;
+  emp.avans = avans;
+  // Recalc do_vypl
+  emp.do_vypl = Math.round((emp.f2 - avans) * 100) / 100;
+  // Re-render card
+  showCard(emp);
+}
+
+let zvShowing = false;
+
+function toggleZvedena() {
+  zvShowing = !zvShowing;
+  const btn = $('btnZvedena');
+  if (zvShowing) {
+    btn.classList.add('active');
+    $('empty').style.display='none';
+    $('cv').style.display='none';
+    $('lv').style.display='none';
+    $('zv').style.display='';
+    $('rc').textContent='';
+    // Reset dept filter visually but keep data
+    dept = '';
+    $('ds').value = '';
+    hideDrop();
+    renderZvedena();
+  } else {
+    btn.classList.remove('active');
+    $('zv').style.display='none';
+    showEmpty();
+  }
+}
+
+function renderZvedena() {
+  const emps = HISTORY[currentMonth] ? HISTORY[currentMonth].employees : [];
+  const label = HISTORY[currentMonth] ? HISTORY[currentMonth].label : '';
+  if (!emps.length) { $('zv').innerHTML = '<p style="padding:2rem;color:var(--tx3)">Немає даних для цього місяця</p>'; return; }
+
+  const depts = currentLocation==='kolky' ? KOLKY_DEPTS : currentLocation==='lviv' ? LVIV_DEPTS : LUTSK_DEPTS;
+  const fmt = n => n ? Math.round(n).toLocaleString('uk-UA') + ' ₴' : '—';
+  const fmtH = n => n ? parseFloat(n.toFixed(1)).toLocaleString('uk-UA') : '—';
+
+  let totHod = 0, totF1 = 0, totF2 = 0, totKartu = 0, totTaxes = 0, totNar = 0, totGotivka = 0;
+
+  const rows = depts.map((d, idx) => {
+    const de = emps.filter(e => e.dept === d);
+    if (!de.length) return '';
+    const hod = de.reduce((s,e) => s+(e.hod||0), 0);
+    const f1 = de.reduce((s,e) => s+(e.f1||0), 0);
+    const nar = de.reduce((s,e) => s+(e.nar_zp||0), 0);
+    const taxes = de.reduce((s,e) => s+(e.taxes||0), 0);
+    const kartu = de.reduce((s,e) => s+(e.kartu||0), 0);
+    const f2 = de.reduce((s,e) => s+(e.f2||0), 0);
+    const gotivka = de.reduce((s,e) => {
+      const dv = (e.do_vypl !== undefined && (e.do_vypl !== 0 || e.avans > 0)) ? e.do_vypl : (e.f2||0);
+      return s + (dv > 0 ? dv : 0); // тільки ті хто отримує, без повернень
+    }, 0);
+    const fop = f1 + f2;
+    totHod += hod; totF1 += f1; totF2 += f2; totKartu += kartu; totTaxes += taxes; totNar += nar; totGotivka += gotivka;
+    return `<tr style="cursor:pointer" onclick="dept='${d}';$('ds').value='${d}';zvShowing=false;$('btnZvedena').classList.remove('active');$('zv').style.display='none';showList('${d}')">
+      <td>${idx+1}</td>
+      <td>${d} <span style="font-size:11px;color:var(--tx3);font-weight:400">(${de.length} ос.)</span></td>
+      <td>${fmtH(hod)}</td>
+      <td class="zv-f1">${Math.round(f1).toLocaleString('uk-UA')} ₴</td>
+      <td class="zv-f2">${Math.round(f2).toLocaleString('uk-UA')} ₴</td>
+      <td>${Math.round(fop).toLocaleString('uk-UA')} ₴</td>
+      <td>${Math.round(kartu).toLocaleString('uk-UA')} ₴</td>
+      <td style="color:var(--rd)">${Math.round(taxes).toLocaleString('uk-UA')} ₴</td>
+      <td style="color:var(--bl)">${Math.round(nar).toLocaleString('uk-UA')} ₴</td>
+      
+    </tr>`;
+  }).join('');
+
+  const totFop = totF1 + totF2;
+
+  $('zv').innerHTML = `
+    <div class="zv-card">
+      <div class="zv-header">
+        <h2>Зведена відомість розрахунку ЗП</h2>
+        <p>ТзОВ ТВК "ВОЛДІ" · ЄДРПОУ 31475712 · ${label} · ${emps.length} працівників</p>
+      </div>
+      <div class="zv-summary">
+        <div class="zv-sc"><div class="zv-sl">Нарах. Ф1 (загалом)</div><div class="zv-sv r">${Math.round(totF1).toLocaleString('uk-UA')} ₴</div></div>
+        <div class="zv-sc"><div class="zv-sl">Податки (23%)</div><div class="zv-sv r">${Math.round(totTaxes).toLocaleString('uk-UA')} ₴</div></div>
+        <div class="zv-sc"><div class="zv-sl">На картки Ф1</div><div class="zv-sv g">${Math.round(totKartu).toLocaleString('uk-UA')} ₴</div></div>
+        <div class="zv-sc"><div class="zv-sl">Нарах. Ф2 (готівка)</div><div class="zv-sv g">${Math.round(totF2).toLocaleString('uk-UA')} ₴</div></div>
+        <div class="zv-sc"><div class="zv-sl">ФОП без ЄСВ</div><div class="zv-sv b">${Math.round(totFop).toLocaleString('uk-UA')} ₴</div></div>
+        <div class="zv-sc"><div class="zv-sl">Нарах. ЗП (разом)</div><div class="zv-sv b">${Math.round(totNar).toLocaleString('uk-UA')} ₴</div></div>
+      </div>
+      ${(()=>{
+        const mon = HISTORY[currentMonth];
+        if (!mon || !mon.tPlan) return '';
+        return '<div style="padding:1rem 1.5rem;border-bottom:1px solid var(--bd)"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:.75rem;font-weight:600">Виробництво тонажу (цукерки)</div><div style="font-size:16px">План: <b>'+mon.tPlan+' т</b> &nbsp;·&nbsp; Факт: <b>'+mon.tFakt+' т</b></div></div>';
+      })()}
+      <div class="zv-wrap" style="padding:0 0 1rem">
+        <table class="zv-table">
+          <thead><tr>
+            <th>№</th><th>Відділ</th><th>Годин</th>
+            <th>Нарах. Ф1</th><th>Нарах. Ф2</th><th>ФОП без ЄСВ</th>
+            <th>На картку Ф1</th><th>Податки</th><th>Нарах. ЗП</th>
+
+          </tr></thead>
+          <tbody>${rows}</tbody>
+          <tfoot><tr class="zv-tot">
+            <td></td><td>Сумарно</td>
+            <td>${fmtH(totHod)}</td>
+            <td class="zv-f1">${Math.round(totF1).toLocaleString('uk-UA')} ₴</td>
+            <td class="zv-f2">${Math.round(totF2).toLocaleString('uk-UA')} ₴</td>
+            <td>${Math.round(totFop).toLocaleString('uk-UA')} ₴</td>
+            <td style="color:var(--gn)">${Math.round(totKartu).toLocaleString('uk-UA')} ₴</td>
+            <td style="color:var(--rd)">${Math.round(totTaxes).toLocaleString('uk-UA')} ₴</td>
+            <td style="color:var(--bl)">${Math.round(totNar).toLocaleString('uk-UA')} ₴</td>
+          </tr></tfoot>
+        </table>
+      </div>
+      <div class="gotivka-box">
+        <div>
+          <div class="gb-label">${currentLocation==='lviv' ? 'Необхідна готівка у Львові' : currentLocation==='lutsk' ? 'Необхідна готівка в Луцьку' : 'Необхідна готівка в Колках'}</div>
+          <div class="gb-val">${Math.round(totGotivka).toLocaleString('uk-UA')} ₴</div>
+          <div class="gb-sub">Ф2 за мінусом авансів · ${label}</div>
+        </div>
+      </div>
+      <div class="notes-section">
+        <h4>Загальна примітка до місяця</h4>
+        <textarea class="notes-area" id="generalNote" placeholder="Введіть примітку..." onchange="saveNote('general', this.value)">${getNoteData(currentMonth,'general','text')||''}</textarea>
+        <div class="approval-row">
+          ${buildApprovalBtn(currentMonth,'general')}
+        </div>
+      </div>
+      <div class="zv-extra">
+        <div class="zv-block">
+          <h4>Ф1 розбивка</h4>
+          <div class="zv-row"><span class="zl">Ф1 нараховано</span><span class="zr">${Math.round(totF1).toLocaleString('uk-UA')} ₴</span></div>
+          <div class="zv-row"><span class="zl">Податки / відрахування</span><span class="zr" style="color:var(--rd)">${Math.round(totTaxes).toLocaleString('uk-UA')} ₴</span></div>
+          <div class="zv-row"><span class="zl">Ф1 на картку</span><span class="zr" style="color:var(--gn)">${Math.round(totKartu).toLocaleString('uk-UA')} ₴</span></div>
+        </div>
+        <div class="zv-block">
+          <h4>Ф2 розбивка (готівка)</h4>
+          <div class="zv-row"><span class="zl">В-во Ф2 (Колки)</span><span class="zr">${Math.round(totF2).toLocaleString('uk-UA')} ₴</span></div>
+          <div class="zv-row"><span class="zl">Луцьк штат Ф2</span><span class="zr" style="color:var(--tx3)">—</span></div>
+          <div class="zv-row"><span class="zl">Львів Ф2</span><span class="zr" style="color:var(--tx3)">—</span></div>
+          <div class="zv-row"><span class="zl">Збут Ф2</span><span class="zr" style="color:var(--tx3)">—</span></div>
+          <div class="zv-row" style="border-top:2px solid var(--bd2);margin-top:4px;padding-top:6px"><span class="zl" style="font-weight:700">ВСЬОГО ФОП</span><span class="zr" style="color:var(--bl);font-size:15px">${Math.round(totFop).toLocaleString('uk-UA')} ₴</span></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ===== NOTES & APPROVAL =====
+const DIRECTOR_PASS = '1975';
+
+function getNotes() {
+  try { return JSON.parse(localStorage.getItem('zp_notes') || '{}'); } catch(e) { return {}; }
+}
+function saveNotes(data) {
+  try { localStorage.setItem('zp_notes', JSON.stringify(data)); } catch(e) {}
+}
+function getNoteData(month, key, field) {
+  const n = getNotes();
+  return (n[month] && n[month][key] && n[month][key][field]) || '';
+}
+
+function saveNote(key, value) {
+  const n = getNotes();
+  if (!n[currentMonth]) n[currentMonth] = {};
+  if (!n[currentMonth][key]) n[currentMonth][key] = {};
+  n[currentMonth][key].text = value;
+  saveNotes(n);
+}
+
+function buildApprovalBtn(month, key) {
+  const approved = getNoteData(month, key, 'approved');
+  const approvedBy = getNoteData(month, key, 'approvedBy');
+  const approvedAt = getNoteData(month, key, 'approvedAt');
+  if (approved) {
+    return '<span class="approval-stamp">✅ Погоджено · '+approvedBy+' · '+approvedAt+'</span>'
+      +'<button class="btn-unapprove" onclick="unapprove(\'' + key + '\')">Скасувати</button>';
+  }
+  return '<button class="btn-approve" onclick="approveAction(\'' + key + '\')">✓ Погодити</button>'
+    +'<span class="approval-stamp empty" id="stamp_'+key+'">не погоджено</span>';
+}
+
+function approveAction(key) {
+  const pass = prompt('Введіть пароль директора:');
+  if (pass !== DIRECTOR_PASS) { alert('Невірний пароль'); return; }
+  const name = prompt('Ваше ім\'я (для підпису):') || 'Директор';
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('uk-UA') + ' ' + now.toLocaleTimeString('uk-UA', {hour:'2-digit',minute:'2-digit'});
+  const n = getNotes();
+  if (!n[currentMonth]) n[currentMonth] = {};
+  if (!n[currentMonth][key]) n[currentMonth][key] = {};
+  n[currentMonth][key].approved = true;
+  n[currentMonth][key].approvedBy = name;
+  n[currentMonth][key].approvedAt = dateStr;
+  saveNotes(n);
+  renderZvedena();
+}
+
+function unapprove(key) {
+  const pass = prompt('Введіть пароль директора для скасування:');
+  if (pass !== DIRECTOR_PASS) { alert('Невірний пароль'); return; }
+  const n = getNotes();
+  if (n[currentMonth] && n[currentMonth][key]) {
+    delete n[currentMonth][key].approved;
+    delete n[currentMonth][key].approvedBy;
+    delete n[currentMonth][key].approvedAt;
+  }
+  saveNotes(n);
+  renderZvedena();
+}
+
+function saveDeptNote(dept, value) {
+  saveNote('dept_'+dept, value);
+}
+
+
+init();
+loadFromGithub();
+
+
+
+
+
+
+
+
+// ===== GITHUB SYNC =====
+const GH_USER = 'pavlopetelytskyi';
+const GH_REPO = 'voldi-zp';
+let GH_TOKEN = localStorage.getItem('gh_token') || '';
+const GH_FILE = 'data.json';
+const GH_API = 'https://api.github.com/repos/' + GH_USER + '/' + GH_REPO + '/contents/' + GH_FILE;
+
+function setupGhToken() {
+  const t = prompt('Введіть GitHub токен для синхронізації:');
+  if (t) { localStorage.setItem('gh_token', t); GH_TOKEN = t; }
+}
+
+async function loadFromGithub() {
+  if (!GH_TOKEN) return false;
+  try {
+    const r = await fetch(GH_API + '?t=' + Date.now(), {
+      headers: {'Authorization': 'token ' + GH_TOKEN}
+    });
+    if (!r.ok) return false;
+    const j = await r.json();
+    const data = JSON.parse(atob(j.content.replace(/\n/g,'')));
+    // Merge into HISTORY
+    Object.assign(HISTORY, data.months || {});
+    // Set current month
+    if (data.currentMonth) {
+      currentMonth = data.currentMonth;
+    }
+    renderMonthSel();
+    showToast('Дані завантажено з сервера ✓', 'ok');
+    return true;
+  } catch(e) {
+    console.error('GitHub load error:', e);
+    return false;
+  }
+}
+
+async function saveToGithub() {
+  try {
+    showToast('Збереження на сервер...', '');
+    // Get current SHA
+    let sha = '';
+    try {
+      const r = await fetch(GH_API, {headers: {'Authorization': 'token ' + GH_TOKEN}});
+      if (r.ok) { const j = await r.json(); sha = j.sha; }
+    } catch(e) {}
+
+    const data = { months: HISTORY, currentMonth };
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    const body = { message: 'Update ' + currentMonth, content, ...(sha ? {sha} : {}) };
+
+    const r = await fetch(GH_API, {
+      method: 'PUT',
+      headers: {'Authorization': 'token ' + GH_TOKEN, 'Content-Type': 'application/json'},
+      body: JSON.stringify(body)
+    });
+    if (r.ok) {
+      showToast('Збережено на сервер ✓', 'ok');
+    } else {
+      const err = await r.json();
+      showToast('Помилка: ' + (err.message || r.status), 'err');
+    }
+  } catch(e) {
+    showToast('Помилка збереження: ' + e.message, 'err');
+  }
+}
+
+</script>
+</body>
+</html>
