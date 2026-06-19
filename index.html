@@ -1302,6 +1302,7 @@ function doImport() {
   const label = monthNames[parseInt(month)] + ' ' + year;
 
   HISTORY[monthKey] = {label, employees: allEmps, tPlan, tFakt};
+  window._justImported = true;
 
   setTimeout(() => {
     buildMonthSelector();
@@ -1565,8 +1566,13 @@ async function loadFromGithub() {
     if (!r.ok) return false;
     const j = await r.json();
     const data = JSON.parse(atob(j.content.replace(/\n/g,'')));
-    // Merge into HISTORY
-    Object.assign(HISTORY, data.months || {});
+    // Smart merge - only take months with actual employees
+    const ghMonths = data.months || {};
+    Object.keys(ghMonths).forEach(k => {
+      const ghEmps = (ghMonths[k].employees || []).length;
+      const localEmps = (HISTORY[k] && HISTORY[k].employees || []).length;
+      if (ghEmps > localEmps) HISTORY[k] = ghMonths[k];
+    });
     // Set current month
     if (data.currentMonth) {
       currentMonth = data.currentMonth;
@@ -1612,7 +1618,7 @@ async function saveToGithub() {
 }
 
 
-loadFromGithub();
+if (!window._justImported) loadFromGithub();
 </script>
 </body>
 </html>
