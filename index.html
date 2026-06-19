@@ -1561,11 +1561,11 @@ function setupGhToken() {
 
 async function loadFromGithub() {
   try {
-    // Public repo - no token needed for reading
-    const r = await fetch(GH_API + '?t=' + Date.now());
+    // Use raw URL for reading - no rate limit, no auth needed
+    const rawUrl = 'https://raw.githubusercontent.com/' + GH_USER + '/' + GH_REPO + '/main/' + GH_FILE + '?t=' + Date.now();
+    const r = await fetch(rawUrl);
     if (!r.ok) return false;
-    const j = await r.json();
-    const data = JSON.parse(atob(j.content.replace(/\n/g,'')));
+    const data = await r.json();
     // Smart merge - only take months with actual employees
     const ghMonths = data.months || {};
     Object.keys(ghMonths).forEach(k => {
