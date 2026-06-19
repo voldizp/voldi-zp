@@ -117,8 +117,10 @@ function switchLocation(loc) {
     lvivUnlocked = true;
     dept = 'Львів'; ds.value = 'Львів'; showList('Львів');
   } else if (loc === 'lutsk') {
+    lvivUnlocked = false;
     dept = 'Луцьк'; ds.value = 'Луцьк'; showList('Луцьк');
   } else {
+    lvivUnlocked = false;
     showEmpty();
   }
 }
@@ -1030,9 +1032,7 @@ function doImport() {
     const isRozhyshche = e.rожище === true;
     const isLviv = e.lviv === true;
     const isLutsk = e.lutsk === true;
-    const result = hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk;
-    if (!result) console.log('FILTERED OUT:', e.name, e.dept, {hasF1, hasTab, isLviv, isLutsk, isRozhyshche});
-    return result;
+    return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk;
   });
 
   const allEmps = baseEmps.map(base => {
