@@ -1559,11 +1559,9 @@ function setupGhToken() {
 }
 
 async function loadFromGithub() {
-  if (!GH_TOKEN) return false;
   try {
-    const r = await fetch(GH_API + '?t=' + Date.now(), {
-      headers: {'Authorization': 'token ' + GH_TOKEN}
-    });
+    // Public repo - no token needed for reading
+    const r = await fetch(GH_API + '?t=' + Date.now());
     if (!r.ok) return false;
     const j = await r.json();
     const data = JSON.parse(atob(j.content.replace(/\n/g,'')));
