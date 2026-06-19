@@ -1571,8 +1571,9 @@ async function loadFromGithub() {
     if (data.currentMonth) {
       currentMonth = data.currentMonth;
     }
-    renderMonthSel();
     showToast('Дані завантажено з сервера ✓', 'ok');
+    // Refresh UI after short delay to ensure all functions are ready
+    setTimeout(() => { try { renderMonthSel(); } catch(e) {} }, 100);
     return true;
   } catch(e) {
     console.error('GitHub load error:', e);
