@@ -1589,7 +1589,14 @@ async function loadFromGithub() {
 
 async function saveToGithub() {
   try {
-    showToast('Збереження на сервер...', '');
+    // Verify we have data before saving
+    const empCount = HISTORY[currentMonth] && HISTORY[currentMonth].employees 
+      ? HISTORY[currentMonth].employees.length : 0;
+    if (empCount === 0) {
+      showToast('Немає даних для збереження! Спочатку завантажте місяць.', 'err');
+      return;
+    }
+    showToast('Збереження ' + empCount + ' працівників...', '');
     // Get current SHA
     let sha = '';
     try {
@@ -1597,6 +1604,7 @@ async function saveToGithub() {
       if (r.ok) { const j = await r.json(); sha = j.sha; }
     } catch(e) {}
 
+    console.log('Saving:', currentMonth, 'employees:', empCount, 'months:', Object.keys(HISTORY));
     const data = { months: HISTORY, currentMonth };
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
     const body = { message: 'Update ' + currentMonth, content, ...(sha ? {sha} : {}) };
