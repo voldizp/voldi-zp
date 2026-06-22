@@ -120,6 +120,10 @@ function switchLocation(loc) {
     lvivUnlocked = true;
     dept = 'Львів'; ds.value = 'Львів'; showList('Львів');
   } else if (loc === 'lutsk') {
+    if (!lutskUnlocked) {
+      showLutskPwdModal(null);
+      return;
+    }
     dept = 'Луцьк'; ds.value = 'Луцьк'; showList('Луцьк');
   } else {
     showEmpty();
@@ -1293,6 +1297,12 @@ function doImport() {
       avans: 0,
       do_vypl: f2,
     };
+
+    // Preserve location flags so they survive save/reload cycle
+    if (base.lviv) emp.lviv = true;
+    if (base.lutsk) emp.lutsk = true;
+    if (base.rожище) emp.rожище = true;
+    if (base.lviv_fop_fixed) emp.lviv_fop_fixed = true;
 
     // Save поворотна премія
     if (povor > 0) emp.povor = povor;
