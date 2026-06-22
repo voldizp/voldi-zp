@@ -1115,7 +1115,7 @@ function doImport() {
     const normaEff = (base.dept === 'Охорона' && base.posada && base.posada.toLowerCase().includes('сторож')) ? 240 : norma;
     // Львів/Луцьк: фіксований оклад, але якщо є години в табелі — рахуємо пропорційно
     let stavka;
-    if (base.lviv || base.lutsk) {
+    if (base.lviv || base.lutsk || base.dept === 'Львів' || base.dept === 'Луцьк') {
       if (hod > 0) {
         stavka = Math.round((oklad_obr * hod / normaEff) * 100) / 100;
       } else {
