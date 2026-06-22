@@ -1063,7 +1063,9 @@ function doImport() {
     const isLutsk = e.lutsk === true;
     // б/о або відпустка без збереження — завжди показуємо (ситуація описана вручну в базі)
     const isBo = e.oform === 'б/о';
-    return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk || isBo;
+    const passes = hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk || isBo;
+    if (!passes) console.warn('ВІДРІЗАНО:', e.name, '|', e.dept, '| oform:', e.oform, '| lviv:', e.lviv, '| lutsk:', e.lutsk);
+    return passes;
   });
 
   const allEmps = baseEmps.map(base => {
