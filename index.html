@@ -1055,7 +1055,9 @@ function doImport() {
     const isRozhyshche = e.rожище === true;
     const isLviv = e.lviv === true;
     const isLutsk = e.lutsk === true;
-    return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk;
+    // б/о або відпустка без збереження — завжди показуємо (ситуація описана вручну в базі)
+    const isBo = e.oform === 'б/о';
+    return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk || isBo;
   });
 
   const allEmps = baseEmps.map(base => {
