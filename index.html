@@ -1,221 +1,76 @@
 <!DOCTYPE html>
-<!-- saved from url=(0035)https://voldizp.github.io/voldi-zp/ -->
-<html lang="uk"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ЗП Калькулятор — ТзОВ ТВК ВОЛДІ</title>
-<script src="./ЗП Калькулятор — ТзОВ ТВК ВОЛДІ_files/xlsx.full.min.js"></script>
-<style>:root{--bg:#f2f1ed;--sf:#fff;--sf2:#f7f6f2;--bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);--tx:#1a1a18;--tx2:#5a5a55;--tx3:#9a9a94;--ac:#2d5a3d;--acb:#e8f0eb;--act:#1e4029;--gn:#1e6b3a;--gnb:#eaf4ee;--rd:#a02020;--rdb:#fdf0f0;--or:#b85c00;--orb:#fff3e8;--bl:#1a4a8a;--blb:#e8f0fa;--r:10px;--rs:6px}*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}.hdr{background:var(--ac);color:#fff;padding:1.1rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}.hdr h1{font-size:19px;font-weight:700;font-family:Georgia,serif;flex:1}.month-sel{height:34px;font-size:13px;padding:0 10px;border:none;border-radius:var(--rs);background:rgba(255,255,255,.2);color:#fff;outline:none;cursor:pointer;min-width:150px}.month-sel option{color:var(--tx);background:var(--sf)}.upload-btn{height:34px;padding:0 14px;font-size:13px;border:1.5px solid rgba(255,255,255,.4);border-radius:var(--rs);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}.upload-btn:hover{background:rgba(255,255,255,.25)}.sbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:.65rem 1.5rem;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}.sw{position:relative;flex:1;min-width:200px;max-width:380px}.sw input{width:100%;height:38px;font-size:14px;padding:0 12px 0 36px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf2);color:var(--tx);outline:none}.sw input:focus{border-color:var(--ac);background:#fff}.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:15px}.dsel{height:38px;font-size:13px;padding:0 10px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf2);color:var(--tx);outline:none;cursor:pointer}.rc{font-size:12px;color:var(--tx3);margin-left:auto}.tab-btn{height:38px;padding:0 14px;font-size:13px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf2);color:var(--tx);cursor:pointer;white-space:nowrap}.tab-btn:hover{background:var(--acb);border-color:var(--ac)}.tab-btn.active{background:var(--ac);color:#fff;border-color:var(--ac)}.drop{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--sf);border:1.5px solid var(--bd2);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:280px;overflow-y:auto;z-index:200;display:none}.drop.open{display:block}.di{padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--bd);font-size:13px}.di:last-child{border-bottom:none}.di:hover,.di.sel{background:var(--acb)}.hi{background:#fff0b0;border-radius:2px}.main{padding:1.25rem 1.5rem;max-width:1200px;margin:0 auto}.empty{text-align:center;padding:4rem 2rem;color:var(--tx3)}.empty .eic{font-size:48px;margin-bottom:1rem;opacity:.35}.empty h2{font-size:17px;color:var(--tx2);margin-bottom:.4rem}.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:center;justify-content:center}.modal{background:var(--sf);border-radius:var(--r);padding:1.5rem;width:90%;box-shadow:0 16px 48px rgba(0,0,0,.2)}.modal h2{font-size:17px;font-weight:700;margin-bottom:1rem;font-family:Georgia,serif}.month-input-row{display:flex;gap:8px;align-items:center;margin-bottom:1rem}.month-input-row label{font-size:13px;font-weight:600;color:var(--tx2);white-space:nowrap}.month-input-row input[type=month]{height:36px;font-size:13px;padding:0 10px;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);outline:none;flex:1}.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;border-top:1px solid var(--bd);padding-top:1rem}.btn-cancel{height:36px;padding:0 16px;font-size:13px;border:1.5px solid var(--bd2);border-radius:var(--rs);background:transparent;color:var(--tx2);cursor:pointer}.btn-cancel:hover{background:var(--sf2)}.btn-import{height:36px;padding:0 20px;font-size:13px;border:none;border-radius:var(--rs);background:var(--ac);color:#fff;cursor:pointer;font-weight:600}.btn-import:hover{background:#245030}.btn-import:disabled{opacity:.4;cursor:not-allowed}.progress{display:none;margin-top:.75rem}.progress-bar{height:4px;background:var(--bd2);border-radius:2px;overflow:hidden}.progress-fill{height:100%;background:var(--ac);border-radius:2px;transition:width .3s}.progress-text{font-size:12px;color:var(--tx3);margin-top:4px}.card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);overflow:hidden;animation:fi .18s ease}@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.ctop{background:var(--ac);color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}.av{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}.ctop h2{font-size:16px;font-weight:700;line-height:1.2;font-family:Georgia,serif}.ctop .sub{font-size:12px;opacity:.8;margin-top:2px}.bdgs{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.bdg{font-size:11px;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.18);color:#fff;white-space:nowrap}.sums{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--bd)}.sc{padding:.85rem 1.25rem;border-right:1px solid var(--bd)}.sc:last-child{border-right:none}.sl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);margin-bottom:4px}.sv{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}.sv.g{color:var(--gn)}.sv.r{color:var(--rd)}.sv.b{color:var(--bl)}.ss{font-size:11px;color:var(--tx3);margin-top:2px}.sec{padding:.85rem 1.5rem;border-top:1px solid var(--bd)}.sec-t{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);margin-bottom:.65rem;padding-bottom:.5rem;border-bottom:1px solid var(--bd);font-weight:600}.rows{display:flex;flex-direction:column}.row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}.row:last-child{border-bottom:none}.row .rl{color:var(--tx2)}.row .rv{font-weight:600;font-variant-numeric:tabular-nums}.row .rv.pos{color:var(--gn)}.row .rv.neg{color:var(--rd)}.row .rv.mut{color:var(--tx3);font-weight:400}.rtot{background:var(--sf2);margin:0 -1.5rem;padding:7px 1.5rem;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);font-size:14px;font-weight:700;display:flex;justify-content:space-between}.dept-wrap{overflow-x:auto;margin-bottom:1.5rem}.dept-table{width:100%;border-collapse:collapse;font-size:12px;table-layout:auto;min-width:700px}.dept-table thead th{font-size:10px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;padding:6px 8px;border-bottom:2px solid var(--bd2);background:var(--sf2);text-align:right;position:sticky;top:0;z-index:2;white-space:nowrap}.dept-table thead th:first-child{text-align:left;min-width:110px;max-width:160px}.dept-table thead th:nth-child(2){text-align:left;min-width:130px;max-width:200px}.dept-table tbody tr{border-bottom:1px solid var(--bd);cursor:pointer;transition:background .1s}.dept-table tbody tr:hover{background:var(--acb)}.dept-table tbody td{padding:6px 8px;text-align:right;font-variant-numeric:tabular-nums;color:var(--tx);white-space:nowrap}.dept-table tbody td:first-child,.dept-table tbody td:nth-child(2){text-align:left;font-weight:500;white-space:nowrap}.dept-table tfoot tr{border-top:2px solid var(--bd2);background:var(--sf2);font-weight:700}.dept-table tfoot td{padding:7px 8px;text-align:right;font-variant-numeric:tabular-nums}.dept-table tfoot td:first-child,.dept-table tfoot td:nth-child(2){text-align:left}.zv-wrap{overflow-x:auto}.zv-table{width:100%;border-collapse:collapse;font-size:13px}.zv-table th{font-size:11px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;padding:8px 12px;border-bottom:2px solid var(--bd2);background:var(--sf2);text-align:right;white-space:nowrap}.zv-table th:nth-child(1),.zv-table th:nth-child(2){text-align:left}.zv-table td{padding:9px 12px;border-bottom:1px solid var(--bd);text-align:right;font-variant-numeric:tabular-nums}.zv-table td:nth-child(1){text-align:center;color:var(--tx3);font-size:12px;width:36px}.zv-table td:nth-child(2){text-align:left;font-weight:600}.zv-table tr:hover td{background:var(--acb)}.zv-table .zv-tot{background:var(--sf2);font-weight:700;border-top:2px solid var(--bd2)}.zv-table .zv-tot td{padding:10px 12px}.zv-f1{color:var(--rd);font-weight:600}.zv-f2{color:var(--gn);font-weight:600}.zv-header{background:var(--ac);color:#fff;border-radius:var(--r) var(--r) 0 0;padding:1rem 1.5rem}.zv-header h2{font-size:17px;font-weight:700;font-family:Georgia,serif}.zv-header p{font-size:12px;opacity:.75;margin-top:3px}.zv-card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);overflow:hidden;margin-bottom:1.5rem}.zv-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-bottom:1px solid var(--bd)}.zv-sc{padding:.85rem 1.25rem;border-right:1px solid var(--bd)}.zv-sc:last-child{border-right:none}.zv-sl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);margin-bottom:4px}.zv-sv{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}.zv-sv.r{color:var(--rd)}.zv-sv.g{color:var(--gn)}.zv-sv.b{color:var(--bl)}.gotivka-box{margin:0 0 1rem;background:var(--gnb);border:1.5px solid rgba(30,107,58,.25);border-radius:var(--r);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}.gotivka-box .gb-label{font-size:12px;color:var(--gn);text-transform:uppercase;letter-spacing:.06em;font-weight:600}.gotivka-box .gb-val{font-size:28px;font-weight:700;color:var(--gn);font-variant-numeric:tabular-nums}.gotivka-box .gb-sub{font-size:11px;color:var(--gn);opacity:.7;margin-top:2px}.notes-section{padding:1rem 1.5rem;border-top:1px solid var(--bd)}.notes-section h4{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:.65rem;font-weight:600}.notes-area{width:100%;min-height:72px;font-size:13px;font-family:sans-serif;padding:.6rem .8rem;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);resize:vertical;outline:none;line-height:1.5}.notes-area:focus{border-color:var(--ac);background:#fff}.approval-row{display:flex;align-items:center;gap:.75rem;margin-top:.65rem;flex-wrap:wrap}.btn-approve{height:34px;padding:0 16px;font-size:13px;border:none;border-radius:var(--rs);background:var(--ac);color:#fff;cursor:pointer;font-weight:600}.btn-approve:hover{background:#1e4029}.btn-unapprove{height:28px;padding:0 10px;font-size:11px;border:1px solid var(--bd2);border-radius:var(--rs);background:transparent;color:var(--tx3);cursor:pointer}.dept-note-area{width:100%;min-height:48px;font-size:12px;font-family:sans-serif;padding:.4rem .6rem;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);resize:none;outline:none}.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--tx);color:#fff;padding:.65rem 1.1rem;border-radius:var(--rs);font-size:13px;z-index:400;display:none}.toast.show{display:block}.toast.ok{background:var(--gn)}.toast.err{background:var(--rd)}@media(max-width:700px){.hdr,.sbar,.main{padding-left:1rem;padding-right:1rem}.sums{grid-template-columns:1fr 1fr}}</style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<style>:root{--bg:#f2f1ed;--sf:#fff;--sf2:#f7f6f2;--bd:rgba(0,0,0,.09);--bd2:rgba(0,0,0,.16);--tx:#1a1a18;--tx2:#5a5a55;--tx3:#9a9a94;--ac:#2d5a3d;--acb:#e8f0eb;--act:#1e4029;--gn:#1e6b3a;--gnb:#eaf4ee;--rd:#a02020;--rdb:#fdf0f0;--or:#b85c00;--orb:#fff3e8;--bl:#1a4a8a;--blb:#e8f0fa;--r:10px;--rs:6px}*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,'Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}.hdr{background:var(--ac);color:#fff;padding:1.1rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}.hdr h1{font-size:19px;font-weight:700;font-family:Georgia,serif;flex:1}.month-sel{height:34px;font-size:13px;padding:0 10px;border:none;border-radius:var(--rs);background:rgba(255,255,255,.2);color:#fff;outline:none;cursor:pointer;min-width:150px}.month-sel option{color:var(--tx);background:var(--sf)}.upload-btn{height:34px;padding:0 14px;font-size:13px;border:1.5px solid rgba(255,255,255,.4);border-radius:var(--rs);background:rgba(255,255,255,.15);color:#fff;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}.upload-btn:hover{background:rgba(255,255,255,.25)}.sbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:.65rem 1.5rem;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}.sw{position:relative;flex:1;min-width:200px;max-width:380px}.sw input{width:100%;height:38px;font-size:14px;padding:0 12px 0 36px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf2);color:var(--tx);outline:none}.sw input:focus{border-color:var(--ac);background:#fff}.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:15px}.dsel{height:38px;font-size:13px;padding:0 10px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf2);color:var(--tx);outline:none;cursor:pointer}.rc{font-size:12px;color:var(--tx3);margin-left:auto}.tab-btn{height:38px;padding:0 14px;font-size:13px;border:1.5px solid var(--bd2);border-radius:var(--r);background:var(--sf2);color:var(--tx);cursor:pointer;white-space:nowrap}.tab-btn:hover{background:var(--acb);border-color:var(--ac)}.tab-btn.active{background:var(--ac);color:#fff;border-color:var(--ac)}.drop{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--sf);border:1.5px solid var(--bd2);border-radius:var(--r);box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:280px;overflow-y:auto;z-index:200;display:none}.drop.open{display:block}.di{padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--bd);font-size:13px}.di:last-child{border-bottom:none}.di:hover,.di.sel{background:var(--acb)}.hi{background:#fff0b0;border-radius:2px}.main{padding:1.25rem 1.5rem;max-width:1200px;margin:0 auto}.empty{text-align:center;padding:4rem 2rem;color:var(--tx3)}.empty .eic{font-size:48px;margin-bottom:1rem;opacity:.35}.empty h2{font-size:17px;color:var(--tx2);margin-bottom:.4rem}.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:center;justify-content:center}.modal{background:var(--sf);border-radius:var(--r);padding:1.5rem;width:90%;box-shadow:0 16px 48px rgba(0,0,0,.2)}.modal h2{font-size:17px;font-weight:700;margin-bottom:1rem;font-family:Georgia,serif}.month-input-row{display:flex;gap:8px;align-items:center;margin-bottom:1rem}.month-input-row label{font-size:13px;font-weight:600;color:var(--tx2);white-space:nowrap}.month-input-row input[type=month]{height:36px;font-size:13px;padding:0 10px;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);outline:none;flex:1}.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem;border-top:1px solid var(--bd);padding-top:1rem}.btn-cancel{height:36px;padding:0 16px;font-size:13px;border:1.5px solid var(--bd2);border-radius:var(--rs);background:transparent;color:var(--tx2);cursor:pointer}.btn-cancel:hover{background:var(--sf2)}.btn-import{height:36px;padding:0 20px;font-size:13px;border:none;border-radius:var(--rs);background:var(--ac);color:#fff;cursor:pointer;font-weight:600}.btn-import:hover{background:#245030}.btn-import:disabled{opacity:.4;cursor:not-allowed}.progress{display:none;margin-top:.75rem}.progress-bar{height:4px;background:var(--bd2);border-radius:2px;overflow:hidden}.progress-fill{height:100%;background:var(--ac);border-radius:2px;transition:width .3s}.progress-text{font-size:12px;color:var(--tx3);margin-top:4px}.card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);overflow:hidden;animation:fi .18s ease}@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.ctop{background:var(--ac);color:#fff;padding:1rem 1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}.av{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}.ctop h2{font-size:16px;font-weight:700;line-height:1.2;font-family:Georgia,serif}.ctop .sub{font-size:12px;opacity:.8;margin-top:2px}.bdgs{margin-left:auto;display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.bdg{font-size:11px;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.18);color:#fff;white-space:nowrap}.sums{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--bd)}.sc{padding:.85rem 1.25rem;border-right:1px solid var(--bd)}.sc:last-child{border-right:none}.sl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);margin-bottom:4px}.sv{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}.sv.g{color:var(--gn)}.sv.r{color:var(--rd)}.sv.b{color:var(--bl)}.ss{font-size:11px;color:var(--tx3);margin-top:2px}.sec{padding:.85rem 1.5rem;border-top:1px solid var(--bd)}.sec-t{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--tx3);margin-bottom:.65rem;padding-bottom:.5rem;border-bottom:1px solid var(--bd);font-weight:600}.rows{display:flex;flex-direction:column}.row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd);font-size:13px}.row:last-child{border-bottom:none}.row .rl{color:var(--tx2)}.row .rv{font-weight:600;font-variant-numeric:tabular-nums}.row .rv.pos{color:var(--gn)}.row .rv.neg{color:var(--rd)}.row .rv.mut{color:var(--tx3);font-weight:400}.rtot{background:var(--sf2);margin:0 -1.5rem;padding:7px 1.5rem;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);font-size:14px;font-weight:700;display:flex;justify-content:space-between}.dept-wrap{overflow-x:auto;margin-bottom:1.5rem}.dept-table{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}.dept-table thead th{font-size:10px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;padding:6px 8px;border-bottom:2px solid var(--bd2);background:var(--sf2);text-align:right;position:sticky;top:0;z-index:2;white-space:nowrap}.dept-table thead th:first-child{text-align:left;width:120px}.dept-table thead th:nth-child(2){text-align:left;width:160px}.dept-table tbody tr{border-bottom:1px solid var(--bd);cursor:pointer;transition:background .1s}.dept-table tbody tr:hover{background:var(--acb)}.dept-table tbody td{padding:6px 8px;text-align:right;font-variant-numeric:tabular-nums;color:var(--tx);white-space:nowrap}.dept-table tbody td:first-child,.dept-table tbody td:nth-child(2){text-align:left;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.dept-table tfoot tr{border-top:2px solid var(--bd2);background:var(--sf2);font-weight:700}.dept-table tfoot td{padding:7px 8px;text-align:right;font-variant-numeric:tabular-nums}.dept-table tfoot td:first-child,.dept-table tfoot td:nth-child(2){text-align:left}.zv-wrap{overflow-x:auto}.zv-table{width:100%;border-collapse:collapse;font-size:13px}.zv-table th{font-size:11px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.04em;padding:8px 12px;border-bottom:2px solid var(--bd2);background:var(--sf2);text-align:right;white-space:nowrap}.zv-table th:nth-child(1),.zv-table th:nth-child(2){text-align:left}.zv-table td{padding:9px 12px;border-bottom:1px solid var(--bd);text-align:right;font-variant-numeric:tabular-nums}.zv-table td:nth-child(1){text-align:center;color:var(--tx3);font-size:12px;width:36px}.zv-table td:nth-child(2){text-align:left;font-weight:600}.zv-table tr:hover td{background:var(--acb)}.zv-table .zv-tot{background:var(--sf2);font-weight:700;border-top:2px solid var(--bd2)}.zv-table .zv-tot td{padding:10px 12px}.zv-f1{color:var(--rd);font-weight:600}.zv-f2{color:var(--gn);font-weight:600}.zv-header{background:var(--ac);color:#fff;border-radius:var(--r) var(--r) 0 0;padding:1rem 1.5rem}.zv-header h2{font-size:17px;font-weight:700;font-family:Georgia,serif}.zv-header p{font-size:12px;opacity:.75;margin-top:3px}.zv-card{background:var(--sf);border-radius:var(--r);border:1px solid var(--bd);overflow:hidden;margin-bottom:1.5rem}.zv-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-bottom:1px solid var(--bd)}.zv-sc{padding:.85rem 1.25rem;border-right:1px solid var(--bd)}.zv-sc:last-child{border-right:none}.zv-sl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);margin-bottom:4px}.zv-sv{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums}.zv-sv.r{color:var(--rd)}.zv-sv.g{color:var(--gn)}.zv-sv.b{color:var(--bl)}.gotivka-box{margin:0 0 1rem;background:var(--gnb);border:1.5px solid rgba(30,107,58,.25);border-radius:var(--r);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}.gotivka-box .gb-label{font-size:12px;color:var(--gn);text-transform:uppercase;letter-spacing:.06em;font-weight:600}.gotivka-box .gb-val{font-size:28px;font-weight:700;color:var(--gn);font-variant-numeric:tabular-nums}.gotivka-box .gb-sub{font-size:11px;color:var(--gn);opacity:.7;margin-top:2px}.notes-section{padding:1rem 1.5rem;border-top:1px solid var(--bd)}.notes-section h4{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:.65rem;font-weight:600}.notes-area{width:100%;min-height:72px;font-size:13px;font-family:sans-serif;padding:.6rem .8rem;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);resize:vertical;outline:none;line-height:1.5}.notes-area:focus{border-color:var(--ac);background:#fff}.approval-row{display:flex;align-items:center;gap:.75rem;margin-top:.65rem;flex-wrap:wrap}.btn-approve{height:34px;padding:0 16px;font-size:13px;border:none;border-radius:var(--rs);background:var(--ac);color:#fff;cursor:pointer;font-weight:600}.btn-approve:hover{background:#1e4029}.btn-unapprove{height:28px;padding:0 10px;font-size:11px;border:1px solid var(--bd2);border-radius:var(--rs);background:transparent;color:var(--tx3);cursor:pointer}.dept-note-area{width:100%;min-height:48px;font-size:12px;font-family:sans-serif;padding:.4rem .6rem;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);resize:none;outline:none}.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--tx);color:#fff;padding:.65rem 1.1rem;border-radius:var(--rs);font-size:13px;z-index:400;display:none}.toast.show{display:block}.toast.ok{background:var(--gn)}.toast.err{background:var(--rd)}@media(max-width:700px){.hdr,.sbar,.main{padding-left:1rem;padding-right:1rem}.sums{grid-template-columns:1fr 1fr}}</style>
 </head>
-<body cz-shortcut-listen="true" data-new-gr-c-s-check-loaded="14.1304.0" data-gr-ext-installed="">
+<body>
 <header class="hdr">
   <h1>ЗП Калькулятор <span style="font-size:13px;opacity:.7;font-family:sans-serif;">ТзОВ ТВК ВОЛДІ</span></h1>
   <div style="display:flex;gap:4px;background:rgba(0,0,0,.2);border-radius:var(--rs);padding:3px">
-    <button id="btnKolky" onclick="switchLocation(&#39;kolky&#39;)" style="height: 28px; padding: 0px 12px; font-size: 12px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; border-radius: 4px; cursor: pointer; background: transparent; color: rgba(255, 255, 255, 0.8); font-weight: 400;">Колки</button>
-    <button id="btnLviv" onclick="switchLocation(&#39;lviv&#39;)" style="height: 28px; padding: 0px 12px; font-size: 12px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; border-radius: 4px; cursor: pointer; background: transparent; color: rgba(255, 255, 255, 0.8); font-weight: 400;">Львів</button>
-    <button id="btnLutsk" onclick="switchLocation(&#39;lutsk&#39;)" style="height: 28px; padding: 0px 12px; font-size: 12px; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; border-radius: 4px; cursor: pointer; background: rgb(255, 255, 255); color: var(--ac); font-weight: 700;">Луцьк</button>
+    <button id="btnKolky" onclick="switchLocation('kolky')" style="height:28px;padding:0 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer;background:#fff;color:var(--ac);font-weight:700">Колки</button>
+    <button id="btnLviv" onclick="switchLocation('lviv')" style="height:28px;padding:0 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer;background:transparent;color:rgba(255,255,255,.8)">Львів</button>
+    <button id="btnLutsk" onclick="switchLocation('lutsk')" style="height:28px;padding:0 12px;font-size:12px;border:none;border-radius:4px;cursor:pointer;background:transparent;color:rgba(255,255,255,.8)">Луцьк</button>
   </div>
-  <select class="month-sel" id="monthSel"><option value="2026-05">Травень 2026</option><option value="2026-04">Квітень 2026</option></select>
-  <button class="upload-btn" onclick="openUpload()">⬆ Завантажити місяць</button>
-  <button class="upload-btn" onclick="saveToGithub()" style="background:rgba(255,255,255,.25)">☁ Зберегти на сервер</button>
-  <button onclick="setupGhToken()" style="height:28px;padding:0 8px;font-size:11px;border:1px solid rgba(255,255,255,.3);border-radius:4px;background:transparent;color:rgba(255,255,255,.6);cursor:pointer">🔑</button>
+  <select class="month-sel" id="monthSel"></select>
+  <button class="upload-btn" onclick="openUpload()">&#11014; Завантажити місяць</button>
+  <button class="upload-btn" onclick="saveToGithub()" style="background:rgba(255,255,255,.25)">&#9729; Зберегти на сервер</button>
+  <button onclick="setupGhToken()" style="height:28px;padding:0 8px;font-size:11px;border:1px solid rgba(255,255,255,.3);border-radius:4px;background:transparent;color:rgba(255,255,255,.6);cursor:pointer">&#128273;</button>
 </header>
 <div class="sbar">
   <div class="sw">
-    <span class="si">🔍</span>
-    <input type="text" id="si" placeholder="Введіть прізвище або ім&#39;я..." autocomplete="off" spellcheck="false">
+    <span class="si">&#128269;</span>
+    <input type="text" id="si" placeholder="Введіть прізвище або ім'я..." autocomplete="off" spellcheck="false">
     <div class="drop" id="drop"></div>
   </div>
-  <select class="dsel" id="ds"><option value="">Всі відділи</option><option>Луцьк</option></select>
+  <select class="dsel" id="ds">
+    <option value="">Всі відділи</option>
+    <option>Виробництво</option><option>Керівники цехів</option><option>Цех цукерок</option>
+    <option>Цех вафель</option><option>Цех глазурі</option><option>Логістика</option>
+    <option>Технічний відділ</option><option>Охорона</option>
+  </select>
   <span class="rc" id="rc"></span>
-  <button class="tab-btn" id="btnZvedena" onclick="toggleZvedena()">📊 Зведена</button>
+  <button class="tab-btn" id="btnZvedena" onclick="toggleZvedena()">&#128202; Зведена</button>
 </div>
 <div class="main" id="main">
-  <div class="empty" id="empty" style=""><div class="eic">📋</div><h2>Введіть прізвище для пошуку</h2><p style="font-size:13px">або виберіть відділ щоб переглянути список</p></div>
-  <div id="cv" style="display: none;"><button class="back" onclick="goBack()">← Назад</button><div class="card"><div class="ctop"><div class="av">ДН</div><div><h2>Деміш Наталя Іванівна</h2><div class="sub">Головний бухгалтер · Луцьк</div></div><div class="bdgs"><span class="bdg">штат</span><span class="bdg">168 / 168 год.</span></div></div><div class="sums"><div class="sc"><div class="sl">Нараховано ЗП</div><div class="sv b">30&nbsp;300 ₴</div><div class="ss">загальна сума</div></div><div class="sc"><div class="sl">На картку Ф1</div><div class="sv g">19&nbsp;250 ₴</div><div class="ss">безготівково</div></div><div class="sc"><div class="sl">Податки</div><div class="sv r">− 5&nbsp;750 ₴</div><div class="ss">фактично</div></div><div class="sc" style="background:var(--acb)"><div class="sl" style="color:var(--act)">ЗП на руки загалом</div><div class="sv g">24&nbsp;550 ₴</div><div class="ss">картка + готівка</div></div><div class="sc"><div class="sl">Аванс</div><div class="sv" style="color:var(--tx3)">—</div><div class="ss"></div></div><div class="sc"><div class="sl">Ф2 до виплати готівкою</div><div class="sv g" title="">5&nbsp;300 ₴</div><div class="ss">готівкою</div></div></div><div class="sec"><div class="sec-t">Нарахування — деталі</div><div class="rows"><div class="row"><span class="rl">Оклад (чистий) / для розрахунку</span><span class="rv mut">30&nbsp;000 ₴ / 30&nbsp;000 ₴</span></div><div class="row"><span class="rl">Відпрацьовано / норма</span><span class="rv mut">168 год. / 168 год. (100%)</span></div><div class="row"><span class="rl">Ставка від відпрацьованих годин</span><span class="rv ">30&nbsp;000 ₴</span></div><div class="row"><span class="rl">За стаж (2 р. × 150 ₴)</span><span class="rv pos">300 ₴</span></div><div class="rtot"><span>Нараховано ЗП (загалом)</span><span style="color:var(--bl)">30&nbsp;300 ₴</span></div></div></div><div class="sec"><div class="sec-t">Розподіл та виплата</div><div class="rows"><div class="row"><span class="rl">Нараховано Ф1</span><span class="rv">25&nbsp;000 ₴</span></div><div class="row"><span class="rl">Податки (23%)</span><span class="rv neg">− 5&nbsp;750 ₴</span></div><div class="row"><span class="rl">На картку Ф1</span><span class="rv pos">19&nbsp;250 ₴</span></div><div class="row"><span class="rl">ЗП Ф2 (готівкова частина)</span><span class="rv pos">5&nbsp;300 ₴</span></div><div class="row"><span class="rl">Аванс (введи вручну)</span><span class="rv"><input type="number" min="0" step="100" value="0" style="width:100px;height:26px;font-size:13px;padding:0 6px;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);text-align:right;outline:none" onchange="updateAvans(&#39;Деміш Наталя Іванівна&#39;, this.value)"></span></div><div class="rtot"><span>До виплати готівкою</span><span style="color:var(--gn)">5&nbsp;300 ₴</span></div></div></div></div></div>
-  <div id="lv" style="display: none;"><div class="dept-title-row"><h2>Луцьк <span style="font-size:13px;font-weight:400;color:var(--tx3);font-family:sans-serif">4 осіб · Травень 2026</span></h2><div class="dept-totals"><div class="dt-chip"><div class="dtl">Нарах. ЗП</div><div class="dtv b">102&nbsp;232 ₴</div></div><div class="dt-chip"><div class="dtl">На картки Ф1</div><div class="dtv g">67&nbsp;592 ₴</div></div><div class="dt-chip"><div class="dtl">До виплати готівкою</div><div class="dtv g">14&nbsp;450 ₴</div></div></div></div><div class="dept-wrap"><table class="dept-table"><thead><tr><th>Посада</th><th>ПІБ</th><th>Год.</th><th>%&nbsp;норми</th><th>Оклад</th><th>Ставка</th><th>Стаж</th><th>Надбавка</th><th>Пр. тонаж</th><th>Пр. план</th><th>Відпуск.</th><th class="sep">Нарах. ЗП</th><th>Нарах. Ф1</th><th>Податки</th><th>На картку Ф1</th><th class="sep">ЗП&nbsp;Ф2</th><th>До виплати</th></tr></thead><tbody><tr data-idx="0"><td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;text-align:left">Бухгалтер</td><td style="max-width:160px;text-align:left">Слюсар Вікторія Віталіївна<br><span style="font-size:10px;color:var(--tx3)">штат</span></td><td>168</td><td class="mut">100%</td><td class="mut">23&nbsp;000</td><td>23&nbsp;000</td><td class="mut">10</td><td>1&nbsp;500</td><td class="mut">—</td><td class="mut">—</td><td>—</td><td class="sep" style="font-weight:700;color:var(--bl)">24&nbsp;500</td><td>20&nbsp;000</td><td class="neg">4&nbsp;600</td><td class="pos">15&nbsp;400</td><td class="sep pos">4&nbsp;500</td><td class="pos">4&nbsp;500</td></tr><tr data-idx="1"><td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;text-align:left">Обліковець</td><td style="max-width:160px;text-align:left">Ленартович Валентина Анатоліївна<br><span style="font-size:10px;color:var(--tx3)">штат</span></td><td>168</td><td class="mut">100%</td><td class="mut">23&nbsp;000</td><td>23&nbsp;000</td><td class="mut">10</td><td>1&nbsp;500</td><td class="mut">—</td><td class="mut">—</td><td>—</td><td class="sep" style="font-weight:700;color:var(--bl)">24&nbsp;500</td><td>20&nbsp;000</td><td class="neg">4&nbsp;600</td><td class="pos">15&nbsp;400</td><td class="sep pos">4&nbsp;500</td><td class="pos">4&nbsp;500</td></tr><tr data-idx="2"><td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;text-align:left">Головний бухгалтер</td><td style="max-width:160px;text-align:left">Деміш Наталя Іванівна<br><span style="font-size:10px;color:var(--tx3)">штат</span></td><td>168</td><td class="mut">100%</td><td class="mut">30&nbsp;000</td><td>30&nbsp;000</td><td class="mut">2</td><td>300</td><td class="mut">—</td><td class="mut">—</td><td>—</td><td class="sep" style="font-weight:700;color:var(--bl)">30&nbsp;300</td><td>25&nbsp;000</td><td class="neg">5&nbsp;750</td><td class="pos">19&nbsp;250</td><td class="sep pos">5&nbsp;300</td><td class="pos">5&nbsp;300</td></tr><tr data-idx="3"><td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;text-align:left">Бухгалтер</td><td style="max-width:160px;text-align:left">Гнинюк Марія Сергіївна<br><span style="font-size:10px;color:var(--tx3)">штат</span></td><td>136</td><td class="mut">81%</td><td class="mut">20&nbsp;000</td><td>16&nbsp;190</td><td class="mut">1</td><td>150</td><td class="mut">—</td><td class="mut">—</td><td>6&nbsp;592</td><td class="sep" style="font-weight:700;color:var(--bl)">22&nbsp;932</td><td>22&nbsp;782</td><td class="neg">5&nbsp;240</td><td class="pos">17&nbsp;542</td><td class="sep pos">150</td><td class="pos">150</td></tr></tbody><tfoot><tr><td colspan="2" style="text-align:left">Разом: 4 осіб</td><td>640.0</td><td></td><td></td><td></td><td></td><td>3&nbsp;450</td><td>0</td><td>0</td><td>6&nbsp;592</td><td class="sep" style="color:var(--bl)">102&nbsp;232</td><td>87&nbsp;782</td><td style="color:var(--rd)">20&nbsp;190</td><td style="color:var(--gn)">67&nbsp;592</td><td class="sep" style="color:var(--gn)">14&nbsp;450</td><td style="color:var(--gn)">14&nbsp;450</td></tr></tfoot></table></div><div class="dept-note-wrap"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:5px">Примітка по відділу</div><textarea class="dept-note-area dept-note-ta" rows="2" data-dept="Луцьк" placeholder="Примітка..."></textarea><div class="approval-row" style="margin-top:.4rem"><button class="btn-approve" onclick="approveAction(&#39;dept_Луцьк&#39;)">✓ Погодити</button><span class="approval-stamp empty" id="stamp_dept_Луцьк">не погоджено</span></div></div></div>
-  <div id="zv" style="display: none;">
-    <div class="zv-card">
-      <div class="zv-header">
-        <h2>Зведена відомість розрахунку ЗП</h2>
-        <p>ТзОВ ТВК "ВОЛДІ" · ЄДРПОУ 31475712 · Травень 2026 · 119 працівників</p>
-      </div>
-      <div class="zv-summary">
-        <div class="zv-sc"><div class="zv-sl">Нарах. Ф1 (загалом)</div><div class="zv-sv r">1&nbsp;064&nbsp;190 ₴</div></div>
-        <div class="zv-sc"><div class="zv-sl">Податки (23%)</div><div class="zv-sv r">244&nbsp;764 ₴</div></div>
-        <div class="zv-sc"><div class="zv-sl">На картки Ф1</div><div class="zv-sv g">819&nbsp;427 ₴</div></div>
-        <div class="zv-sc"><div class="zv-sl">Нарах. Ф2 (готівка)</div><div class="zv-sv g">251&nbsp;846 ₴</div></div>
-        <div class="zv-sc"><div class="zv-sl">ФОП без ЄСВ</div><div class="zv-sv b">1&nbsp;316&nbsp;036 ₴</div></div>
-        <div class="zv-sc"><div class="zv-sl">Нарах. ЗП (разом)</div><div class="zv-sv b">1&nbsp;302&nbsp;236 ₴</div></div>
-      </div>
-      <div style="padding:1rem 1.5rem;border-bottom:1px solid var(--bd)"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:.75rem;font-weight:600">Виробництво тонажу (цукерки)</div><div style="font-size:16px">План: <b>69.8 т</b> &nbsp;·&nbsp; Факт: <b>73.53 т</b></div></div>
-      <div class="zv-wrap" style="padding:0 0 1rem">
-        <table class="zv-table">
-          <thead><tr>
-            <th>№</th><th>Відділ</th><th>Годин</th>
-            <th>Нарах. Ф1</th><th>Нарах. Ф2</th><th>ФОП без ЄСВ</th>
-            <th>На картку Ф1</th><th>Податки</th><th>Нарах. ЗП</th>
-
-          </tr></thead>
-          <tbody><tr style="cursor:pointer" onclick="dept=&#39;Виробництво&#39;;$(&#39;ds&#39;).value=&#39;Виробництво&#39;;zvShowing=false;$(&#39;btnZvedena&#39;).classList.remove(&#39;active&#39;);$(&#39;zv&#39;).style.display=&#39;none&#39;;showList(&#39;Виробництво&#39;)">
-      <td>1</td>
-      <td>Виробництво <span style="font-size:11px;color:var(--tx3);font-weight:400">(6 ос.)</span></td>
-      <td>872</td>
-      <td class="zv-f1">100&nbsp;328 ₴</td>
-      <td class="zv-f2">22&nbsp;719 ₴</td>
-      <td>123&nbsp;047 ₴</td>
-      <td>77&nbsp;252 ₴</td>
-      <td style="color:var(--rd)">23&nbsp;075 ₴</td>
-      <td style="color:var(--bl)">120&nbsp;747 ₴</td>
-      
-    </tr><tr style="cursor:pointer" onclick="dept=&#39;Керівники цехів&#39;;$(&#39;ds&#39;).value=&#39;Керівники цехів&#39;;zvShowing=false;$(&#39;btnZvedena&#39;).classList.remove(&#39;active&#39;);$(&#39;zv&#39;).style.display=&#39;none&#39;;showList(&#39;Керівники цехів&#39;)">
-      <td>2</td>
-      <td>Керівники цехів <span style="font-size:11px;color:var(--tx3);font-weight:400">(6 ос.)</span></td>
-      <td>830</td>
-      <td class="zv-f1">117&nbsp;507 ₴</td>
-      <td class="zv-f2">5&nbsp;870 ₴</td>
-      <td>123&nbsp;377 ₴</td>
-      <td>90&nbsp;480 ₴</td>
-      <td style="color:var(--rd)">27&nbsp;027 ₴</td>
-      <td style="color:var(--bl)">117&nbsp;627 ₴</td>
-      
-    </tr><tr style="cursor:pointer" onclick="dept=&#39;Цех цукерок&#39;;$(&#39;ds&#39;).value=&#39;Цех цукерок&#39;;zvShowing=false;$(&#39;btnZvedena&#39;).classList.remove(&#39;active&#39;);$(&#39;zv&#39;).style.display=&#39;none&#39;;showList(&#39;Цех цукерок&#39;)">
-      <td>3</td>
-      <td>Цех цукерок <span style="font-size:11px;color:var(--tx3);font-weight:400">(52 ос.)</span></td>
-      <td>5&nbsp;263</td>
-      <td class="zv-f1">483&nbsp;276 ₴</td>
-      <td class="zv-f2">140&nbsp;201 ₴</td>
-      <td>623&nbsp;478 ₴</td>
-      <td>372&nbsp;123 ₴</td>
-      <td style="color:var(--rd)">111&nbsp;154 ₴</td>
-      <td style="color:var(--bl)">623&nbsp;478 ₴</td>
-      
-    </tr><tr style="cursor:pointer" onclick="dept=&#39;Цех вафель&#39;;$(&#39;ds&#39;).value=&#39;Цех вафель&#39;;zvShowing=false;$(&#39;btnZvedena&#39;).classList.remove(&#39;active&#39;);$(&#39;zv&#39;).style.display=&#39;none&#39;;showList(&#39;Цех вафель&#39;)">
-      <td>4</td>
-      <td>Цех вафель <span style="font-size:11px;color:var(--tx3);font-weight:400">(4 ос.)</span></td>
-      <td>600</td>
-      <td class="zv-f1">58&nbsp;240 ₴</td>
-      <td class="zv-f2">9&nbsp;691 ₴</td>
-      <td>67&nbsp;931 ₴</td>
-      <td>44&nbsp;845 ₴</td>
-      <td style="color:var(--rd)">13&nbsp;395 ₴</td>
-      <td style="color:var(--bl)">67&nbsp;931 ₴</td>
-      
-    </tr><tr style="cursor:pointer" onclick="dept=&#39;Цех глазурі&#39;;$(&#39;ds&#39;).value=&#39;Цех глазурі&#39;;zvShowing=false;$(&#39;btnZvedena&#39;).classList.remove(&#39;active&#39;);$(&#39;zv&#39;).style.display=&#39;none&#39;;showList(&#39;Цех глазурі&#39;)">
-      <td>5</td>
-      <td>Цех глазурі <span style="font-size:11px;color:var(--tx3);font-weight:400">(4 ос.)</span></td>
-      <td>378</td>
-      <td class="zv-f1">50&nbsp;733 ₴</td>
-      <td class="zv-f2">-4&nbsp;294 ₴</td>
-      <td>46&nbsp;439 ₴</td>
-      <td>39&nbsp;064 ₴</td>
-      <td style="color:var(--rd)">11&nbsp;669 ₴</td>
-      <td style="color:var(--bl)">46&nbsp;439 ₴</td>
-      
-    </tr><tr style="cursor:pointer" onclick="dept=&#39;Логістика&#39;;$(&#39;ds&#39;).value=&#39;Логістика&#39;;zvShowing=false;$(&#39;btnZvedena&#39;).classList.remove(&#39;active&#39;);$(&#39;zv&#39;).style.display=&#39;none&#39;;showList(&#39;Логістика&#39;)">
-      <td>6</td>
-      <td>Логістика <span style="font-size:11px;color:var(--tx3);font-weight:400">(8 ос.)</span></td>
-      <td>1&nbsp;217</td>
-      <td class="zv-f1">72&nbsp;542 ₴</td>
-      <td class="zv-f2">50&nbsp;883 ₴</td>
-      <td>123&nbsp;425 ₴</td>
-      <td>55&nbsp;857 ₴</td>
-      <td style="color:var(--rd)">16&nbsp;685 ₴</td>
-      <td style="color:var(--bl)">123&nbsp;425 ₴</td>
-      
-    </tr><tr style="cursor:pointer" onclick="dept=&#39;Технічний відділ&#39;;$(&#39;ds&#39;).value=&#39;Технічний відділ&#39;;zvShowing=false;$(&#39;btnZvedena&#39;).classList.remove(&#39;active&#39;);$(&#39;zv&#39;).style.display=&#39;none&#39;;showList(&#39;Технічний відділ&#39;)">
-      <td>7</td>
-      <td>Технічний відділ <span style="font-size:11px;color:var(--tx3);font-weight:400">(7 ос.)</span></td>
-      <td>1&nbsp;059,5</td>
-      <td class="zv-f1">142&nbsp;319 ₴</td>
-      <td class="zv-f2">33&nbsp;329 ₴</td>
-      <td>175&nbsp;649 ₴</td>
-      <td>109&nbsp;586 ₴</td>
-      <td style="color:var(--rd)">32&nbsp;733 ₴</td>
-      <td style="color:var(--bl)">169&nbsp;899 ₴</td>
-      
-    </tr><tr style="cursor:pointer" onclick="dept=&#39;Охорона&#39;;$(&#39;ds&#39;).value=&#39;Охорона&#39;;zvShowing=false;$(&#39;btnZvedena&#39;).classList.remove(&#39;active&#39;);$(&#39;zv&#39;).style.display=&#39;none&#39;;showList(&#39;Охорона&#39;)">
-      <td>8</td>
-      <td>Охорона <span style="font-size:11px;color:var(--tx3);font-weight:400">(7 ос.)</span></td>
-      <td>744</td>
-      <td class="zv-f1">39&nbsp;246 ₴</td>
-      <td class="zv-f2">-6&nbsp;554 ₴</td>
-      <td>32&nbsp;692 ₴</td>
-      <td>30&nbsp;219 ₴</td>
-      <td style="color:var(--rd)">9&nbsp;027 ₴</td>
-      <td style="color:var(--bl)">32&nbsp;692 ₴</td>
-      
-    </tr></tbody>
-          <tfoot><tr class="zv-tot">
-            <td></td><td>Сумарно</td>
-            <td>10&nbsp;963,5</td>
-            <td class="zv-f1">1&nbsp;064&nbsp;190 ₴</td>
-            <td class="zv-f2">251&nbsp;846 ₴</td>
-            <td>1&nbsp;316&nbsp;036 ₴</td>
-            <td style="color:var(--gn)">819&nbsp;427 ₴</td>
-            <td style="color:var(--rd)">244&nbsp;764 ₴</td>
-            <td style="color:var(--bl)">1&nbsp;302&nbsp;236 ₴</td>
-          </tr></tfoot>
-        </table>
-      </div>
-      <div class="gotivka-box">
-        <div>
-          <div class="gb-label">Необхідна готівка в Колках</div>
-          <div class="gb-val">295&nbsp;586 ₴</div>
-          <div class="gb-sub">Ф2 за мінусом авансів · Травень 2026</div>
-        </div>
-      </div>
-      <div class="notes-section">
-        <h4>Загальна примітка до місяця</h4>
-        <textarea class="notes-area" id="generalNote" placeholder="Введіть примітку..." onchange="saveNote(&#39;general&#39;, this.value)"></textarea>
-        <div class="approval-row">
-          <button class="btn-approve" onclick="approveAction(&#39;general&#39;)">✓ Погодити</button><span class="approval-stamp empty" id="stamp_general">не погоджено</span>
-        </div>
-      </div>
-      <div class="zv-extra">
-        <div class="zv-block">
-          <h4>Ф1 розбивка</h4>
-          <div class="zv-row"><span class="zl">Ф1 нараховано</span><span class="zr">1&nbsp;064&nbsp;190 ₴</span></div>
-          <div class="zv-row"><span class="zl">Податки / відрахування</span><span class="zr" style="color:var(--rd)">244&nbsp;764 ₴</span></div>
-          <div class="zv-row"><span class="zl">Ф1 на картку</span><span class="zr" style="color:var(--gn)">819&nbsp;427 ₴</span></div>
-        </div>
-        <div class="zv-block">
-          <h4>Ф2 розбивка (готівка)</h4>
-          <div class="zv-row"><span class="zl">В-во Ф2 (Колки)</span><span class="zr">251&nbsp;846 ₴</span></div>
-          <div class="zv-row"><span class="zl">Луцьк штат Ф2</span><span class="zr" style="color:var(--tx3)">—</span></div>
-          <div class="zv-row"><span class="zl">Львів Ф2</span><span class="zr" style="color:var(--tx3)">—</span></div>
-          <div class="zv-row"><span class="zl">Збут Ф2</span><span class="zr" style="color:var(--tx3)">—</span></div>
-          <div class="zv-row" style="border-top:2px solid var(--bd2);margin-top:4px;padding-top:6px"><span class="zl" style="font-weight:700">ВСЬОГО ФОП</span><span class="zr" style="color:var(--bl);font-size:15px">1&nbsp;316&nbsp;036 ₴</span></div>
-        </div>
-      </div>
-    </div></div>
+  <div class="empty" id="empty"><div class="eic">&#128203;</div><h2>Введіть прізвище для пошуку</h2><p style="font-size:13px">або виберіть відділ щоб переглянути список</p></div>
+  <div id="cv" style="display:none"></div>
+  <div id="lv" style="display:none"></div>
+  <div id="zv" style="display:none"></div>
 </div>
-<div class="modal-bg" id="modalBg" style="display: none;" onclick="if(event.target===this)closeUpload()">
+<div class="modal-bg" id="modalBg" style="display:none" onclick="if(event.target===this)closeUpload()">
   <div class="modal" style="max-width:520px">
-    <h2>⬆ Завантажити новий місяць</h2>
+    <h2>&#11014; Завантажити новий місяць</h2>
     <div class="month-input-row"><label>Місяць:</label><input type="month" id="monthInput" value="2026-05"></div>
-    <div id="dropAllZone" style="border:2px dashed var(--bd2);border-radius:var(--r);padding:2rem 1.5rem;text-align:center;cursor:pointer;background:var(--sf2);margin-bottom:1rem" onclick="document.getElementById(&#39;allFilesInput&#39;).click()" ondragover="event.preventDefault();this.style.borderColor=&#39;var(--ac)&#39;" ondragleave="this.style.borderColor=&#39;var(--bd2)&#39;" ondrop="handleDropAll(event)">
-      <input type="file" id="allFilesInput" accept=".xlsx" multiple="" style="display:none" onchange="handleFilesAll(this.files)">
-      <div style="font-size:36px;margin-bottom:.5rem">📂</div>
+    <div id="dropAllZone" style="border:2px dashed var(--bd2);border-radius:var(--r);padding:2rem 1.5rem;text-align:center;cursor:pointer;background:var(--sf2);margin-bottom:1rem"
+         onclick="document.getElementById('allFilesInput').click()"
+         ondragover="event.preventDefault();this.style.borderColor='var(--ac)'"
+         ondragleave="this.style.borderColor='var(--bd2)'"
+         ondrop="handleDropAll(event)">
+      <input type="file" id="allFilesInput" accept=".xlsx" multiple style="display:none" onchange="handleFilesAll(this.files)">
+      <div style="font-size:36px;margin-bottom:.5rem">&#128194;</div>
       <div style="font-size:15px;font-weight:600;color:var(--tx)">Перетягніть всі файли сюди</div>
       <div style="font-size:12px;color:var(--tx3);margin-top:.4rem">або натисніть щоб вибрати</div>
       <div style="font-size:11px;color:var(--tx3);margin-top:.5rem">дані.xlsx · табель · стаж · премія_за_друга</div>
     </div>
-    <div id="filesList" style="margin-bottom: 1rem;">
+    <div id="filesList" style="display:none;margin-bottom:1rem">
       <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);margin-bottom:.5rem">Розпізнані файли:</div>
-      <div id="filesListInner"><div style="display:flex;align-items:center;gap:.5rem;padding:5px 0;border-bottom:1px solid var(--bd);font-size:13px"><span>📊</span><span style="font-weight:600">Дані (Ф1, премії, тонаж)</span><span style="color:var(--gn);margin-left:auto">✓</span><button onclick="removeFile(&#39;dany&#39;)" style="border:none;background:none;color:var(--tx3);cursor:pointer;padding:0 4px;font-size:14px">✕</button></div><div style="display:flex;align-items:center;gap:.5rem;padding:5px 0;border-bottom:1px solid var(--bd);font-size:13px"><span>📅</span><span style="font-weight:600">Табель</span><span style="color:var(--gn);margin-left:auto">✓</span><button onclick="removeFile(&#39;tab&#39;)" style="border:none;background:none;color:var(--tx3);cursor:pointer;padding:0 4px;font-size:14px">✕</button></div><div style="display:flex;align-items:center;gap:.5rem;padding:5px 0;border-bottom:1px solid var(--bd);font-size:13px"><span>📋</span><span style="font-weight:600">Стаж</span><span style="color:var(--gn);margin-left:auto">✓</span><button onclick="removeFile(&#39;stazh&#39;)" style="border:none;background:none;color:var(--tx3);cursor:pointer;padding:0 4px;font-size:14px">✕</button></div><div style="display:flex;align-items:center;gap:.5rem;padding:5px 0;border-bottom:1px solid var(--bd);font-size:13px"><span>🤝</span><span style="font-weight:600">Премія за друга</span><span style="color:var(--gn);margin-left:auto">✓</span><button onclick="removeFile(&#39;drug&#39;)" style="border:none;background:none;color:var(--tx3);cursor:pointer;padding:0 4px;font-size:14px">✕</button></div></div>
+      <div id="filesListInner"></div>
     </div>
-    <div class="progress" id="progress" style="display: none;">
-      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%;"></div></div>
-      <div class="progress-text" id="progressText">Збереження...</div>
+    <div class="progress" id="progress">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <div class="progress-text" id="progressText">Зчитування файлу...</div>
     </div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeUpload()">Скасувати</button>
-      <button class="btn-import" id="importBtn" onclick="doImport()" disabled="">Розрахувати</button>
+      <button class="btn-import" id="importBtn" onclick="doImport()" disabled>Розрахувати</button>
     </div>
   </div>
 </div>
-<div class="toast ok" id="toast">Дані завантажено ✓</div>
+<div class="toast" id="toast"></div>
 <script>
 
 
@@ -257,14 +112,8 @@ function switchLocation(loc) {
     lvivUnlocked = true;
     dept = 'Львів'; ds.value = 'Львів'; showList('Львів');
   } else if (loc === 'lutsk') {
-    lutskUnlocked = false;
-    const pwdL = prompt('Введіть пароль для доступу до Луцька:');
-    if (pwdL !== '1085') { alert('Невірний пароль'); return; }
-    lutskUnlocked = true;
     dept = 'Луцьк'; ds.value = 'Луцьк'; showList('Луцьк');
   } else {
-    lvivUnlocked = false;
-    lutskUnlocked = false;
     showEmpty();
   }
 }
@@ -1775,25 +1624,5 @@ async function saveToGithub() {
 loadFromGithub();
 
 </script>
-
-<grammarly-desktop-integration data-grammarly-shadow-root="true" style="visibility: visible !important;"><template shadowrootmode="open"><style>
-      div.grammarly-desktop-integration {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-        -moz-user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select:none;
-        user-select:none;
-      }
-
-      div.grammarly-desktop-integration:before {
-        content: attr(data-content);
-      }
-    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></body></html>
+</body>
+</html>
