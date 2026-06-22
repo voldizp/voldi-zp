@@ -1117,8 +1117,15 @@ function doImport() {
     const NO_PREM_NORMA = ['Павлюк'];
     const isPremNormaDept = PREM_NORMA_DEPTS.includes(base.dept)
       && !NO_PREM_NORMA.some(n => name.includes(n));
-    // Охорона сторожі мають норму 240 годин
-    const normaEff = (base.dept === 'Охорона' && base.posada && base.posada.toLowerCase().includes('сторож')) ? 240 : norma;
+    // Норма годин: Качковський — 136; Охорона (крім Смоляк і Фердолевської) — 192; решта — з табеля
+    let normaEff;
+    if (name.includes('Качковськ')) {
+      normaEff = 136;
+    } else if (base.dept === 'Охорона' && !name.includes('Смоляк') && !name.includes('Фердолевськ')) {
+      normaEff = 192;
+    } else {
+      normaEff = norma;
+    }
     // Львів/Луцьк: фіксований оклад, але якщо є години в табелі — рахуємо пропорційно
     let stavka;
     if (base.lviv || base.lutsk) {
