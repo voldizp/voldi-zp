@@ -1109,7 +1109,12 @@ function doImport() {
     }
     const hod = tab.hod;
     const norma = tab.norma || baseNorma;
-    const pct_normy = norma > 0 ? Math.round(hod/norma*100)/100 : 0;
+    // normaEff is defined below but we need it here too for pct_normy
+    // so we recalculate inline
+    const _normaEff = name.includes("Качковськ") ? 136
+      : (base.dept === "Охорона" && !name.includes("Смоляк") && !name.includes("Фердолевськ")) ? 192
+      : norma;
+    const pct_normy = _normaEff > 0 ? Math.round(hod/_normaEff*100)/100 : 0;
 
     // Calculate ставка
     const oklad_obr = base.oklad_obr || base.oklad || 0;
@@ -1297,7 +1302,7 @@ function doImport() {
       oform: base.oform || '',
       oklad: base.oklad,
       oklad_obr: oklad_obr,
-      hod, norma, pct_normy,
+      hod, norma: _normaEff, pct_normy,
       stavka,
       stazh_years, stazh_prem,
       vidpusk: vidpusk + (tab.vidpusk||0),
