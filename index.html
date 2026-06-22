@@ -872,7 +872,6 @@ function doImport() {
     }
   }
 
-  console.log('lvivSales після парсингу:', lvivSales, 'lvivPdv:', lvivPdv);
   // === STEP 5: Parse керівники цехів ===
   txt.textContent = 'Читаємо премії керівників...'; fill.style.width = '35%';
   const kerivMap = {}; // name -> {plan_t, fakt_t, pct_plan, prem_tonazh, prem_plan}
@@ -1025,7 +1024,6 @@ function doImport() {
   });
 
   // Read lvivSales and lvivPdv from тонаж
-  console.log('lvivSales перед парсингом:', lvivSales, 'wsTonn є:', !!wsTonn);
   let lvivPdv = 0;
   if (wsTonn) {
     const rangeSales = XLSX.utils.decode_range(wsTonn['!ref']);
