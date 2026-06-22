@@ -112,8 +112,14 @@ function switchLocation(loc) {
     lvivUnlocked = true;
     dept = 'Львів'; ds.value = 'Львів'; showList('Львів');
   } else if (loc === 'lutsk') {
+    lutskUnlocked = false;
+    const pwdL = prompt('Введіть пароль для доступу до Луцька:');
+    if (pwdL !== '1085') { alert('Невірний пароль'); return; }
+    lutskUnlocked = true;
     dept = 'Луцьк'; ds.value = 'Луцьк'; showList('Луцьк');
   } else {
+    lvivUnlocked = false;
+    lutskUnlocked = false;
     showEmpty();
   }
 }
