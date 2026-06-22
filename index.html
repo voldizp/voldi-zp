@@ -1058,7 +1058,7 @@ function doImport() {
     const hasTab = matchName(e.name, tabMap)     !== null;
     const hasDop = matchName(e.name, doplatyMap) !== null;
     const hasVidp= matchName(e.name, vidpuskMap) !== null;
-    const isRozhyshche = e.rожище === true || (e.note && e.note.includes('Рожище'));
+    const isRozhyshche = e.rожище === true || (e.note && e.note.includes('Рожище')) || (e.name && (e.name === 'Смоляк' || e.name === 'Фердолевська'));
     // Львів і Луцьк — завжди включати якщо dept відповідає (незалежно від файлів)
     const isLviv  = e.dept === 'Львів';
     const isLutsk = e.dept === 'Луцьк';
