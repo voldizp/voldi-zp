@@ -1203,13 +1203,10 @@ function doImport() {
     const hasTab = matchName(e.name, tabMap)     !== null;
     const hasDop = matchName(e.name, doplatyMap) !== null;
     const hasVidp= matchName(e.name, vidpuskMap) !== null;
-    const isRozhyshche = e.rожище === true || (e.note && e.note.includes('Рожище')) || (e.name && (e.name === 'Смоляк' || e.name === 'Фердолевська'));
-    // Львів і Луцьк — завжди включати якщо dept відповідає (незалежно від файлів)
-    const isLviv  = e.dept === 'Львів';
-    const isLutsk = e.dept === 'Луцьк';
-    // б/о — завжди показуємо
-    const isBo = e.oform === 'б/о';
-    return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk || isBo;
+    const isRozhyshche = e.rожище === true;
+    const isLviv = e.lviv === true;
+    const isLutsk = e.lutsk === true;
+    return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk;
   });
 
   const allEmps = baseEmps.map(base => {
@@ -1235,13 +1232,13 @@ function doImport() {
     // If not in табель at all → fallback
     let tab;
     if (tabRaw) {
-      if ((base.lviv || base.lutsk || base.dept === 'Львів' || base.dept === 'Луцьк') && tabRaw.hod === 0 && tabRaw.vidpusk === 0 && tabRaw.likar === 0) {
+      if ((base.lviv || base.lutsk) && tabRaw.hod === 0 && tabRaw.vidpusk === 0 && tabRaw.likar === 0) {
         tab = {hod: globalNorma, norma: globalNorma, vidpusk: 0, likar: 0};
       } else {
         tab = tabRaw;
       }
     } else {
-      const fallbackHod = (base.lviv || base.lutsk || base.dept === 'Львів' || base.dept === 'Луцьк' || f1ForCheck > 0) ? globalNorma : 0;
+      const fallbackHod = (base.lviv || base.lutsk || f1ForCheck > 0) ? globalNorma : 0;
       tab = {hod: fallbackHod, norma: globalNorma, vidpusk: 0, likar: 0};
     }
     const hod = tab.hod;
@@ -1260,7 +1257,7 @@ function doImport() {
     const normaEff = (base.dept === 'Охорона' && base.posada && base.posada.toLowerCase().includes('сторож')) ? 240 : norma;
     // Львів/Луцьк: фіксований оклад, але якщо є години в табелі — рахуємо пропорційно
     let stavka;
-    if (base.lviv || base.lutsk || base.dept === 'Львів' || base.dept === 'Луцьк') {
+    if (base.lviv || base.lutsk) {
       if (hod > 0) {
         stavka = Math.round((oklad_obr * hod / normaEff) * 100) / 100;
       } else {
@@ -1439,28 +1436,6 @@ function doImport() {
       avans: 0,
       do_vypl: f2,
     };
-
-    // Зберегти флаги щоб при наступному оновленні фільтр працював
-    if (base.lviv)     emp.lviv     = true;
-    if (base.lutsk)    emp.lutsk    = true;
-    if (base.rожище)   emp.rожище   = true;
-
-    // Зберегти lviv-специфічні поля для розрахунку
-    if (base.lviv_sales_pct)   emp.lviv_sales_pct   = base.lviv_sales_pct;
-    if (base.lviv_fop_pct)     emp.lviv_fop_pct     = base.lviv_fop_pct;
-    if (base.lviv_fop_fixed)   emp.lviv_fop_fixed   = base.lviv_fop_fixed;
-    if (base.lviv_fop_dopl)    emp.lviv_fop_dopl    = base.lviv_fop_dopl;
-    if (base.lviv_shokobum)    emp.lviv_shokobum    = base.lviv_shokobum;
-    if (base.lviv_mob_fixed)   emp.lviv_mob_fixed   = base.lviv_mob_fixed;
-    if (base.lviv_povor_f1)    emp.lviv_povor_f1    = base.lviv_povor_f1;
-    if (base.lutsk_sumish_fixed)  emp.lutsk_sumish_fixed  = base.lutsk_sumish_fixed;
-    if (base.lutsk_pryb_fixed)    emp.lutsk_pryb_fixed    = base.lutsk_pryb_fixed;
-    if (base.lutsk_pdv_pct)       emp.lutsk_pdv_pct       = base.lutsk_pdv_pct;
-    if (base.lutsk_f1_oklad)      emp.lutsk_f1_oklad      = base.lutsk_f1_oklad;
-    if (base.lutsk_f1_base)       emp.lutsk_f1_base       = base.lutsk_f1_base;
-    if (base.lutsk_target_hands)  emp.lutsk_target_hands  = base.lutsk_target_hands;
-    if (base.no_stazh)  emp.no_stazh  = true;
-    if (base.no_prem)   emp.no_prem   = true;
 
     // Save поворотна премія
     if (povor > 0) emp.povor = povor;
