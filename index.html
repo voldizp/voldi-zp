@@ -227,6 +227,8 @@ $('ds').addEventListener('change', e => {
   }
   // Clear search when selecting a dept — card should close and dept list opens
   query = ''; siEl.value = ''; hideDrop();
+  if (dept === 'Львів' && !lvivUnlocked) { e.target.value = ''; dept = ''; showLvivPwdModal(null); return; }
+  if (dept === 'Луцьк' && !lutskUnlocked) { e.target.value = ''; dept = ''; showLutskPwdModal(null); return; }
   dept ? showList(dept) : showEmpty();
 });
 
