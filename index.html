@@ -1090,13 +1090,13 @@ function doImport() {
     // If not in табель at all → fallback
     let tab;
     if (tabRaw) {
-      if ((base.lviv || base.lutsk) && tabRaw.hod === 0 && tabRaw.vidpusk === 0 && tabRaw.likar === 0) {
+      if ((base.lviv || base.lutsk || base.dept === 'Львів' || base.dept === 'Луцьк') && tabRaw.hod === 0 && tabRaw.vidpusk === 0 && tabRaw.likar === 0) {
         tab = {hod: globalNorma, norma: globalNorma, vidpusk: 0, likar: 0};
       } else {
         tab = tabRaw;
       }
     } else {
-      const fallbackHod = (base.lviv || base.lutsk || f1ForCheck > 0) ? globalNorma : 0;
+      const fallbackHod = (base.lviv || base.lutsk || base.dept === 'Львів' || base.dept === 'Луцьк' || f1ForCheck > 0) ? globalNorma : 0;
       tab = {hod: fallbackHod, norma: globalNorma, vidpusk: 0, likar: 0};
     }
     const hod = tab.hod;
