@@ -115,9 +115,7 @@ function switchLocation(loc) {
     activeDepts.map(d => '<option>'+d+'</option>').join('');
   dept = ''; ds.value = '';
   if (loc === 'lviv') {
-    const pwd = prompt('Введіть пароль для доступу до Львова:');
-    if (pwd !== '1975') { alert('Невірний пароль'); return; }
-    lvivUnlocked = true;
+    if (!lvivUnlocked) { showLvivPwdModal(null); return; }
     dept = 'Львів'; ds.value = 'Львів'; showList('Львів');
   } else if (loc === 'lutsk') {
     if (!lutskUnlocked) {
