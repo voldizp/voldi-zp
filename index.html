@@ -232,7 +232,7 @@ $('ds').addEventListener('change', e => {
 
 function showDrop(q) {
   if (!q) { hideDrop(); return; }
-  filtered = currentData.filter(e => e.name.toLowerCase().includes(q.toLowerCase()) && (!dept || e.dept === dept)).slice(0, 10);
+  filtered = currentData.filter(e => e.name.toLowerCase().includes(q.toLowerCase())).slice(0, 10);
   if (!filtered.length) { hideDrop(); return; }
   dropEl.innerHTML = filtered.map((e, i) =>
     '<div class="di" data-i="'+i+'"><div class="lav" style="width:28px;height:28px;font-size:11px">'+ini(e.name)+'</div>'
