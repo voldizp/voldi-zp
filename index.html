@@ -1627,7 +1627,7 @@ async function loadFromGithub() {
     Object.keys(ghMonths).forEach(k => {
       const ghEmps = (ghMonths[k].employees || []).length;
       const localEmps = ((HISTORY[k] || {}).employees || []).length;
-      if (ghEmps > localEmps) HISTORY[k] = ghMonths[k];
+      if (ghEmps > 0) HISTORY[k] = ghMonths[k]; // always prefer GitHub data
     });
     if (data.currentMonth) currentMonth = data.currentMonth;
     showToast('Дані завантажено ✓', 'ok');
