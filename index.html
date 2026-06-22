@@ -1058,14 +1058,13 @@ function doImport() {
     const hasTab = matchName(e.name, tabMap)     !== null;
     const hasDop = matchName(e.name, doplatyMap) !== null;
     const hasVidp= matchName(e.name, vidpuskMap) !== null;
-    const isRozhyshche = e.rожище === true;
-    const isLviv = e.lviv === true;
-    const isLutsk = e.lutsk === true;
-    // б/о або відпустка без збереження — завжди показуємо (ситуація описана вручну в базі)
+    const isRozhyshche = e.rожище === true || (e.note && e.note.includes('Рожище'));
+    // Львів і Луцьк — завжди включати якщо dept відповідає (незалежно від файлів)
+    const isLviv  = e.dept === 'Львів';
+    const isLutsk = e.dept === 'Луцьк';
+    // б/о — завжди показуємо
     const isBo = e.oform === 'б/о';
-    const passes = hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk || isBo;
-    if (!passes) console.warn('ВІДРІЗАНО:', e.name, '|', e.dept, '| oform:', e.oform, '| lviv:', e.lviv, '| lutsk:', e.lutsk);
-    return passes;
+    return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk || isBo;
   });
 
   const allEmps = baseEmps.map(base => {
