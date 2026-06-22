@@ -438,7 +438,7 @@ function showLvivPwdModal(emp) {
   bg.appendChild(box); document.body.appendChild(bg); inp.focus();
   btnC.onclick = () => bg.remove();
   const ok = () => {
-    if (inp.value==='1975') { lvivUnlocked=true; bg.remove(); doShowCard(emp); }
+    if (inp.value==='1975') { lvivUnlocked=true; bg.remove(); if(emp){doShowCard(emp);}else{const ds=$('ds');ds.innerHTML='<option value=>Всі відділи</option><option>Львів</option>';dept='Львів';ds.value='Львів';showList('Львів');} }
     else { inp.style.borderColor='red'; inp.value=''; inp.placeholder='Невірний пароль'; }
   };
   btnO.onclick = ok;
