@@ -1051,10 +1051,15 @@ function doImport() {
 
   // Use previous month as base, but skip people who are truly absent
   // (not in нараховано AND not in табель = звільнені або не працюють)
-  const prevHistory = Object.keys(HISTORY).sort().reverse()
-    .map(k => HISTORY[k])
-    .find(h => h && h.employees && h.employees.length > 0);
-  const prevEmps = prevHistory ? prevHistory.employees : [];
+  // Always use April as base - it has correct lviv/lutsk/rожище flags hardcoded
+  // Other months may have lost flags due to save/reload cycle
+  const MASTER_BASE_KEY = '2026-04';
+  const masterBase = HISTORY[MASTER_BASE_KEY];
+  const prevEmps = (masterBase && masterBase.employees && masterBase.employees.length > 0)
+    ? masterBase.employees
+    : (Object.keys(HISTORY).sort()
+        .map(k => HISTORY[k])
+        .find(h => h && h.employees && h.employees.length > 0) || {employees:[]}).employees;
 
   const baseEmps = prevEmps.filter(e => {
     const KNOWN_DEPTS = ['Виробництво','Керівники цехів','Цех цукерок','Цех вафель','Цех глазурі','Логістика','Технічний відділ','Охорона','Львів','Луцьк'];
