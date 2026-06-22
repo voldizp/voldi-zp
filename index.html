@@ -225,7 +225,9 @@ $('ds').addEventListener('change', e => {
     $('btnZvedena').classList.remove('active');
     $('zv').style.display = 'none';
   }
-  query ? showDrop(query) : dept ? showList(dept) : showEmpty();
+  // Clear search when selecting a dept — card should close and dept list opens
+  query = ''; siEl.value = ''; hideDrop();
+  dept ? showList(dept) : showEmpty();
 });
 
 function showDrop(q) {
