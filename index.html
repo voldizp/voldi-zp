@@ -1024,8 +1024,8 @@ function doImport() {
       let hod = sfv(gc(ws, r, 35));
       const vidpusk = sfv(gc(ws, r, 37));
       const likar = sfv(gc(ws, r, 38));
-      // Горбач: табель записує дні (1) замість годин — множимо на 8
-      if (name.includes('Горбач')) hod = hod * 8;
+      // Горбач Олександр: табель записує дні (1) замість годин — множимо на 8
+      if (name.includes('Горбач') && name.includes('Олександр')) hod = hod * 8;
       // Always record if person is in tabель (even hod=0 means they were present but didn't work)
       if (nameRaw && nameRaw.length > 2) {
         tabMap[name] = {hod, norma: normaVal, vidpusk, likar};
