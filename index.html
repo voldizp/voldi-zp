@@ -270,7 +270,7 @@ function showList(d) {
   const tF2 = tot('f2'), tAvans = tot('avans');
   const tDv = emps.reduce((s, e) => {
     const dv = (e.do_vypl !== undefined && (e.do_vypl !== 0 || e.avans > 0)) ? e.do_vypl : (e.f2 || 0);
-    return s + dv;
+    return s + (dv > 0 ? dv : 0);
   }, 0);
 
   // Detect columns present in this dept
