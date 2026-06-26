@@ -1334,10 +1334,12 @@ function doImport() {
       do_vypl: Math.round((f2 - (matchName(name, avansFileMap) || 0)) * 100) / 100,
     };
 
-    // Виняток: деякі люди не можуть мати від'ємну ЗП — ставимо 0
-    const ZERO_FLOOR_NAMES = ['Сокол', 'Симонович', 'Гичка', 'Ковальчук'];
-    if (ZERO_FLOOR_NAMES.some(n => name.includes(n)) && emp.do_vypl < 0) {
-      emp.do_vypl = 0;
+    // Виняток травень 2026: деякі люди не можуть мати від'ємну ЗП — ставимо 0
+    if (monthKey === '2026-05') {
+      const ZERO_FLOOR_NAMES = ['Сокол', 'Симонович', 'Гичка'];
+      const isZeroFloor = ZERO_FLOOR_NAMES.some(n => name.includes(n))
+        || (name.includes('Ковальчук') && name.includes('Павло'));
+      if (isZeroFloor && emp.do_vypl < 0) emp.do_vypl = 0;
     }
 
     // Preserve location flags so they survive save/reload cycle
