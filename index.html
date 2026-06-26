@@ -269,7 +269,7 @@ function showList(d) {
   const tNarZp = tot('nar_zp'), tKartu = tot('kartu'), tTaxes = tot('taxes');
   const tF2 = tot('f2'), tAvans = tot('avans');
   const tDv = emps.reduce((s, e) => {
-    const dv = (e.do_vypl !== undefined && (e.do_vypl !== 0 || e.avans > 0)) ? e.do_vypl : (e.f2 || 0);
+    const dv = e.do_vypl !== undefined ? e.do_vypl : (e.f2 || 0);
     return s + (dv > 0 ? dv : 0);
   }, 0);
 
@@ -313,7 +313,7 @@ function showList(d) {
 
   // Build rows
   const rows = emps.map((e, i) => {
-    const dv = (e.do_vypl !== undefined && (e.do_vypl !== 0 || e.avans > 0)) ? e.do_vypl : (e.f2 || 0);
+    const dv = e.do_vypl !== undefined ? e.do_vypl : (e.f2 || 0);
     let td = '<tr data-idx="'+i+'">'
       + '<td style="max-width:130px;overflow:hidden;text-overflow:ellipsis;text-align:left">'+e.posada+'</td>'
       + '<td style="max-width:160px;text-align:left">'+e.name+(e.oform?'<br><span style="font-size:10px;color:var(--tx3)">'+e.oform+'</span>':'')+'</td>'
@@ -483,7 +483,7 @@ function doShowCard(e) {
   $('zv').style.display='none'; $('btnZvedena').classList.remove('active'); zvShowing=false;
   $('cv').style.display=''; $('rc').textContent='';
   const hasPlan = e.plan_t !== undefined;
-  const dv = (e.do_vypl !== undefined && (e.do_vypl !== 0 || e.avans > 0)) ? e.do_vypl : (e.f2 || 0);
+  const dv = e.do_vypl !== undefined ? e.do_vypl : (e.f2 || 0);
   const dvs = dv>0?'cash':dv<0?'neg':'';
   const stPct = Math.min((e.stazh_years||0)/30*100, 100);
   let det = '';
@@ -1464,7 +1464,7 @@ function renderZvedena() {
     const kartu = de.reduce((s,e) => s+(e.kartu||0), 0);
     const f2 = de.reduce((s,e) => s+(e.f2||0), 0);
     const gotivka = de.reduce((s,e) => {
-      const dv = (e.do_vypl !== undefined && (e.do_vypl !== 0 || e.avans > 0)) ? e.do_vypl : (e.f2||0);
+      const dv = e.do_vypl !== undefined ? e.do_vypl : (e.f2||0);
       return s + (dv > 0 ? dv : 0); // тільки ті хто отримує, без повернень
     }, 0);
     const fop = f1 + f2;
