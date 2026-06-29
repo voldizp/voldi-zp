@@ -526,7 +526,7 @@ function doShowCard(e) {
   // Шокобум для Тимочко
   if (e.lviv_shokobum) det += r('Шокобум оплачує за Моджі', fmt(e.lviv_shokobum), 'mut');
   // % від продажів
-  if (e.lviv_sales && e.lviv_sales > 0) det += r('% від продажів', fmt(e.lviv_sales), 'pos');
+  if (e.lviv_sales && e.lviv_sales > 0) det += r('% від продажів' + (e.lviv_sales_base ? ' (продажі: ' + Math.round(e.lviv_sales_base).toLocaleString('uk-UA') + ' ₴)' : ''), fmt(e.lviv_sales), 'pos');
   // ФОП надбавка
   if (e.lviv_fop_pct_bonus && e.lviv_fop_pct_bonus > 0) det += r('Надбавка ФОП (+6%)', fmt(e.lviv_fop_pct_bonus), 'pos');
   if (e.lviv_fop_dopl && e.lviv_fop_dopl > 0) det += r('Доплата ФОП', fmt(e.lviv_fop_dopl), 'pos');
@@ -1357,7 +1357,7 @@ function doImport() {
     if (lutsk_pryb > 0) emp.lutsk_pryb = lutsk_pryb;
     if (lutsk_pdv > 0) emp.lutsk_pdv = lutsk_pdv;
     if (base.lviv_shokobum) emp.lviv_shokobum = base.lviv_shokobum;
-    if (lviv_sales > 0) emp.lviv_sales = lviv_sales;
+    if (lviv_sales > 0) { emp.lviv_sales = lviv_sales; emp.lviv_sales_base = lvivSales; }
     if (lviv_fop_pct_bonus > 0) emp.lviv_fop_pct_bonus = lviv_fop_pct_bonus;
     if (lviv_fop_dopl > 0) emp.lviv_fop_dopl = lviv_fop_dopl;
     emp.dopList = dopList.map(function(d) {
