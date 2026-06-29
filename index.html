@@ -1653,6 +1653,11 @@ async function loadFromGithub() {
       if (ghEmps > 0) HISTORY[k] = ghMonths[k]; // always prefer GitHub data
     });
     if (data.currentMonth) currentMonth = data.currentMonth;
+    if (data.notes) {
+      const localNotes = getNotes();
+      const merged = Object.assign({}, localNotes, data.notes);
+      localStorage.setItem('zp_notes', JSON.stringify(merged));
+    }
     showToast('Дані завантажено ✓', 'ok');
     setTimeout(() => { try { buildMonthSelector(); } catch(e) {} try { setMonth(currentMonth); } catch(e) {} }, 200);
     return true;
@@ -1670,7 +1675,7 @@ async function saveToGithub() {
       const r = await fetch(GH_API, {headers: {'Authorization': 'token ' + GH_TOKEN}});
       if (r.ok) { const j = await r.json(); sha = j.sha; }
     } catch(e) {}
-    const data = { months: HISTORY, currentMonth };
+    const data = { months: HISTORY, currentMonth, notes: getNotes() };
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
     const body = { message: 'Update ' + currentMonth, content, ...(sha ? {sha} : {}) };
     const r = await fetch(GH_API, {
