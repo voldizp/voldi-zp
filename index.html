@@ -374,6 +374,7 @@ function showList(d) {
     +'<div class="dt-chip"><div class="dtl">На картки Ф1</div><div class="dtv g">'+Math.round(tKartu).toLocaleString('uk-UA')+' ₴</div></div>'
     +(tAvans>0?'<div class="dt-chip"><div class="dtl">Авансів видано</div><div class="dtv o">'+Math.round(tAvans).toLocaleString('uk-UA')+' ₴</div></div>':'')
     +'<div class="dt-chip"><div class="dtl">До виплати готівкою</div><div class="dtv g">'+Math.round(tDv).toLocaleString('uk-UA')+' ₴</div></div>'
+    +'<button onclick="downloadDeptXlsx()" style="height:34px;padding:0 14px;border:none;border-radius:6px;background:#2d5a3d;color:#fff;cursor:pointer;font-size:12px;font-weight:600;white-space:nowrap">&#11123; Excel</button>'
     +'</div></div>'
     +'<div class="dept-wrap">'
     +'<table class="dept-table">'
@@ -1639,6 +1640,62 @@ const GH_API = 'https://api.github.com/repos/' + GH_USER + '/' + GH_REPO + '/con
 function setupGhToken() {
   const t = prompt('GitHub token:');
   if (t) { localStorage.setItem('gh_token', t); GH_TOKEN = t; }
+}
+
+function downloadDeptXlsx() {
+  if (!dept || !HISTORY[currentMonth]) return;
+  const emps = HISTORY[currentMonth].employees.filter(e => e.dept === dept);
+  if (!emps.length) return;
+
+  const mon = HISTORY[currentMonth];
+  const label = mon.label || currentMonth;
+
+  const headers = ['Посада','ПІБ','Оформлення','Год.','% Норми','Оклад','Ставка','Стаж','Надбавка','Пр. Тонаж','Пр. План','Моб.','Доплати','Нарах. ЗП','Нарах. Ф1','Податки','На картку','ЗП Ф2','До виплати'];
+
+  const rows = emps.map(e => {
+    const dv = e.do_vypl !== undefined ? e.do_vypl : (e.f2 || 0);
+    const dops = (e.dopList||[]).reduce((s,d)=>s+(d.amt||0),0) + (e.mob||0) + (e.inше||0);
+    return [
+      e.posada||'',
+      e.name||'',
+      e.oform||'',
+      e.hod||0,
+      Math.round((e.pct_normy||0)*100)+'%',
+      e.oklad||0,
+      Math.round(e.stavka||0),
+      e.stazh_years||0,
+      Math.round(e.stazh_prem||0),
+      Math.round(e.prem_tonazh||0),
+      Math.round(e.prem_plan||0),
+      Math.round(e.mob||0),
+      Math.round(dops),
+      Math.round(e.nar_zp||0),
+      Math.round(e.f1||0),
+      Math.round(e.taxes||0),
+      Math.round(e.kartu||0),
+      Math.round(e.f2||0),
+      Math.round(dv)
+    ];
+  });
+
+  // Totals row
+  const numCols = [3,5,6,7,8,9,10,11,12,13,14,15,16,17,18];
+  const totals = headers.map((_,i) => {
+    if (i===0) return 'РАЗОМ';
+    if (i===1||i===2||i===4) return '';
+    if (numCols.includes(i)) return rows.reduce((s,r)=>s+(parseFloat(r[i])||0),0);
+    return '';
+  });
+
+  const wsData = [headers, ...rows, totals];
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+  // Column widths
+  ws['!cols'] = [14,28,8,6,8,10,10,6,10,10,10,8,10,12,12,10,12,10,12].map(w=>({wch:w}));
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, dept);
+  XLSX.writeFile(wb, dept+'_'+label+'.xlsx');
 }
 
 async function loadFromGithub() {
