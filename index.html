@@ -1031,16 +1031,20 @@ function doImport() {
         if (v >= 100 && v <= 250) { normaVal = v; globalNorma = v; break; }
       }
     }
-    // Detect hodCol dynamically by finding 'Відпрацьовано годин' header
-    let hodCol = 35; // default
+    // Detect hodCol: scan first data rows, find col where most employees have numeric hod values
+    // Try cols 35 and 36 (tabель may shift by 1 between months)
+    let hodCol = 35;
     let vidpuskCol = 37;
     let likarCol = 38;
-    for (let r = 0; r <= Math.min(10, range.e.r); r++) {
-      for (let c = 30; c <= 45; c++) {
-        const v = String(gc(ws, r, c) || '').toLowerCase();
-        if (v.includes('відпрацьовано') && v.includes('годин')) { hodCol = c; vidpuskCol = c+2; likarCol = c+3; break; }
-        if (v === 'відпрацьовано годин' || v === 'відпрацьовано') { hodCol = c; vidpuskCol = c+2; likarCol = c+3; break; }
+    {
+      let count35 = 0, count36 = 0;
+      for (let r = 6; r <= Math.min(40, range.e.r); r++) {
+        const n = String(gc(ws, r, 1) || '');
+        if (!n || n.length < 3) continue;
+        if (sfv(gc(ws, r, 35)) > 0) count35++;
+        if (sfv(gc(ws, r, 36)) > 0) count36++;
       }
+      if (count36 > count35) { hodCol = 36; vidpuskCol = 38; likarCol = 39; }
     }
 
     // Find data rows (row >= 7)
