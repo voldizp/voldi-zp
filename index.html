@@ -1081,9 +1081,15 @@ function doImport() {
       const likar = sfv(gc(ws, r, likarCol));
       // Горбач Олександр: табель записує дні (1) замість годин — множимо на 8
       if (name.includes('Горбач') && name.includes('Олександр')) hod = hod * 8;
-      // Always record if person is in tabель (even hod=0 means they were present but didn't work)
+      // Always record if person is in tabель — sum hours if person appears in multiple rows
       if (nameRaw && nameRaw.length > 2) {
-        tabMap[name] = {hod, norma: normaVal, vidpusk, likar};
+        if (tabMap[name]) {
+          tabMap[name].hod += hod;
+          tabMap[name].vidpusk += vidpusk;
+          tabMap[name].likar += likar;
+        } else {
+          tabMap[name] = {hod, norma: normaVal, vidpusk, likar};
+        }
       }
     }
   });
