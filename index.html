@@ -1022,8 +1022,8 @@ function doImport() {
   tabSheets.forEach(shName => {
     const ws = fileData.tab.Sheets[shName];
     if (!ws) return;
-    // Skip only Р (journal of works), А is second half of month
-    if (shName === 'Р') return;
+    // Skip auxiliary sheets А and Р
+    if (shName === 'А' || shName === 'Р') return;
     const range = XLSX.utils.decode_range(ws['!ref'] || 'A1:A1');
     // Find norma from row 2-3
     let normaVal = 168;
