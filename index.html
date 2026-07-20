@@ -1022,6 +1022,8 @@ function doImport() {
   tabSheets.forEach(shName => {
     const ws = fileData.tab.Sheets[shName];
     if (!ws) return;
+    // Skip auxiliary sheets that duplicate or fragment data
+    if (shName === 'А' || shName === 'Р') return;
     const range = XLSX.utils.decode_range(ws['!ref'] || 'A1:A1');
     // Find norma from row 2-3
     let normaVal = 168;
