@@ -1031,15 +1031,27 @@ function doImport() {
         if (v >= 100 && v <= 250) { normaVal = v; globalNorma = v; break; }
       }
     }
+    // Detect hodCol dynamically by finding 'Відпрацьовано годин' header
+    let hodCol = 35; // default
+    let vidpuskCol = 37;
+    let likarCol = 38;
+    for (let r = 0; r <= Math.min(10, range.e.r); r++) {
+      for (let c = 30; c <= 45; c++) {
+        const v = String(gc(ws, r, c) || '').toLowerCase();
+        if (v.includes('відпрацьовано') && v.includes('годин')) { hodCol = c; vidpuskCol = c+2; likarCol = c+3; break; }
+        if (v === 'відпрацьовано годин' || v === 'відпрацьовано') { hodCol = c; vidpuskCol = c+2; likarCol = c+3; break; }
+      }
+    }
+
     // Find data rows (row >= 7)
     for (let r = 6; r <= range.e.r; r++) {
       const nameRaw = String(gc(ws, r, 1) || '');
       if (!nameRaw || nameRaw.length < 3) continue;
       const name = cleanName(nameRaw);
       if (!name || name.length < 3) continue;
-      let hod = sfv(gc(ws, r, 35));
-      const vidpusk = sfv(gc(ws, r, 37));
-      const likar = sfv(gc(ws, r, 38));
+      let hod = sfv(gc(ws, r, hodCol));
+      const vidpusk = sfv(gc(ws, r, vidpuskCol));
+      const likar = sfv(gc(ws, r, likarCol));
       // Горбач Олександр: табель записує дні (1) замість годин — множимо на 8
       if (name.includes('Горбач') && name.includes('Олександр')) hod = hod * 8;
       // Always record if person is in tabель (even hod=0 means they were present but didn't work)
