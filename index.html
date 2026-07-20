@@ -1046,13 +1046,24 @@ function doImport() {
         if (sfv(gc(ws,r,37))>0) v37++;
         if (sfv(gc(ws,r,38))>0) v38++;
       }
-      // If col37 has no values but col38 does, shift
       if (v37===0 && v38>0) { vidpuskCol=38; likarCol=39; }
+    }
+
+    // Detect nameCol: col1 or col2 - find which has longer strings (names)
+    let nameCol = 1;
+    {
+      let len1=0, len2=0, cnt=0;
+      for (let r=6; r<=Math.min(40,range.e.r); r++) {
+        const v1 = String(gc(ws,r,1)||''); const v2 = String(gc(ws,r,2)||'');
+        if (v1.length>3) { len1+=v1.length; cnt++; }
+        if (v2.length>3) len2+=v2.length;
+      }
+      if (len2 > len1) nameCol = 2;
     }
 
     // Find data rows (row >= 7)
     for (let r = 6; r <= range.e.r; r++) {
-      const nameRaw = String(gc(ws, r, 1) || '');
+      const nameRaw = String(gc(ws, r, nameCol) || '');
       if (!nameRaw || nameRaw.length < 3) continue;
       const name = cleanName(nameRaw);
       if (!name || name.length < 3) continue;
