@@ -1031,20 +1031,21 @@ function doImport() {
         if (v >= 100 && v <= 250) { normaVal = v; globalNorma = v; break; }
       }
     }
-    // Detect hodCol: scan first data rows, find col where most employees have numeric hod values
-    // Try cols 35 and 36 (tabель may shift by 1 between months)
-    let hodCol = 35;
+    // hodCol: col35 or col36 may contain a SUM formula (SheetJS can't evaluate)
+    // So we calculate hod ourselves by summing daily hours (cols 5..34 = F..AJ)
+    // and store it. hodCol=-1 means use auto-sum.
+    let hodCol = -1; // -1 = auto-sum daily cols
     let vidpuskCol = 37;
     let likarCol = 38;
+    // Detect vidpuskCol/likarCol: check col37 vs col38 for numeric values
     {
-      let count35 = 0, count36 = 0;
-      for (let r = 6; r <= Math.min(40, range.e.r); r++) {
-        const n = String(gc(ws, r, 1) || '');
-        if (!n || n.length < 3) continue;
-        if (sfv(gc(ws, r, 35)) > 0) count35++;
-        if (sfv(gc(ws, r, 36)) > 0) count36++;
+      let v37=0, v38=0;
+      for (let r=6; r<=Math.min(40,range.e.r); r++) {
+        if (sfv(gc(ws,r,37))>0) v37++;
+        if (sfv(gc(ws,r,38))>0) v38++;
       }
-      if (count36 > count35) { hodCol = 36; vidpuskCol = 38; likarCol = 39; }
+      // If col37 has no values but col38 does, shift
+      if (v37===0 && v38>0) { vidpuskCol=38; likarCol=39; }
     }
 
     // Find data rows (row >= 7)
@@ -1053,7 +1054,15 @@ function doImport() {
       if (!nameRaw || nameRaw.length < 3) continue;
       const name = cleanName(nameRaw);
       if (!name || name.length < 3) continue;
-      let hod = sfv(gc(ws, r, hodCol));
+      // hodCol=-1: sum daily hour cells (cols 5..34 = F..AJ) since SUM formula unreadable by SheetJS
+      let hod;
+      if (hodCol === -1) {
+        let s = 0;
+        for (let c = 5; c <= 34; c++) { const v = sfv(gc(ws, r, c)); if (v > 0) s += v; }
+        hod = Math.round(s * 100) / 100;
+      } else {
+        hod = sfv(gc(ws, r, hodCol));
+      }
       const vidpusk = sfv(gc(ws, r, vidpuskCol));
       const likar = sfv(gc(ws, r, likarCol));
       // Горбач Олександр: табель записує дні (1) замість годин — множимо на 8
