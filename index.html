@@ -1153,7 +1153,9 @@ function doImport() {
     const povor_tax_refund = Math.round(povor * 0.23 * 100) / 100;
 
     // Get Ф1 (+ поворотна премія) — ФОП fixed люди не мають Ф1
-    const f1_base = base.lviv_fop_fixed ? 0 : (matchName(name, f1Map) || 0);
+    let f1_base = base.lviv_fop_fixed ? 0 : (matchName(name, f1Map) || 0);
+    // If povor is already included in f1_base (нараховано has oklad+povor together), subtract it to avoid double-counting
+    if (base.lviv_povor_f1 && povor > 0 && f1_base > povor) f1_base = Math.round((f1_base - povor) * 100) / 100;
     const f1 = Math.round((f1_base + povor) * 100) / 100;
     const taxes = Math.round(f1 * 0.23 * 100) / 100;
     const kartu = Math.round((f1 - taxes) * 100) / 100;
