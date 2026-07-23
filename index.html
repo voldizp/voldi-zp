@@ -1049,17 +1049,17 @@ function doImport() {
       if (v37===0 && v38>0) { vidpuskCol=38; likarCol=39; }
     }
 
-    // Detect nameCol: col1 or col2 - find which has Cyrillic name-like strings
+    // Detect nameCol: col1 or col2 - names are longer than posada strings
     let nameCol = 1;
     {
-      let cnt1=0, cnt2=0;
+      let len1=0, len2=0;
       const cyrRe = /[Ѐ-ӿ]{3}/;
       for (let r=6; r<=Math.min(40,range.e.r); r++) {
         const v1 = String(gc(ws,r,1)||''); const v2 = String(gc(ws,r,2)||'');
-        if (cyrRe.test(v1)) cnt1++;
-        if (cyrRe.test(v2)) cnt2++;
+        if (cyrRe.test(v1)) len1 += v1.length;
+        if (cyrRe.test(v2)) len2 += v2.length;
       }
-      if (cnt2 > cnt1) nameCol = 2;
+      if (len2 > len1) nameCol = 2;
     }
 
     // Find data rows (row >= 7)
