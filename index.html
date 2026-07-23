@@ -1072,11 +1072,11 @@ function doImport() {
       let hod;
       if (hodCol === -1) {
         let s = 0;
-        for (let c = 5; c <= 34; c++) { const v = sfv(gc(ws, r, c)); if (v > 0) s += v; }
+        for (let c = 4; c <= 34; c++) { const v = sfv(gc(ws, r, c)); if (v > 0 && v <= 24) s += v; }
         // Also sum next row if it has no name (merged cell / second line of same person)
         const nextNameRaw = String(gc(ws, r+1, nameCol) || '');
         if (!nextNameRaw || nextNameRaw.length < 3) {
-          for (let c = 5; c <= 34; c++) { const v = sfv(gc(ws, r+1, c)); if (v > 0) s += v; }
+          for (let c = 4; c <= 34; c++) { const v = sfv(gc(ws, r+1, c)); if (v > 0 && v <= 24) s += v; }
         }
         hod = Math.round(s * 100) / 100;
       } else {
