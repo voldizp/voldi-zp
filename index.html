@@ -1182,7 +1182,9 @@ function doImport() {
         tab = tabRaw;
       }
     } else {
-      const fallbackHod = (base.lviv || base.lutsk || f1ForCheck > 0) ? globalNorma : 0;
+      // Смоляк і Фердолевська — завжди повна норма
+      const alwaysFullNorma = name.includes('Смоляк') || name.includes('Фердолевськ');
+      const fallbackHod = (alwaysFullNorma || base.lviv || base.lutsk || f1ForCheck > 0) ? globalNorma : 0;
       tab = {hod: fallbackHod, norma: globalNorma, vidpusk: 0, likar: 0};
     }
     const hod = tab.hod;
