@@ -408,7 +408,7 @@ function showList(d) {
 
 function r(lbl, val, cls, tag) {
   if (!val && val !== 0) return '';
-  return '<div class="row"><span class="rl">'+lbl+(tag||'')+'</span><span class="rv '+(cls||'')+'">'+val+'</span></div>';
+  return '<div class="row"><span class="rl">'+lbl+(tag?' '+tag:'')+'</span><span class="rv '+(cls||'')+'">'+val+'</span></div>';
 }
 
 function showCard(e) {
