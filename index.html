@@ -1421,19 +1421,16 @@ function doImport() {
       emp.do_vypl = 0;
     }
 
-    // Хмілевська: фіксовані 25 000 загальна ЗП якщо норму виконала, пропорційно якщо ні
+    // Хмілевська: загальна ЗП = 25 000 (пропорційно до годин), Ф1 з файлу, решта готівкою
     if (name.includes('Хмілевська')) {
       const fixedTotal = 25000;
       const ratio = _normaEff > 0 ? Math.min(hod / _normaEff, 1) : 0;
       const fixedNar = Math.round(fixedTotal * ratio);
       emp.nar_zp = fixedNar;
-      emp.f1 = fixedNar;
-      emp.taxes = 0;
-      emp.kartu = 0;
-      emp.f2 = 0;
       emp.zagalna = fixedNar;
-      emp.do_vypl = fixedNar;
-      emp.stavka = fixedNar;
+      // f1, taxes, kartu залишаються з файлу
+      emp.f2 = Math.round((fixedNar - emp.kartu) * 100) / 100;
+      emp.do_vypl = emp.f2;
     }
 
     // Preserve location flags so they survive save/reload cycle
