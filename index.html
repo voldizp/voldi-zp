@@ -1402,6 +1402,10 @@ function doImport() {
       if (isZeroFloor && emp.do_vypl < 0) emp.do_vypl = 0;
       // Сокол — завжди 0
       if (name.includes('Сокол')) { emp.do_vypl = 0; emp.f2 = 0; }
+      // Горбач Олександр — 0 в червні 2026
+      if (name.includes('Горбач') && name.includes('Олександр') && monthKey === '2026-06') {
+        emp.do_vypl = 0; emp.f2 = 0; emp.nar_zp = 0;
+      }
     }
 
     // Якщо hod=0 і ЗП = тільки стаж — не платимо
