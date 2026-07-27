@@ -255,6 +255,9 @@ function showEmpty() {
 }
 
 function showList(d) {
+  // Password check for protected locations
+  if (d === 'Львів' && !lvivUnlocked) { showLvivPwdModal(null); return; }
+  if (d === 'Луцьк' && !lutskUnlocked) { showLutskPwdModal(null); return; }
   $('empty').style.display='none'; $('cv').style.display='none';
   $('zv').style.display='none'; $('btnZvedena').classList.remove('active'); zvShowing=false;
   $('lv').style.display='';
