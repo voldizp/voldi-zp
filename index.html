@@ -1385,7 +1385,8 @@ function doImport() {
       hod, norma: _normaEff, pct_normy,
       stavka,
       stazh_years, stazh_prem,
-      vidpusk: vidpusk + (tab.vidpusk||0),
+      // tab.vidpusk = days from табель, not money — only use if no money value from відпускні file
+      vidpusk: vidpusk > 0 ? vidpusk : (tab.vidpusk||0),
       likar_fss: likar_fss_from_file + (tab.likar||0),
       mob, sumish, inше,
       nar_zp, f1, taxes, kartu,
