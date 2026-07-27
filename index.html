@@ -1182,9 +1182,7 @@ function doImport() {
         tab = tabRaw;
       }
     } else {
-      // Смоляк і Фердолевська — завжди повна норма
-      const alwaysFullNorma = name.includes('Смоляк') || name.includes('Фердолевськ');
-      const fallbackHod = (alwaysFullNorma || base.lviv || base.lutsk || f1ForCheck > 0) ? globalNorma : 0;
+      const fallbackHod = (base.lviv || base.lutsk || f1ForCheck > 0) ? globalNorma : 0;
       tab = {hod: fallbackHod, norma: globalNorma, vidpusk: 0, likar: 0};
     }
     const hod = tab.hod;
@@ -1408,6 +1406,12 @@ function doImport() {
       if (name.includes('Горбач') && name.includes('Олександр') && monthKey === '2026-06') {
         emp.do_vypl = 0; emp.f2 = 0; emp.nar_zp = 0;
       }
+    }
+
+    // Смоляк і Фердолевська — фіксована ставка 2200
+    if (name.includes('Смоляк') || name.includes('Фердолевськ')) {
+      emp.nar_zp = 2200; emp.f2 = 2200; emp.do_vypl = 2200;
+      emp.stavka = 2200; emp.f1 = 0; emp.taxes = 0; emp.kartu = 0;
     }
 
     // Якщо hod=0 і ЗП = тільки стаж — не платимо
