@@ -1207,7 +1207,7 @@ function doImport() {
     if (name.includes('Качковськ')) {
       normaEff = 136;
     } else if (base.dept === 'Охорона' && !name.includes('Смоляк') && !name.includes('Фердолевськ')) {
-      normaEff = 192;
+      normaEff = monthKey === '2026-06' ? 230 : 192;
     } else {
       normaEff = norma;
     }
@@ -1394,12 +1394,30 @@ function doImport() {
       do_vypl: Math.round((f2 - (matchName(name, avansFileMap) || 0)) * 100) / 100,
     };
 
-    // Виняток травень 2026: деякі люди не можуть мати від'ємну ЗП — ставимо 0
-    if (monthKey === '2026-05') {
-      const ZERO_FLOOR_NAMES = ['Сокол', 'Симонович', 'Гичка'];
+    // Нульова підлога для певних людей
+    {
+      const ZERO_FLOOR_NAMES = ['Симонович', 'Гичка'];
       const isZeroFloor = ZERO_FLOOR_NAMES.some(n => name.includes(n))
         || (name.includes('Ковальчук') && name.includes('Павло'));
       if (isZeroFloor && emp.do_vypl < 0) emp.do_vypl = 0;
+      // Сокол — завжди 0
+      if (name.includes('Сокол')) { emp.do_vypl = 0; emp.f2 = 0; }
+    }
+
+    // Якщо hod=0 і ЗП = тільки стаж — не платимо
+    if (hod === 0 && Math.abs(emp.nar_zp - (emp.stazh_prem||0)) < 1) {
+      emp.do_vypl = 0;
+    }
+
+    // Хмілевська: фіксовані 25 000 якщо норму виконала, пропорційно якщо ні
+    if (name.includes('Хмілевська')) {
+      const fixedNet = 25000;
+      if (hod > 0) {
+        const ratio = Math.min(hod / _normaEff, 1);
+        emp.do_vypl = Math.round(fixedNet * ratio);
+      } else {
+        emp.do_vypl = 0;
+      }
     }
 
     // Preserve location flags so they survive save/reload cycle
