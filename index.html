@@ -1189,8 +1189,9 @@ function doImport() {
     const norma = tab.norma || baseNorma;
     // normaEff is defined below but we need it here too for pct_normy
     // so we recalculate inline
+    const _охоронаNorma = monthKey === '2026-06' ? 230 : 192;
     const _normaEff = name.includes("Качковськ") ? 136
-      : (base.dept === "Охорона" && !name.includes("Смоляк") && !name.includes("Фердолевськ")) ? 192
+      : (base.dept === "Охорона" && !name.includes("Смоляк") && !name.includes("Фердолевськ")) ? _охоронаNorma
       : norma;
     const pct_normy = _normaEff > 0 ? Math.round(hod/_normaEff*100)/100 : 0;
 
