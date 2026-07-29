@@ -1252,8 +1252,8 @@ function doImport() {
       const desc = d.desc.toLowerCase();
       if (desc.includes('моб')) mob += d.amt;
       else if (desc.includes('суміщ') || desc.includes('сумісн')) {
-        // Доплата за суміщення рахується пропорційно: base/norma*hod
-        sumish += Math.round(d.amt / norma * hod * 100) / 100;
+        // Доплата за суміщення — фіксована сума з файлу (не пропорційно)
+        sumish += d.amt;
       }
       else inше += d.amt;
     });
