@@ -716,7 +716,9 @@ function normNameFuzzy(s) {
   return normName(s)
     .replace(/щ/g, 'ш')   // Щатковська → Шатковська
     .replace(/ї/g, 'і')
-    .replace(/й/g, 'и');
+    .replace(/й/g, 'и')
+    .replace(/ія/g, 'я')  // Наталія → Наталя
+    .replace(/іє/g, 'є'); // normalize ie endings
 }
 function matchName(name, map) {
   if (!name) return null;
