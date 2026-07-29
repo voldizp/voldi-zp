@@ -1342,7 +1342,7 @@ function doImport() {
     const lviv_shokobum = base.lviv_shokobum || 0;
     // Луцьк специфічні доплати
     const lutsk_sumish = base.lutsk_sumish_fixed ? Math.round(base.lutsk_sumish_fixed / normaEff * hod * 100) / 100 : 0;
-    const lutsk_pryb = base.lutsk_pryb_fixed ? Math.round(base.lutsk_pryb_fixed / normaEff * hod * 100) / 100 : 0;
+    const lutsk_pryb = base.lutsk_pryb_fixed || 0; // фіксована сума, не пропорційно
     const lutsk_pdv = (base.lutsk_pdv_pct && lvivPdv > 0) ? Math.round(base.lutsk_pdv_pct * lvivPdv * 100) / 100 : 0;
 
     let nar_zp;
