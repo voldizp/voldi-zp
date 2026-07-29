@@ -734,14 +734,14 @@ function matchName(name, map) {
     if (k.includes(name) || name.includes(k)) return map[k];
     if (normName(k).includes(normN) || normN.includes(normName(k))) return map[k];
   }
-  // 4. First-two-words match (e.g. 'Деміш Наталія' vs 'Деміш Наталя Іванівна')
-  const words = normN.split(' ').filter(w=>w.length>1);
-  if (words.length >= 2) {
-    const prefix = words.slice(0,2).join(' ');
+  // 4. First-two-words fuzzy match (e.g. 'Деміш Наталія' vs 'Деміш Наталя Іванівна')
+  const fuzzyWords = normNameFuzzy(name).split(' ').filter(w=>w.length>1);
+  if (fuzzyWords.length >= 2) {
+    const fuzzyPrefix = fuzzyWords.slice(0,2).join(' ');
     for (const k of Object.keys(map)) {
-      const kWords = normName(k).split(' ').filter(w=>w.length>1);
-      const kPrefix = kWords.slice(0,2).join(' ');
-      if (prefix === kPrefix) return map[k];
+      const kFuzzyWords = normNameFuzzy(k).split(' ').filter(w=>w.length>1);
+      const kFuzzyPrefix = kFuzzyWords.slice(0,2).join(' ');
+      if (fuzzyPrefix === kFuzzyPrefix) return map[k];
     }
   }
   // 5. Fuzzy match (Ш/Щ etc)
