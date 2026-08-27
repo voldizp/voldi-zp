@@ -1473,7 +1473,7 @@ function doImport() {
 
     if (prem_tonazh !== undefined) {
       emp.prem_tonazh = prem_tonazh;
-      emp.prem_plan = prem_plan;
+      emp.prem_plan = hod > 0 ? prem_plan : 0; // не нараховувати якщо 0 годин
       emp.plan_t = plan_t;
       emp.fakt_t = fakt_t;
       emp.pct_plan = pct_plan;
