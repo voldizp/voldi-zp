@@ -1090,6 +1090,7 @@ function doImport() {
       if (!name || name.length < 3) continue;
       // hodCol=-1: sum daily hour cells (cols 5..34 = F..AJ) since SUM formula unreadable by SheetJS
       let hod;
+      let usedNextRow = false;
       if (hodCol === -1) {
         let s = 0;
         for (let c = 4; c <= 35; c++) { const v = sfv(gc(ws, r, c)); if (v > 0 && v <= 24) s += v; }
