@@ -1399,7 +1399,7 @@ function doImport() {
       stazh_years, stazh_prem,
       // tab.vidpusk = days from табель — ignore, always use money value from відпускні file
       vidpusk: vidpusk,
-      likar_fss: likar_fss_from_file + (tab.likar||0),
+      likar_fss: likar_fss_from_file, // tab.likar = days, ignore
       mob, sumish, inше,
       nar_zp, f1, taxes, kartu,
       zagalna: nar_zp,
