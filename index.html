@@ -1081,7 +1081,9 @@ function doImport() {
     }
 
     // Find data rows (row >= 7)
+    let skipRow = -1; // track rows already consumed as second line
     for (let r = 6; r <= range.e.r; r++) {
+      if (r === skipRow) continue; // skip rows used as second line
       const nameRaw = String(gc(ws, r, nameCol) || '');
       if (!nameRaw || nameRaw.length < 3) continue;
       const name = cleanName(nameRaw);
@@ -1096,6 +1098,7 @@ function doImport() {
         if (!nextNameRaw || nextNameRaw.length < 3) {
           for (let c = 4; c <= 35; c++) { const v = sfv(gc(ws, r+1, c)); if (v > 0 && v <= 24) s += v; }
         }
+        if (usedNextRow) skipRow = r + 1;
         hod = Math.round(s * 100) / 100;
       } else {
         hod = sfv(gc(ws, r, hodCol));
