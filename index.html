@@ -1088,6 +1088,10 @@ function doImport() {
       if (!nameRaw || nameRaw.length < 3) continue;
       const name = cleanName(nameRaw);
       if (!name || name.length < 3) continue;
+      // Skip rows that look like posada/second line (not PIB: need 2+ cyrillic words)
+      const nameWords = name.split(' ').filter(w => w.length >= 2);
+      const cyrTest = /[Ѐ-ӿ]{2}/.test(name);
+      if (!cyrTest || nameWords.length < 2) continue;
       // hodCol=-1: sum daily hour cells (cols 5..34 = F..AJ) since SUM formula unreadable by SheetJS
       let hod;
       let usedNextRow = false;
