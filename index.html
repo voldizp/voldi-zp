@@ -1449,9 +1449,9 @@ function doImport() {
       emp.do_vypl = 0;
     }
 
-    // Хмілевська: загальна ЗП = 25 000 (пропорційно до годин), Ф1 з файлу, решта готівкою
+    // Хмілевська: загальна ЗП = 25 000 до червня, 28 000 від липня
     if (name.includes('Хмілевська')) {
-      const fixedTotal = 25000;
+      const fixedTotal = (monthKey >= '2026-07') ? 28000 : 25000;
       const ratio = _normaEff > 0 ? Math.min(hod / _normaEff, 1) : 0;
       const fixedNar = Math.round(fixedTotal * ratio);
       emp.nar_zp = fixedNar;
