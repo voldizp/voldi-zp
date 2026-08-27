@@ -516,7 +516,8 @@ function doShowCard(e) {
       // Skip моб items - shown separately
       if (desc.includes('моб')) return;
       const label = d.desc || 'Доплата';
-      det += r(label.charAt(0).toUpperCase()+label.slice(1), fmt(d.amt), d.amt>0?'pos':'neg');
+      const _amtStr = (d.amt < 0 ? '− ' : '') + fmt(d.amt);
+      det += r(label.charAt(0).toUpperCase()+label.slice(1), _amtStr, d.amt>0?'pos':'neg');
     });
   } else {
     if (e.inше !== undefined && e.inше > 0) det += r('Доплата (інше)', fmt(e.inше), 'pos');
