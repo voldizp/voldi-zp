@@ -1286,7 +1286,7 @@ function doImport() {
     const FIXED_MOB = {
       'Динісова': 200, 'Андрійчук Людмила': 100, 'Зінчук Тетяна Миколаївна': 100,
       'Симонович': 100, 'Новак Олександр': 100, 'Новак Олександр Володимирович': 100, 'Сачковський': 100, 'Третяк': 100, 'Романюк Наталія': 100,
-      'Демянчук Тарас': 220
+      'Демянчук Тарас': 220, 'Маркевич Володимир': 100
     };
     for (const [key, amt] of Object.entries(FIXED_MOB)) {
       if (name.includes(key)) { mob = amt; break; }
@@ -1430,8 +1430,8 @@ function doImport() {
       const isZeroFloor = ZERO_FLOOR_NAMES.some(n => name.includes(n))
         || (name.includes('Ковальчук') && name.includes('Павло'));
       if (isZeroFloor && emp.do_vypl < 0) emp.do_vypl = 0;
-      // Сокол — завжди 0
-      if (name.includes('Сокол')) { emp.do_vypl = 0; emp.f2 = 0; }
+      // Сокол — 0 тільки в травні 2026
+      if (name.includes('Сокол') && monthKey === '2026-05') { emp.do_vypl = 0; emp.f2 = 0; }
       // Горбач Олександр — 0 в червні 2026
       if (name.includes('Горбач') && name.includes('Олександр') && monthKey === '2026-06') {
         emp.do_vypl = 0; emp.f2 = 0; emp.nar_zp = 0;
