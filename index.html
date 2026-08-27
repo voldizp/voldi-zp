@@ -1202,7 +1202,7 @@ function doImport() {
     // normaEff is defined below but we need it here too for pct_normy
     // so we recalculate inline
     const _охоронаNorma = monthKey === '2026-06' ? 230 : 192;
-    const _normaEff = name.includes("Качковськ") ? 136
+    const _normaEff = name.includes("Качковськ") ? hod
       : (base.dept === "Охорона" && !name.includes("Смоляк") && !name.includes("Фердолевськ")) ? _охоронаNorma
       : norma;
     const pct_normy = _normaEff > 0 ? Math.round(hod/_normaEff*100)/100 : 0;
@@ -1218,7 +1218,7 @@ function doImport() {
     // Норма годин: Качковський — 136; Охорона (крім Смоляк і Фердолевської) — 192; решта — з табеля
     let normaEff;
     if (name.includes('Качковськ')) {
-      normaEff = 136;
+      normaEff = hod; // норма = відпрацьовані години
     } else if (base.dept === 'Охорона' && !name.includes('Смоляк') && !name.includes('Фердолевськ')) {
       normaEff = monthKey === '2026-06' ? 230 : 192;
     } else {
