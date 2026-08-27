@@ -1244,7 +1244,7 @@ function doImport() {
 
     // Get stazh
     const stazh_years = base.no_stazh ? 0 : (matchName(name, stazhMap) !== null ? matchName(name, stazhMap) : (base.stazh_years || 0));
-    const stazh_prem = Math.round(stazh_years) * 150;
+    const stazh_prem = hod > 0 ? Math.round(stazh_years) * 150 : 0; // не нараховувати якщо 0 годин
 
     // Get відпускні та лікарняні ФСС
     const vidpusk = matchName(name, vidpuskMap) || 0;
