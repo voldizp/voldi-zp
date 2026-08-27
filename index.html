@@ -1349,7 +1349,8 @@ function doImport() {
     if (base.lviv_fop_fixed) {
       nar_zp = base.lviv_fop_fixed;
     } else {
-      nar_zp = Math.round((stavka + stazh_prem + vidpusk + mob + sumish + inше + prem_tonazh + prem_plan + emp_prem_norma + emp_prem_vyyavl + totalLikar + lviv_sales + lviv_fop_dopl + lviv_fop_pct_bonus + lviv_shokobum + lutsk_sumish + lutsk_pryb + lutsk_pdv) * 100) / 100;
+      if (name.includes('Волох')) console.log('ВОЛОХ NAR_ZP COMPONENTS', {stavka, stazh_prem, vidpusk, mob, sumish, inше, prem_tonazh, prem_plan, emp_prem_norma, emp_prem_vyyavl, totalLikar});
+    nar_zp = Math.round((stavka + stazh_prem + vidpusk + mob + sumish + inше + prem_tonazh + prem_plan + emp_prem_norma + emp_prem_vyyavl + totalLikar + lviv_sales + lviv_fop_dopl + lviv_fop_pct_bonus + lviv_shokobum + lutsk_sumish + lutsk_pryb + lutsk_pdv) * 100) / 100;
     }
     // Гнинюк: гарантовано 20000 на руки → f2 = target - kartu
     // (handled in f2 calc below)
