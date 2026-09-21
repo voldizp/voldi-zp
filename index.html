@@ -1231,7 +1231,11 @@ function doImport() {
     // Підвищення окладів з серпня 2026 (Колки) — тільки чистий оклад
     const KOLKY_DEPTS = ['Виробництво','Керівники цехів','Цех цукерок','Цех вафель','Цех глазурі','Логістика','Технічний відділ','Охорона'];
     const SALARY_RAISE_AUG = {15000:17000, 15500:17500, 16000:18000, 16500:18500};
-    const oklad_obr = base.oklad_obr || base.oklad || 0;
+    const _okladBase = base.oklad || 0;
+    const _okladTax = (base.oklad_obr || _okladBase) - _okladBase; // податок залишається
+    const _isRaise = monthKey >= '2026-08' && KOLKY_DEPTS.includes(base.dept) && SALARY_RAISE_AUG[_okladBase];
+    const _newOklad = _isRaise ? SALARY_RAISE_AUG[_okladBase] : _okladBase;
+    const oklad_obr = _newOklad + _okladTax;
     // Для відділів з премією за норму — ставка обмежена нормою, надурочні = окрема премія
     const PREM_NORMA_DEPTS = ['Виробництво','Цех цукерок','Цех вафель','Цех глазурі'];
     // Виключення: Павлюк не має премії за норму годин
@@ -1417,8 +1421,7 @@ function doImport() {
       dept: base.dept,
       posada: base.posada,
       oform: base.oform || '',
-      oklad: (monthKey >= '2026-08' && KOLKY_DEPTS.includes(base.dept) && SALARY_RAISE_AUG[base.oklad])
-        ? SALARY_RAISE_AUG[base.oklad] : base.oklad,
+      oklad: _newOklad,
       oklad_obr: oklad_obr,
       hod, norma: _normaEff, pct_normy,
       stavka,
