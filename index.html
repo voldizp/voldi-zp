@@ -317,7 +317,7 @@ function showList(d) {
     + '<th>На картку Ф1</th>'
     + '<th class="sep">ЗП&nbsp;Ф2</th>';
   if (hasAvans) th += '<th>Аванс</th>';
-  th += '<th>До виплати</th></tr>';
+  th += '<th>До виплати</th><th class="sep">На руки</th></tr>';
 
   // Build rows
   const rows = emps.map((e, i) => {
@@ -346,6 +346,7 @@ function showList(d) {
       + '<td class="sep '+(e.f2<0?'neg':e.f2>0?'pos':'mut')+'">'+Math.round(e.f2||0).toLocaleString('uk-UA')+'</td>';
     if (hasAvans) td += '<td style="color:var(--or)">'+(e.avans>0?Math.round(e.avans).toLocaleString('uk-UA'):'—')+'</td>';
     td += '<td class="'+(dv<0?'neg':dv>0?'pos':'mut')+'">'+Math.round(dv).toLocaleString('uk-UA')+'</td>'
+      + '<td class="sep" style="font-weight:600">'+Math.round((e.kartu||0)+(dv>0?dv:0)).toLocaleString('uk-UA')+'</td>'
       + '</tr>';
     return td;
   }).join('');
