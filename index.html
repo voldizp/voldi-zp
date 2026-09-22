@@ -376,6 +376,7 @@ function showList(d) {
 
   $('lv').innerHTML =
     '<div class="dept-title-row">'
+    +'<button onclick="toggleZvedena()" style="height:32px;padding:0 12px;border:none;border-radius:6px;background:var(--sf2);color:var(--tx);cursor:pointer;font-size:13px;display:flex;align-items:center;gap:4px;white-space:nowrap">&#8592; Зведена</button>'
     +'<h2>'+d+' <span style="font-size:13px;font-weight:400;color:var(--tx3);font-family:sans-serif">'+emps.length+' осіб · '+HISTORY[currentMonth].label+'</span></h2>'
     +'<div class="dept-totals">'
     +'<div class="dt-chip"><div class="dtl">Нарах. ЗП</div><div class="dtv b">'+Math.round(tNarZp).toLocaleString('uk-UA')+' ₴</div></div>'
