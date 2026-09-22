@@ -1397,8 +1397,8 @@ function doImport() {
       const f1_excess = Math.max(0, f1_base - base.lutsk_f1_base);
       const demish_refund = Math.round(f1_excess * 0.23 * 100) / 100;
       f2 = Math.round((nar_zp - f1_base + demish_refund) * 100) / 100;
-    } else if (base.lutsk_target_hands) {
-      // Гнинюк: гарантовано 20000 + стаж на руки = kartu + f2
+    } else if (base.lutsk_target_hands && monthKey < '2026-08') {
+      // Гнинюк: гарантовано 20000 + стаж на руки = kartu + f2 (до серпня 2026)
       const target = base.lutsk_target_hands + stazh_prem;
       const kartu_tmp = Math.round(f1_base * 0.77 * 100) / 100;
       f2 = Math.round((target - kartu_tmp) * 100) / 100;
