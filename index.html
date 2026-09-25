@@ -1236,13 +1236,16 @@ function doImport() {
     const KOLKY_DEPTS = ['Виробництво','Керівники цехів','Цех цукерок','Цех вафель','Цех глазурі','Логістика','Технічний відділ','Охорона'];
     const SALARY_RAISE_AUG = {15000:17000, 15500:17500, 16000:18000, 16500:18500, 13500:15500}; // Савицька +2000
     const _okladBase = base.oklad || 0;
-    const _okladTax = (base.oklad_obr || _okladBase) - _okladBase; // податок залишається
+    const _okladTaxFixed = (base.oklad_obr || _okladBase) - _okladBase; // різниця (податок)
     const _savytska = name.includes('Савицька') && monthKey >= '2026-08';
     const _isRaise = (_savytska || (monthKey >= '2026-08' && KOLKY_DEPTS.includes(base.dept))) && SALARY_RAISE_AUG[_okladBase] || (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000);
     const _newOklad = (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000)
       ? 32000
       : (_isRaise ? SALARY_RAISE_AUG[_okladBase] : _okladBase);
-    const oklad_obr = _newOklad + _okladTax;
+    // oklad_obr: якщо оклад підвищився — новий оклад + стара різниця (податок)
+    // але якщо base.oklad_obr вже правильне (напр. Павлов) — беремо його напряму
+    const _okladObrBase = base.oklad_obr || _okladBase;
+    const oklad_obr = _isRaise ? (_newOklad + _okladTaxFixed) : _okladObrBase;
     // Для відділів з премією за норму — ставка обмежена нормою, надурочні = окрема премія
     const PREM_NORMA_DEPTS = ['Виробництво','Цех цукерок','Цех вафель','Цех глазурі'];
     // Виключення: Павлюк не має премії за норму годин
