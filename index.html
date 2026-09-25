@@ -277,8 +277,7 @@ function showList(d) {
     return s + (dv > 0 ? dv : 0);
   }, 0);
   const tZagalna = emps.reduce((s,e) => {
-    const dv = e.do_vypl !== undefined ? Math.max(e.do_vypl,0) : Math.max(e.f2||0,0);
-    return s + (e.kartu||0) + dv;
+    return s + (e.kartu||0) + Math.max(e.f2||0, 0);
   }, 0);
 
   // Detect columns present in this dept
@@ -346,7 +345,7 @@ function showList(d) {
       + '<td class="sep '+(e.f2<0?'neg':e.f2>0?'pos':'mut')+'">'+Math.round(e.f2||0).toLocaleString('uk-UA')+'</td>';
     if (hasAvans) td += '<td style="color:var(--or)">'+(e.avans>0?Math.round(e.avans).toLocaleString('uk-UA'):'—')+'</td>';
     td += '<td class="'+(dv<0?'neg':dv>0?'pos':'mut')+'">'+Math.round(dv).toLocaleString('uk-UA')+'</td>'
-      + '<td class="sep" style="font-weight:600">'+Math.round((e.kartu||0)+(dv>0?dv:0)).toLocaleString('uk-UA')+'</td>'
+      + '<td class="sep" style="font-weight:600">'+Math.round((e.kartu||0)+Math.max(e.f2||0,0)).toLocaleString('uk-UA')+'</td>'
       + '</tr>';
     return td;
   }).join('');
