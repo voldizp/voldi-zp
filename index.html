@@ -1239,10 +1239,10 @@ function doImport() {
     const _okladBase = base.oklad || 0;
     const _okladTax = (base.oklad_obr || _okladBase) - _okladBase; // податок залишається
     const _savytska = name.includes('Савицька') && monthKey >= '2026-08';
-    // Деміш: оклад 32000 з серпня 2026
-    if (name.includes('Деміш') && monthKey >= '2026-08') { _okladBase = 32000; }
-    const _isRaise = (_savytska || (monthKey >= '2026-08' && KOLKY_DEPTS.includes(base.dept))) && SALARY_RAISE_AUG[_okladBase];
-    const _newOklad = _isRaise ? SALARY_RAISE_AUG[_okladBase] : _okladBase;
+    const _isRaise = (_savytska || (monthKey >= '2026-08' && KOLKY_DEPTS.includes(base.dept))) && SALARY_RAISE_AUG[_okladBase] || (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000);
+    const _newOklad = (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000)
+      ? 32000
+      : (_isRaise ? SALARY_RAISE_AUG[_okladBase] : _okladBase);
     const oklad_obr = _newOklad + _okladTax;
     // Для відділів з премією за норму — ставка обмежена нормою, надурочні = окрема премія
     const PREM_NORMA_DEPTS = ['Виробництво','Цех цукерок','Цех вафель','Цех глазурі'];
