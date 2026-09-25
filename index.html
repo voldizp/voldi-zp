@@ -1123,6 +1123,8 @@ function doImport() {
       }
       const vidpusk = sfv(gc(ws, r, vidpuskCol));
       const likar = sfv(gc(ws, r, likarCol));
+      // Count days with any value > 0
+      let days = 0; for (let _d = 4; _d <= 35; _d++) { if (sfv(gc(ws, r, _d)) > 0) days++; }
       // Горбач Олександр: табель записує дні (1) замість годин — множимо на 8
       if (name.includes('Горбач') && name.includes('Олександр')) hod = hod * 8;
       // Always record if person is in tabель — sum hours if person appears in multiple rows
@@ -1132,8 +1134,9 @@ function doImport() {
           tabMap[name].hod += hod;
           tabMap[name].vidpusk += vidpusk;
           tabMap[name].likar += likar;
+          tabMap[name].days = (tabMap[name].days||0) + days;
         } else {
-          tabMap[name] = {hod, norma: normaVal, vidpusk, likar};
+          tabMap[name] = {hod, norma: normaVal, vidpusk, likar, days};
         }
       }
     }
@@ -1454,6 +1457,17 @@ function doImport() {
       if (name.includes('Горбач') && name.includes('Олександр') && monthKey === '2026-06') {
         emp.do_vypl = 0; emp.f2 = 0; emp.nar_zp = 0;
       }
+    }
+
+    // Гнинюк з вересня 2026: 1000 грн × дні, тільки Ф2
+    if (name.includes('Гнинюк') && monthKey >= '2026-09') {
+      const gnDays = (matchName(name, tabMap) || {days: 0}).days || 0;
+      const gnTotal = gnDays * 1000;
+      emp.nar_zp = gnTotal; emp.zagalna = gnTotal;
+      emp.f1 = 0; emp.taxes = 0; emp.kartu = 0;
+      emp.f2 = gnTotal; emp.do_vypl = gnTotal;
+      emp.stavka = gnTotal;
+      emp.stazh_prem = 0;
     }
 
     // Смоляк і Фердолевська — фіксована ставка 2200
