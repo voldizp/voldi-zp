@@ -25,7 +25,7 @@
   </div>
   <select class="month-sel" id="monthSel"></select>
   <button class="upload-btn" onclick="openUpload()">&#11014; Завантажити місяць</button>
-  <!-- saveToGithub disabled — зміни тільки через Claude -->
+  <button class="upload-btn" onclick="saveToGithub()" style="background:rgba(255,255,255,.25)">&#9729; Зберегти на сервер</button>
   <button onclick="setupGhToken()" style="height:28px;padding:0 8px;font-size:11px;border:1px solid rgba(255,255,255,.3);border-radius:4px;background:transparent;color:rgba(255,255,255,.6);cursor:pointer">&#128273;</button>
 </header>
 <div class="sbar">
@@ -1187,7 +1187,7 @@ function doImport() {
   });
 
   // Для поточного місяця — беремо oklad/oklad_obr з data.json (перезаписують квітневі значення)
-  const currentMonthBaseMap = {};
+  const currentMonthBaseMap = {}; window._currentMonthBaseMap = currentMonthBaseMap;
   ((HISTORY[monthKey] || {}).employees || []).forEach(e => {
     if (e.name && e.oklad) currentMonthBaseMap[e.name] = e;
   });
@@ -1923,7 +1923,19 @@ async function saveToGithub() {
       const r = await fetch(GH_API, {headers: {'Authorization': 'token ' + GH_TOKEN}});
       if (r.ok) { const j = await r.json(); sha = j.sha; }
     } catch(e) {}
-    const data = { months: HISTORY, currentMonth, notes: getNotes() };
+    // Перед збереженням відновлюємо oklad/oklad_obr з оригінального data.json
+    // щоб не перезаписати правильні значення розрахованими зі старої бази
+    const saveHistory = JSON.parse(JSON.stringify(HISTORY));
+    if (saveHistory[currentMonth] && saveHistory[currentMonth].employees) {
+      saveHistory[currentMonth].employees.forEach(emp => {
+        const orig = (window._currentMonthBaseMap || {})[emp.name];
+        if (orig && orig.oklad) {
+          emp.oklad = orig.oklad;
+          emp.oklad_obr = orig.oklad_obr || orig.oklad;
+        }
+      });
+    }
+    const data = { months: saveHistory, currentMonth, notes: getNotes() };
     const content = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
     const body = { message: 'Update ' + currentMonth, content, ...(sha ? {sha} : {}) };
     const r = await fetch(GH_API, {
