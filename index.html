@@ -1238,7 +1238,14 @@ function doImport() {
     const _okladBase = base.oklad || 0;
     const _okladTaxFixed = (base.oklad_obr || _okladBase) - _okladBase; // різниця (податок)
     const _savytska = name.includes('Савицька') && monthKey >= '2026-08';
-    const _noRaise = name.includes('Павлов Валентин') || name.includes('Грачук') || name.includes('Шулипа');
+    const _noRaise = name.includes('Павлов Валентин') || name.includes('Грачук') || name.includes('Шулипа')
+      || name.includes('Павлюк Оксана') || name.includes('Білевич') || name.includes('Зінчук Тетяна')
+      || name.includes('Ляхно') || name.includes('Миронюк Ніна') || name.includes('Динісова')
+      || name.includes('Волох') || name.includes('Курдельчук') || name.includes('Шатковська')
+      || name.includes('Андрійчук Людмила') || name.includes('Зінчук Сергій') || name.includes('Каразія')
+      || name.includes('Ковальчук Андрій') || name.includes('Мандзюк') || name.includes('Борщевич')
+      || name.includes('Горбач Жанна') || name.includes('Кушнірчук') || name.includes('Сидорчук Катерина')
+      || name.includes('Гічко');
     const _isRaise = !_noRaise && ((_savytska || (monthKey >= '2026-08' && KOLKY_DEPTS.includes(base.dept))) && SALARY_RAISE_AUG[_okladBase] || (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000));
     const _newOklad = (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000)
       ? 32000
