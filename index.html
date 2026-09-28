@@ -1127,7 +1127,6 @@ function doImport() {
       // Горбач Олександр: табель записує дні (1) замість годин — множимо на 8
       if (name.includes('Горбач') && name.includes('Олександр')) hod = hod * 8;
       // Always record if person is in tabель — sum hours if person appears in multiple rows
-      if (name && name.includes('Грачук')) console.log('ГРАЧУК TAB', {name, hod, nameCol, shName});
       if (nameRaw && nameRaw.length > 2) {
         if (tabMap[name]) {
           tabMap[name].hod += hod;
@@ -1529,7 +1528,6 @@ function doImport() {
       }
     }
 
-    if (name.includes('Волох')) console.log('ВОЛОХ AFTER', JSON.parse(JSON.stringify(emp)));
 
     // Preserve location flags so they survive save/reload cycle
     if (base.lviv) emp.lviv = true;
