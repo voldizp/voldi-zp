@@ -1245,7 +1245,9 @@ function doImport() {
       || name.includes('Андрійчук Людмила') || name.includes('Зінчук Сергій') || name.includes('Каразія')
       || name.includes('Ковальчук Андрій') || name.includes('Мандзюк') || name.includes('Борщевич')
       || name.includes('Горбач Жанна') || name.includes('Кушнірчук') || name.includes('Сидорчук Катерина')
-      || name.includes('Гічко');
+      || name.includes('Гічко') || name.includes('Маркевич') || name.includes('Гаврилюк')
+      || name.includes('Зінчук Святослав') || name.includes('Новак') || name.includes('Сачковський')
+      || name.includes('Снитюк') || name.includes('Попов Андрій');
     const _isRaise = !_noRaise && ((_savytska || (monthKey >= '2026-08' && KOLKY_DEPTS.includes(base.dept))) && SALARY_RAISE_AUG[_okladBase] || (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000));
     const _newOklad = (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000)
       ? 32000
@@ -1501,6 +1503,16 @@ function doImport() {
       // f1, taxes, kartu залишаються з файлу
       emp.f2 = Math.round((fixedNar - emp.kartu) * 100) / 100;
       emp.do_vypl = emp.f2;
+    }
+
+    // Маркевич: максимум 25 000 на руки (f2 + kartu)
+    if (name.includes('Маркевич Володимир')) {
+      const mTotal = (emp.kartu || 0) + Math.max(emp.f2 || 0, 0);
+      if (mTotal > 25000) {
+        const excess = mTotal - 25000;
+        emp.f2 = Math.round((emp.f2 - excess) * 100) / 100;
+        emp.do_vypl = emp.f2;
+      }
     }
 
     if (name.includes('Волох')) console.log('ВОЛОХ AFTER', JSON.parse(JSON.stringify(emp)));
