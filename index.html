@@ -1247,7 +1247,9 @@ function doImport() {
       || name.includes('Горбач Жанна') || name.includes('Кушнірчук') || name.includes('Сидорчук Катерина')
       || name.includes('Гічко') || name.includes('Маркевич') || name.includes('Гаврилюк')
       || name.includes('Зінчук Святослав') || name.includes('Новак') || name.includes('Сачковський')
-      || name.includes('Снитюк') || name.includes('Попов Андрій');
+      || name.includes('Снитюк') || name.includes('Попов Андрій')
+      || name.includes('Блажко') || name.includes('Лаценко') || name.includes('Матвійчук')
+      || name.includes('Павлов Сергій') || name.includes('Третяк') || name.includes('Швець');
     const _isRaise = !_noRaise && ((_savytska || (monthKey >= '2026-08' && KOLKY_DEPTS.includes(base.dept))) && SALARY_RAISE_AUG[_okladBase] || (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000));
     const _newOklad = (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000)
       ? 32000
