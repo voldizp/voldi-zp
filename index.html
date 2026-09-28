@@ -1192,6 +1192,14 @@ function doImport() {
     if (e.name && e.oklad) currentMonthBaseMap[e.name] = e;
   });
 
+  // Додаємо нових працівників яких нема в квітневій базі (наприклад Гаврилюк)
+  const baseNames = new Set(baseEmps.map(e => e.name));
+  ((HISTORY[monthKey] || {}).employees || []).forEach(e => {
+    if (e.name && e.oklad && !baseNames.has(e.name)) {
+      baseEmps.push(Object.assign({}, e));
+    }
+  });
+
   const allEmps = baseEmps.map(base => {
     const name = base.name;
     // Якщо в data.json є oklad для цього місяця — беремо звідти
