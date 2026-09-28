@@ -1187,8 +1187,20 @@ function doImport() {
     return hasF1 || hasTab || hasDop || hasVidp || isRozhyshche || isLviv || isLutsk;
   });
 
+  // Для поточного місяця — беремо oklad/oklad_obr з data.json (перезаписують квітневі значення)
+  const currentMonthBaseMap = {};
+  ((HISTORY[monthKey] || {}).employees || []).forEach(e => {
+    if (e.name && e.oklad) currentMonthBaseMap[e.name] = e;
+  });
+
   const allEmps = baseEmps.map(base => {
     const name = base.name;
+    // Якщо в data.json є oklad для цього місяця — беремо звідти
+    const ghBase = currentMonthBaseMap[name];
+    if (ghBase) base = Object.assign({}, base, {
+      oklad: ghBase.oklad,
+      oklad_obr: ghBase.oklad_obr || ghBase.oklad,
+    });
     
     // Поворотна премія: іде в Ф1, але повернуті податки (23%) йдуть в Ф2
     const povor = base.lviv_fop_fixed ? 0 : (matchName(name, povorMap) || 0);
