@@ -1519,10 +1519,11 @@ function doImport() {
       const fixedTotal = (monthKey >= '2026-07') ? 28000 : 25000;
       const ratio = _normaEff > 0 ? Math.min(hod / _normaEff, 1) : 0;
       const fixedNar = Math.round(fixedTotal * ratio);
+      const shtraf = emp.shtraf || 0;
       emp.nar_zp = fixedNar;
       emp.zagalna = fixedNar;
       // f1, taxes, kartu залишаються з файлу
-      emp.f2 = Math.round((fixedNar - emp.kartu) * 100) / 100;
+      emp.f2 = Math.round((fixedNar - emp.kartu - shtraf) * 100) / 100;
       emp.do_vypl = emp.f2;
     }
 
