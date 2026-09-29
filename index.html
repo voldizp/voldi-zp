@@ -1657,7 +1657,7 @@ function renderZvedena() {
   const fmt = n => n ? Math.round(n).toLocaleString('uk-UA') + ' ₴' : '—';
   const fmtH = n => n ? parseFloat(n.toFixed(1)).toLocaleString('uk-UA') : '—';
 
-  let totHod = 0, totF1 = 0, totF2 = 0, totKartu = 0, totTaxes = 0, totNar = 0, totGotivka = 0;
+  let totHod = 0, totF1 = 0, totF2 = 0, totKartu = 0, totTaxes = 0, totNar = 0, totGotivka = 0, totAvans = 0;
 
   const rows = depts.map((d, idx) => {
     const de = emps.filter(e => e.dept === d);
@@ -1673,7 +1673,8 @@ function renderZvedena() {
       return s + (dv > 0 ? dv : 0); // тільки ті хто отримує, без повернень
     }, 0);
     const fop = f1 + f2;
-    totHod += hod; totF1 += f1; totF2 += f2; totKartu += kartu; totTaxes += taxes; totNar += nar; totGotivka += gotivka;
+    const avans = de.reduce((s,e) => s+(e.avans||0), 0);
+    totHod += hod; totF1 += f1; totF2 += f2; totKartu += kartu; totTaxes += taxes; totNar += nar; totGotivka += gotivka; totAvans += avans;
     return `<tr style="cursor:pointer" onclick="dept='${d}';$('ds').value='${d}';zvShowing=false;$('btnZvedena').classList.remove('active');$('zv').style.display='none';showList('${d}')">
       <td>${idx+1}</td>
       <td>${d} <span style="font-size:11px;color:var(--tx3);font-weight:400">(${de.length} ос.)</span></td>
@@ -1733,7 +1734,7 @@ function renderZvedena() {
       <div class="gotivka-box">
         <div>
           <div class="gb-label">${currentLocation==='lviv' ? 'Необхідна готівка у Львові' : currentLocation==='lutsk' ? 'Необхідна готівка в Луцьку' : 'Необхідна готівка в Колках'}</div>
-          <div class="gb-val">${Math.round(totGotivka).toLocaleString('uk-UA')} ₴</div>
+          <div class="gb-val">${Math.round(Math.max(totF2 - totAvans, 0)).toLocaleString('uk-UA')} ₴</div>
           <div class="gb-sub">Ф2 за мінусом авансів · ${label}</div>
         </div>
       </div>
