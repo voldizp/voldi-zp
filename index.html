@@ -1196,7 +1196,7 @@ function doImport() {
   const baseNames = new Set(baseEmps.map(e => e.name));
   ((HISTORY[monthKey] || {}).employees || []).forEach(e => {
     if (e.name && e.oklad && !baseNames.has(e.name)) {
-      baseEmps.push(Object.assign({}, e));
+      baseEmps.push(Object.assign({}, e, {_newFromCurrent: true}));
     }
   });
 
@@ -1230,7 +1230,10 @@ function doImport() {
     // For others: if hod=0 in табель → respect the 0 (genuinely absent)
     // If not in табель at all → fallback
     let tab;
-    if (tabRaw) {
+    // Для нових працівників (не з квітневої бази) з hod в data.json — беремо hod звідти, ігноруємо табель
+    if (base._newFromCurrent && base.hod != null) {
+      tab = {hod: base.hod, norma: base.norma || globalNorma, vidpusk: base.vidpusk || 0, likar: base.likar_fss || 0};
+    } else if (tabRaw) {
       if ((base.lviv || base.lutsk) && tabRaw.hod === 0 && tabRaw.vidpusk === 0 && tabRaw.likar === 0) {
         tab = {hod: globalNorma, norma: globalNorma, vidpusk: 0, likar: 0};
       } else {
