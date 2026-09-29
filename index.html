@@ -887,8 +887,8 @@ function doImport() {
   if (wsAvans) {
     const rangeAv = XLSX.utils.decode_range(wsAvans['!ref']);
     for (let r = 3; r <= rangeAv.e.r; r++) { // data starts from row 4 (index 3)
-      const nameRaw = gc(wsAvans, r, 1); // col B
-      const amt = sfv(gc(wsAvans, r, 2)); // col C
+      const nameRaw = gc(wsAvans, r, 2); // col B
+      const amt = sfv(gc(wsAvans, r, 3)); // col C
       const name = cleanName(nameRaw);
       if (name && name.length > 2 && amt > 0) {
         avansFileMap[name] = (avansFileMap[name]||0) + amt;
