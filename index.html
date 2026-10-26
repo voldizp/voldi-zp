@@ -1197,9 +1197,16 @@ function doImport() {
   });
 
   // Додаємо нових працівників яких нема в квітневій базі
-  // Беремо з currentMonthBaseMap (охоплює всі місяці від квітня до поточного)
+  // Беремо тільки з місяців ПІСЛЯ квітня (не з квітня!) — щоб не повертати людей яких фільтр прибрав
   const baseNames = new Set(baseEmps.map(e => e.name));
-  Object.values(currentMonthBaseMap).forEach(e => {
+  const sortedMonthsAfterBase = Object.keys(HISTORY).filter(k => k > MASTER_BASE_KEY && k <= monthKey).sort();
+  const newFromCurrentMap = {};
+  sortedMonthsAfterBase.forEach(mk => {
+    ((HISTORY[mk] || {}).employees || []).forEach(e => {
+      if (e.name && e.oklad) newFromCurrentMap[e.name] = e;
+    });
+  });
+  Object.values(newFromCurrentMap).forEach(e => {
     if (e.name && e.oklad && !baseNames.has(e.name)) {
       baseEmps.push(Object.assign({}, e, {_newFromCurrent: true}));
       baseNames.add(e.name);
