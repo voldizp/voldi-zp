@@ -1196,11 +1196,13 @@ function doImport() {
     });
   });
 
-  // Додаємо нових працівників яких нема в квітневій базі (наприклад Гаврилюк)
+  // Додаємо нових працівників яких нема в квітневій базі
+  // Беремо з currentMonthBaseMap (охоплює всі місяці від квітня до поточного)
   const baseNames = new Set(baseEmps.map(e => e.name));
-  ((HISTORY[monthKey] || {}).employees || []).forEach(e => {
+  Object.values(currentMonthBaseMap).forEach(e => {
     if (e.name && e.oklad && !baseNames.has(e.name)) {
       baseEmps.push(Object.assign({}, e, {_newFromCurrent: true}));
+      baseNames.add(e.name);
     }
   });
 
