@@ -1294,7 +1294,7 @@ function doImport() {
       && !NO_PREM_NORMA.some(n => name.includes(n));
     // Норма годин: Качковський — 136; Охорона (крім Смоляк і Фердолевської) — 192; решта — з табеля
     let normaEff;
-    if (name.includes('Качковськ')) {
+    if (name.includes('Качковськ') && monthKey !== '2026-09') {
       normaEff = hod; // норма = відпрацьовані години
     } else if (base.dept === 'Охорона' && !name.includes('Смоляк') && !name.includes('Фердолевськ')) {
       normaEff = monthKey === '2026-06' ? 230 : 192;
