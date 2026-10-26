@@ -1359,7 +1359,7 @@ function doImport() {
     const FIXED_SUMISH = { 'Андрійчук Людмила': 3000 };
     for (const [key, base] of Object.entries(FIXED_SUMISH)) {
       if (name.includes(key)) {
-        sumish = Math.round(base / norma * hod * 100) / 100;
+        sumish = base; // фіксована сума, не залежить від годин
         break;
       }
     }
