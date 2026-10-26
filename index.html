@@ -1373,7 +1373,7 @@ function doImport() {
     // Керівники цехів - розраховуємо премії по таблиці ставок
     let prem_tonazh = 0, prem_plan = 0, plan_t = undefined, fakt_t = undefined, pct_plan = undefined;
     if (base.dept === 'Керівники цехів') {
-      if (name.includes('Романюк')) {
+      if (name.includes('Романюк') || name.includes('Юрук')) {
         const pCila = vPctCila;
         prem_tonazh = pCila<88?0 : pCila<90?1500 : pCila<92?2000 : 2500;
         const vPlanPct = vPlan>0 ? vFakt/vPlan : 0;
