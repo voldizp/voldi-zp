@@ -1198,6 +1198,8 @@ function doImport() {
 
   // Додаємо нових працівників яких нема в квітневій базі
   // Беремо тільки з місяців ПІСЛЯ квітня (не з квітня!) — щоб не повертати людей яких фільтр прибрав
+  // Перевіряємо проти ВСІХ квітневих імен (до фільтрації) — щоб не повертати звільнених
+  const aprilNames = new Set(prevEmps.map(e => e.name));
   const baseNames = new Set(baseEmps.map(e => e.name));
   const sortedMonthsAfterBase = Object.keys(HISTORY).filter(k => k > MASTER_BASE_KEY && k <= monthKey).sort();
   const newFromCurrentMap = {};
@@ -1207,7 +1209,8 @@ function doImport() {
     });
   });
   Object.values(newFromCurrentMap).forEach(e => {
-    if (e.name && e.oklad && !baseNames.has(e.name)) {
+    // Додаємо тільки якщо НЕ було в квітні взагалі (справді нові, не відфільтровані)
+    if (e.name && e.oklad && !aprilNames.has(e.name) && !baseNames.has(e.name)) {
       baseEmps.push(Object.assign({}, e, {_newFromCurrent: true}));
       baseNames.add(e.name);
     }
@@ -1243,8 +1246,8 @@ function doImport() {
     // For others: if hod=0 in табель → respect the 0 (genuinely absent)
     // If not in табель at all → fallback
     let tab;
-    // Для нових працівників (не з квітневої бази) з hod в data.json — беремо hod звідти, ігноруємо табель
-    if (base._newFromCurrent && base.hod != null) {
+    // Для нових працівників (не з квітневої бази): якщо є в табелі — беремо звідти; інакше з data.json
+    if (base._newFromCurrent && base.hod != null && !tabRaw) {
       tab = {hod: base.hod, norma: base.norma || globalNorma, vidpusk: base.vidpusk || 0, likar: base.likar_fss || 0};
     } else if (tabRaw) {
       if ((base.lviv || base.lutsk) && tabRaw.hod === 0 && tabRaw.vidpusk === 0 && tabRaw.likar === 0) {
@@ -1261,7 +1264,9 @@ function doImport() {
     // normaEff is defined below but we need it here too for pct_normy
     // so we recalculate inline
     const _охоронаNorma = monthKey === '2026-06' ? 230 : 192;
-    const _normaEff = (name.includes("Качковськ") && monthKey !== '2026-09') ? hod
+    const _kvalNorma = (name.includes("Качковськ") && monthKey === '2026-09') ? 144 : null;
+    const _normaEff = _kvalNorma ? _kvalNorma
+      : (name.includes("Качковськ") && monthKey !== '2026-09') ? hod
       : (base.dept === "Охорона" && !name.includes("Смоляк") && !name.includes("Фердолевськ")) ? _охоронаNorma
       : norma;
     const pct_normy = _normaEff > 0 ? Math.round(hod/_normaEff*100)/100 : 0;
@@ -1303,7 +1308,9 @@ function doImport() {
       && !NO_PREM_NORMA.some(n => name.includes(n));
     // Норма годин: Качковський — 136; Охорона (крім Смоляк і Фердолевської) — 192; решта — з табеля
     let normaEff;
-    if (name.includes('Качковськ') && monthKey !== '2026-09') {
+    if (name.includes('Качковськ') && monthKey === '2026-09') {
+      normaEff = 144; // вересень 2026: норма 144 год (виняток)
+    } else if (name.includes('Качковськ') && monthKey !== '2026-09') {
       normaEff = hod; // норма = відпрацьовані години
     } else if (base.dept === 'Охорона' && !name.includes('Смоляк') && !name.includes('Фердолевськ')) {
       normaEff = monthKey === '2026-06' ? 230 : 192;
