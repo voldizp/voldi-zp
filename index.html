@@ -1187,9 +1187,13 @@ function doImport() {
   });
 
   // Для поточного місяця — беремо oklad/oklad_obr з data.json (перезаписують квітневі значення)
+  // Якщо в поточному місяці нема окладу — шукаємо в попередніх місяцях (до MASTER_BASE_KEY)
   const currentMonthBaseMap = {}; window._currentMonthBaseMap = currentMonthBaseMap;
-  ((HISTORY[monthKey] || {}).employees || []).forEach(e => {
-    if (e.name && e.oklad) currentMonthBaseMap[e.name] = e;
+  const sortedMonths = Object.keys(HISTORY).filter(k => k >= MASTER_BASE_KEY && k <= monthKey).sort();
+  sortedMonths.forEach(mk => {
+    ((HISTORY[mk] || {}).employees || []).forEach(e => {
+      if (e.name && e.oklad) currentMonthBaseMap[e.name] = e;
+    });
   });
 
   // Додаємо нових працівників яких нема в квітневій базі (наприклад Гаврилюк)
