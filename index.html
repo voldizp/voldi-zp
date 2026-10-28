@@ -1274,10 +1274,10 @@ function doImport() {
     // Calculate ставка
     // Підвищення окладів з серпня 2026 (Колки) — тільки чистий оклад
     const KOLKY_DEPTS = ['Виробництво','Керівники цехів','Цех цукерок','Цех вафель','Цех глазурі','Логістика','Технічний відділ','Охорона'];
-    const SALARY_RAISE_AUG = {15000:17000, 15500:17500, 16000:18000, 16500:18500, 13500:15500}; // Савицька +2000
+    const SALARY_RAISE_AUG = {15000:17000, 15500:17500, 16000:18000, 16500:18500, 13500:15500};
     const _okladBase = base.oklad || 0;
     const _okladTaxFixed = (base.oklad_obr || _okladBase) - _okladBase; // різниця (податок)
-    const _savytska = name.includes('Савицька') && monthKey >= '2026-08';
+    const _savytska = false; // Савицька тепер oklad=15500 напряму в data.json
     const _noRaise = name.includes('Павлов Валентин') || name.includes('Грачук') || name.includes('Шулипа')
       || name.includes('Білевич') || name.includes('Зінчук Тетяна')
       || name.includes('Ляхно') || name.includes('Миронюк Ніна') || name.includes('Динісова')
@@ -1291,7 +1291,8 @@ function doImport() {
       || name.includes('Блажко') || name.includes('Лаценко') || name.includes('Матвійчук')
       || name.includes('Павлов Сергій') || name.includes('Третяк') || name.includes('Швець')
       || name.includes('Юрук') || name.includes('Гаврилюк Іван') || name.includes('Дейна')
-      || name.includes('Фінюк') || name.includes('Махновець') || name.includes('Абрамчук');
+      || name.includes('Фінюк') || name.includes('Махновець') || name.includes('Абрамчук')
+      || name.includes('Савицька');
     const _isRaise = !_noRaise && ((_savytska || (monthKey >= '2026-08' && KOLKY_DEPTS.includes(base.dept))) && SALARY_RAISE_AUG[_okladBase] || (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000));
     const _newOklad = (name.includes('Деміш') && monthKey >= '2026-08' && _okladBase === 30000)
       ? 32000
