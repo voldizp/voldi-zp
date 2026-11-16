@@ -1246,10 +1246,14 @@ function doImport() {
     const name = base.name;
     // Якщо в data.json є oklad для цього місяця — беремо звідти
     const ghBase = currentMonthBaseMap[name];
-    if (ghBase) base = Object.assign({}, base, {
-      oklad: ghBase.oklad,
-      oklad_obr: ghBase.oklad_obr || ghBase.oklad,
-    });
+    if (ghBase) {
+      const overrides = {oklad: ghBase.oklad, oklad_obr: ghBase.oklad_obr || ghBase.oklad};
+      if (ghBase.lviv_sales_pct != null) overrides.lviv_sales_pct = ghBase.lviv_sales_pct;
+      if (ghBase.lutsk_sumish_fixed != null) overrides.lutsk_sumish_fixed = ghBase.lutsk_sumish_fixed;
+      if (ghBase.lutsk_pryb_fixed != null) overrides.lutsk_pryb_fixed = ghBase.lutsk_pryb_fixed;
+      if (ghBase.lviv_fop_fixed != null) overrides.lviv_fop_fixed = ghBase.lviv_fop_fixed;
+      base = Object.assign({}, base, overrides);
+    }
     
     // Поворотна премія: іде в Ф1, але повернуті податки (23%) йдуть в Ф2
     const povor = base.lviv_fop_fixed ? 0 : (matchName(name, povorMap) || 0);
