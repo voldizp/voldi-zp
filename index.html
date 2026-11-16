@@ -160,6 +160,16 @@ function closeAll() {
   $('empty').style.display='none';
 }
 
+function updatePakDoc(val) {
+  const n = parseInt(val) || 0;
+  if (HISTORY[currentMonth]) {
+    HISTORY[currentMonth].pakDoc = n;
+    // оновити суму поряд
+    const span = document.querySelector('input[onchange="updatePakDoc(this.value)"] + span');
+    if (span) span.innerHTML = '× 500 ₴ = <b>' + Math.round(n * 500).toLocaleString('uk-UA') + ' ₴</b>';
+  }
+}
+
 function setMonth(key) {
   currentMonth = key;
   closeAll();
@@ -538,6 +548,8 @@ function doShowCard(e) {
   if (e.lviv_shokobum) det += r('Шокобум оплачує за Моджі', fmt(e.lviv_shokobum), 'mut');
   // % від продажів
   if (e.lviv_sales && e.lviv_sales > 0) det += r('% від продажів' + (e.lviv_sales_base ? ' (продажі: ' + Math.round(e.lviv_sales_base).toLocaleString('uk-UA') + ' ₴)' : ''), fmt(e.lviv_sales), 'pos');
+  // Пакети документів на експорт
+  if (e.pakDocDopl && e.pakDocDopl > 0) det += r('Пакети документів на експорт', fmt(e.pakDocDopl), 'pos');
   // ФОП надбавка
   if (e.lviv_fop_pct_bonus && e.lviv_fop_pct_bonus > 0) det += r('Надбавка ФОП (+6%)', fmt(e.lviv_fop_pct_bonus), 'pos');
   if (e.lviv_fop_dopl && e.lviv_fop_dopl > 0) det += r('Доплата ФОП', fmt(e.lviv_fop_dopl), 'pos');
@@ -1431,6 +1443,13 @@ function doImport() {
     if (base.lviv_sales_pct && lvivSales > 0) {
       lviv_sales = Math.round(base.lviv_sales_pct * lvivSales * 100) / 100;
     }
+    // Петелицький: доплата за пакети документів на експорт (500 грн/пакет)
+    const pakDoc = (HISTORY[monthKey] || {}).pakDoc || 0;
+    let pakDocDopl = 0;
+    if (name.includes('Петелицький Павло') && pakDoc > 0) {
+      pakDocDopl = pakDoc * 500;
+      inше = Math.round((inше + pakDocDopl) * 100) / 100;
+    }
     const lviv_fop_dopl = base.lviv_fop_dopl || 0;
     const lviv_fop_pct_bonus = base.lviv_fop_pct ? Math.round(oklad_obr * base.lviv_fop_pct * 100) / 100 : 0;
     const lviv_shokobum = base.lviv_shokobum || 0;
@@ -1588,6 +1607,7 @@ function doImport() {
     if (lviv_sales > 0) { emp.lviv_sales = lviv_sales; emp.lviv_sales_base = lvivSales; }
     if (lviv_fop_pct_bonus > 0) emp.lviv_fop_pct_bonus = lviv_fop_pct_bonus;
     if (lviv_fop_dopl > 0) emp.lviv_fop_dopl = lviv_fop_dopl;
+    if (pakDocDopl > 0) emp.pakDocDopl = pakDocDopl;
     emp.dopList = dopList.map(function(d) {
       return {amt: d.amt, desc: d.desc};
     });
@@ -1619,7 +1639,8 @@ function doImport() {
   const monthNames = ['','Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
   const label = monthNames[parseInt(month)] + ' ' + year;
 
-  HISTORY[monthKey] = {label, employees: allEmps, tPlan, tFakt, lvivSales, norma: globalNorma};
+  const pakDocVal = parseInt(document.querySelector('input[onchange="updatePakDoc(this.value)"]')?.value || 0) || 0;
+  HISTORY[monthKey] = {label, employees: allEmps, tPlan, tFakt, lvivSales, norma: globalNorma, pakDoc: pakDocVal};
 
   setTimeout(() => {
     buildMonthSelector();
@@ -1731,7 +1752,8 @@ function renderZvedena() {
       ${(()=>{
         const mon = HISTORY[currentMonth];
         if (!mon || !mon.tPlan) return '';
-        return '<div style="padding:1rem 1.5rem;border-bottom:1px solid var(--bd)"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:.75rem;font-weight:600">Виробництво тонажу (цукерки)</div><div style="font-size:16px">План: <b>'+mon.tPlan+' т</b> &nbsp;·&nbsp; Факт: <b>'+mon.tFakt+' т</b>'+(mon.lvivSales?' &nbsp;·&nbsp; Продажі: <b>'+Math.round(mon.lvivSales).toLocaleString('uk-UA')+' ₴</b>':'')+'</div>'+(mon.norma?'<div style="font-size:14px;color:var(--tx3);margin-top:4px">Норма годин місяця: <b>'+mon.norma+' год</b></div>':'')+'</div>';
+        return '<div style="padding:1rem 1.5rem;border-bottom:1px solid var(--bd)"><div style="font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--tx3);margin-bottom:.75rem;font-weight:600">Виробництво тонажу (цукерки)</div><div style="font-size:16px">План: <b>'+mon.tPlan+' т</b> &nbsp;·&nbsp; Факт: <b>'+mon.tFakt+' т</b>'+(mon.lvivSales?' &nbsp;·&nbsp; Продажі: <b>'+Math.round(mon.lvivSales).toLocaleString('uk-UA')+' ₴</b>':'')+'</div>'+(mon.norma?'<div style="font-size:14px;color:var(--tx3);margin-top:4px">Норма годин місяця: <b>'+mon.norma+' год</b></div>':'')+'</div>'
+          +'<div style="padding:.85rem 1.5rem;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font-size:12px;font-weight:600;color:var(--tx2)">Пакети документів на експорт (Петелицький):</span><input type="number" min="0" step="1" value="'+(mon.pakDoc||0)+'" style="width:70px;height:28px;font-size:13px;padding:0 6px;border:1.5px solid var(--bd2);border-radius:var(--rs);background:var(--sf2);color:var(--tx);text-align:right;outline:none" onchange="updatePakDoc(this.value)"><span style="font-size:12px;color:var(--tx3)">× 500 ₴ = <b>'+(Math.round((mon.pakDoc||0)*500)).toLocaleString('uk-UA')+' ₴</b></span></div>';
       })()}
       <div class="zv-wrap" style="padding:0 0 1rem">
         <table class="zv-table">
