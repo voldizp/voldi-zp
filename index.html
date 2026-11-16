@@ -162,12 +162,25 @@ function closeAll() {
 
 function updatePakDoc(val) {
   const n = parseInt(val) || 0;
-  if (HISTORY[currentMonth]) {
-    HISTORY[currentMonth].pakDoc = n;
-    // оновити суму поряд
-    const span = document.querySelector('input[onchange="updatePakDoc(this.value)"] + span');
-    if (span) span.innerHTML = '× 500 ₴ = <b>' + Math.round(n * 500).toLocaleString('uk-UA') + ' ₴</b>';
-  }
+  if (!HISTORY[currentMonth]) return;
+  const prevN = HISTORY[currentMonth].pakDoc || 0;
+  HISTORY[currentMonth].pakDoc = n;
+  // Оновити суму в зведеній (якщо відкрита)
+  const span = document.querySelector('input[onchange="updatePakDoc(this.value)"] ~ span b');
+  if (span) span.textContent = Math.round(n * 500).toLocaleString('uk-UA') + ' ₴';
+  // Оновити emp в HISTORY і перемалювати картку
+  const emps = HISTORY[currentMonth].employees || [];
+  const emp = emps.find(e => e.name && e.name.includes('Петелицький Павло'));
+  if (!emp) return;
+  const prevDopl = prevN * 500;
+  const newDopl = n * 500;
+  emp.pakDocDopl = newDopl;
+  emp.inше = Math.round(((emp.inше || 0) - prevDopl + newDopl) * 100) / 100;
+  emp.nar_zp = Math.round((emp.nar_zp - prevDopl + newDopl) * 100) / 100;
+  emp.zagalna = Math.round((emp.zagalna - prevDopl + newDopl) * 100) / 100;
+  emp.f2 = Math.round((emp.f2 - prevDopl + newDopl) * 100) / 100;
+  emp.do_vypl = Math.round((emp.f2 - (emp.avans || 0)) * 100) / 100;
+  showCard(emp);
 }
 
 function setMonth(key) {
