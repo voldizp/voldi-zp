@@ -1248,10 +1248,13 @@ function doImport() {
     const ghBase = currentMonthBaseMap[name];
     if (ghBase) {
       const overrides = {oklad: ghBase.oklad, oklad_obr: ghBase.oklad_obr || ghBase.oklad};
+      if (ghBase.dept) overrides.dept = ghBase.dept;
+      if (ghBase.posada) overrides.posada = ghBase.posada;
       if (ghBase.lviv_sales_pct != null) overrides.lviv_sales_pct = ghBase.lviv_sales_pct;
       if (ghBase.lutsk_sumish_fixed != null) overrides.lutsk_sumish_fixed = ghBase.lutsk_sumish_fixed;
       if (ghBase.lutsk_pryb_fixed != null) overrides.lutsk_pryb_fixed = ghBase.lutsk_pryb_fixed;
       if (ghBase.lviv_fop_fixed != null) overrides.lviv_fop_fixed = ghBase.lviv_fop_fixed;
+      if (ghBase.mob != null) overrides.mob = ghBase.mob;
       base = Object.assign({}, base, overrides);
     }
     
