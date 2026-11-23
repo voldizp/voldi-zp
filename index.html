@@ -284,7 +284,8 @@ function showList(d) {
   $('empty').style.display='none'; $('cv').style.display='none';
   $('zv').style.display='none'; $('btnZvedena').classList.remove('active'); zvShowing=false;
   $('lv').style.display='';
-  const emps = currentData.filter(e => e.dept === d);
+  let emps = currentData.filter(e => e.dept === d);
+  if (d === 'Цех цукерок') emps = emps.slice().sort((a, b) => (a.name||'').localeCompare(b.name||'', 'uk'));
   $('rc').textContent = emps.length + ' осіб';
 
   // Totals
@@ -1198,7 +1199,15 @@ function doImport() {
         .map(k => HISTORY[k])
         .find(h => h && h.employees && h.employees.length > 0) || {employees:[]}).employees;
 
+  // Звільнені / виключені з певного місяця
+  const DISMISSED = [
+    {name: 'Гнинюк Марія',       from: '2026-10'},
+    {name: 'Абрамчук Юрій',      from: '2026-10'},
+    {name: 'Махновець Катерина',  from: '2026-10'},
+  ];
+
   const baseEmps = prevEmps.filter(e => {
+    if (DISMISSED.some(d => e.name && e.name.includes(d.name) && monthKey >= d.from)) return false;
     const KNOWN_DEPTS = ['Виробництво','Керівники цехів','Цех цукерок','Цех вафель','Цех глазурі','Логістика','Технічний відділ','Охорона','Львів','Луцьк'];
     if (!KNOWN_DEPTS.includes(e.dept)) return false;
     // Include if: has f1 this month OR has hours in табель OR has доплати
@@ -1236,10 +1245,14 @@ function doImport() {
   });
   Object.values(newFromCurrentMap).forEach(e => {
     // Додаємо тільки якщо НЕ було в квітні взагалі (справді нові, не відфільтровані)
-    if (e.name && e.oklad && !aprilNames.has(e.name) && !baseNames.has(e.name)) {
-      baseEmps.push(Object.assign({}, e, {_newFromCurrent: true}));
-      baseNames.add(e.name);
-    }
+    if (!e.name || !e.oklad) return;
+    if (aprilNames.has(e.name)) return;
+    // Перевіряємо через перші два слова — щоб не дублювати "Фінюк Ірина" і "Фінюк Ірина Василівна"
+    const eWords = e.name.trim().split(/\s+/).slice(0,2).join(' ').toLowerCase();
+    const alreadyIn = [...baseNames].some(n => n.trim().split(/\s+/).slice(0,2).join(' ').toLowerCase() === eWords);
+    if (alreadyIn) return;
+    baseEmps.push(Object.assign({}, e, {_newFromCurrent: true}));
+    baseNames.add(e.name);
   });
 
   const allEmps = baseEmps.map(base => {
