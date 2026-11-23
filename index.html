@@ -1202,8 +1202,8 @@ function doImport() {
   // Звільнені / виключені з певного місяця
   const DISMISSED = [
     {name: 'Гнинюк Марія',       from: '2026-10'},
-    {name: 'Абрамчук Юрій',      from: '2026-10'},
-    {name: 'Махновець Катерина',  from: '2026-10'},
+    {name: 'Абрамчук Юрій Петрович',       from: '2026-10'},
+    {name: 'Махновець Катерина Анатоліївна', from: '2026-10'},
   ];
 
   const baseEmps = prevEmps.filter(e => {
@@ -1247,6 +1247,7 @@ function doImport() {
     // Додаємо тільки якщо НЕ було в квітні взагалі (справді нові, не відфільтровані)
     if (!e.name || !e.oklad) return;
     if (aprilNames.has(e.name)) return;
+    if (DISMISSED.some(d => e.name.includes(d.name) && monthKey >= d.from)) return;
     // Перевіряємо через перші два слова — щоб не дублювати "Фінюк Ірина" і "Фінюк Ірина Василівна"
     const eWords = e.name.trim().split(/\s+/).slice(0,2).join(' ').toLowerCase();
     const alreadyIn = [...baseNames].some(n => n.trim().split(/\s+/).slice(0,2).join(' ').toLowerCase() === eWords);
