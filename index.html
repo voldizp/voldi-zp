@@ -1137,7 +1137,9 @@ function doImport() {
          const _n2=String(gc(ws,r+1,2)||"").split(",")[0].trim();
          const _re=/[Ѐ-ӿ]{3}/;
          const _ok=function(x){var w=x.split(" ").filter(function(w){return w.length>=2;});return w.length>=3&&_re.test(x);};
-         if(!_ok(_n1)&&!_ok(_n2)){
+         // Also skip if next row col1/col2 looks like a phone number (pure digits)
+         const _isPhone=function(x){return /^\d{6,}$/.test(x.replace(/[\s\-]/g,''));};
+         if(!_ok(_n1)&&!_ok(_n2)&&!_isPhone(_n1)&&!_isPhone(_n2)){
            var _s2=0;
            for(var _c=4;_c<=35;_c++){var _v=sfv(gc(ws,r+1,_c));if(_v>0&&_v<=24)_s2+=_v;}
            if(_s2>0){s+=_s2;skipRow=r+1;}
