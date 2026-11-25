@@ -1629,15 +1629,6 @@ function doImport() {
       emp.do_vypl = emp.f2;
     }
 
-    // Маркевич: максимум 25 000 на руки (f2 + kartu)
-    if (name.includes('Маркевич Володимир')) {
-      const mTotal = (emp.kartu || 0) + Math.max(emp.f2 || 0, 0);
-      if (mTotal > 25000) {
-        const excess = mTotal - 25000;
-        emp.f2 = Math.round((emp.f2 - excess) * 100) / 100;
-        emp.do_vypl = emp.f2;
-      }
-    }
 
 
     // Preserve location flags so they survive save/reload cycle
