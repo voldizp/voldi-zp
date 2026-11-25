@@ -25465,6 +25465,13 @@
           "prem_norma": 0,
           "prem_tonazh": 0,
           "prem_plan": 0
+        },
+        {
+          "name": "Намонюк Віталій",
+          "dept": "Цех цукерок",
+          "posada": "Вантажник",
+          "oklad": 17500,
+          "oklad_obr": 17500
         }
       ],
       "tPlan": 112.6,
