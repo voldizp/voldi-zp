@@ -1440,6 +1440,9 @@ function doImport() {
       if (name.includes(key)) { mob = amt; break; }
     }
 
+    // Гичка: фіксована премія 1000 грн за відсутність алкоголю
+    if (name.includes('Гичка')) dopList.push({amt: 1000, desc: 'Премія за відсутність алкоголю'});
+
     // Фіксовані доплати за суміщення посад (база для пропорційного розрахунку)
     const FIXED_SUMISH = { 'Андрійчук Людмила': 3000 };
     for (const [key, base] of Object.entries(FIXED_SUMISH)) {
