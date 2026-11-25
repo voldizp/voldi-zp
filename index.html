@@ -735,7 +735,7 @@ function gc(ws, row, col) {
   const cell = ws[XLSX.utils.encode_cell({r:row, c:col})];
   return cell ? cell.v : null;
 }
-function sfv(v) { if(v===null||v===undefined||v==='') return 0; const f=parseFloat(v); return isNaN(f)?0:Math.round(f*100)/100; }
+function sfv(v) { if(v===null||v===undefined||v==='') return 0; const s=String(v).trim().replace(/^=/,''); const f=parseFloat(s); return isNaN(f)?0:Math.round(f*100)/100; }
 function cleanName(s) { if(!s) return ''; return String(s).split(',')[0].replace(/\s+\d{6,}\s*$/,'').trim().replace(/'/g,'\u2019'); }
 function normName(s) {
   return s
