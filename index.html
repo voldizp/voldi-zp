@@ -1391,8 +1391,29 @@ function doImport() {
     const vidpusk = matchName(name, vidpuskMap) || 0;
     const likar_fss_from_file = matchName(name, likarFssMap) || 0;
 
-    // Get доплати
-    const dopList = matchName(name, doplatyMap) || [];
+    // Get доплати — збираємо всі збіги (людина може бути під кількома ключами: з (СЮ) і без)
+    const dopList = (() => {
+      const normN = normName(name);
+      const fuzzyN = normNameFuzzy(name);
+      const fWords = normNameFuzzy(name).split(' ').filter(w=>w.length>1);
+      const fPrefix = fWords.length>=2 ? fWords.slice(0,2).join(' ') : null;
+      let merged = [];
+      const seen = new Set();
+      for (const [k, v] of Object.entries(doplatyMap)) {
+        let match = false;
+        if (k === name) match = true;
+        else if (normName(k) === normN) match = true;
+        else if (k.includes(name) || name.includes(k)) match = true;
+        else if (normName(k).includes(normN) || normN.includes(normName(k))) match = true;
+        else if (fPrefix) {
+          const kw = normNameFuzzy(k).split(' ').filter(w=>w.length>1);
+          if (kw.length>=2 && kw.slice(0,2).join(' ')===fPrefix) match = true;
+        }
+        else if (normNameFuzzy(k) === fuzzyN) match = true;
+        if (match) { v.forEach(d => { const key=d.amt+'|'+d.desc; if(!seen.has(key)){seen.add(key);merged.push(d);} }); }
+      }
+      return merged;
+    })();
     // Левицька - додаткові доплати з окремого аркуша
     if (name.includes('Левицька')) {
       const levExtra = levytskaMap['Левицька'] || 0;
