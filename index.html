@@ -1440,8 +1440,6 @@ function doImport() {
       if (name.includes(key)) { mob = amt; break; }
     }
 
-    // Гичка: фіксована премія 1000 грн за відсутність алкоголю
-    if (name.includes('Гичка')) dopList.push({amt: 1000, desc: 'Премія за відсутність алкоголю'});
 
     // Фіксовані доплати за суміщення посад (база для пропорційного розрахунку)
     const FIXED_SUMISH = { 'Андрійчук Людмила': 3000 };
@@ -1493,6 +1491,8 @@ function doImport() {
         emp_prem_norma = okh.prem_norma;
         emp_prem_vyyavl = okh.prem_vyyavl;
       }
+      // Гичка (начальник охорони) — не в файлі охорони, фіксована премія 1000
+      if (name.includes('Гичка')) emp_prem_norma = 1000;
     }
 
     // Нараховано ЗП = ставка + стаж + відпускні + доплати + премії
