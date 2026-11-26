@@ -524,7 +524,7 @@ function doShowCard(e) {
   if (e.stavka) det += r('Ставка від відпрацьованих годин', fmt(e.stavka), '');
   // Поворотна премія не показується в нарахуваннях - вона в розподілі
   if (e.prem_norma !== undefined && e.prem_norma > 0) det += r(e.dept==='Охорона' ? 'Премія за відсутність алкоголю' : 'Премія за виконання норми год.', fmt(e.prem_norma), 'pos');
-  if (e.prem_tonazh !== undefined && e.dept === 'Керівники цехів') det += r('Премія за тонаж', e.prem_tonazh>0?fmt(e.prem_tonazh):'0 ₴', e.prem_tonazh>0?'pos':'mut', '<span class="tag '+(e.prem_tonazh>0?'ok':'nv')+'">'+(e.prem_tonazh>0?'нараховано':'не нараховано')+'</span>');
+  if (e.prem_tonazh !== undefined && e.dept === 'Керівники цехів') det += r((e.name||'').includes('Юрук') ? 'Премія за відсоток цілої вафлі відносно загальної виробітки' : 'Премія за тонаж', e.prem_tonazh>0?fmt(e.prem_tonazh):'0 ₴', e.prem_tonazh>0?'pos':'mut', '<span class="tag '+(e.prem_tonazh>0?'ok':'nv')+'">'+(e.prem_tonazh>0?'нараховано':'не нараховано')+'</span>');
   if (e.prem_plan !== undefined && e.dept === 'Керівники цехів') det += r('Премія за виконання плану', e.prem_plan>0?fmt(e.prem_plan):'0 ₴', e.prem_plan>0?'pos':'mut', '<span class="tag '+(e.prem_plan>0?'ok':'nv')+'">'+(e.prem_plan>0?'нараховано':'не нараховано')+'</span>');
   if (e.prem_vyyavl !== undefined && e.prem_vyyavl > 0) det += r(e.dept==='Охорона' ? 'Премія за виявлення алкоголю' : 'Премія за виявлення порушень', fmt(e.prem_vyyavl), 'pos');
   if (e.stazh_prem > 0) det += r('За стаж ('+Math.round(e.stazh_years)+' р. × 150 ₴)', fmt(e.stazh_prem), 'pos');
