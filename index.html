@@ -2043,6 +2043,13 @@ async function saveToGithub() {
           emp.oklad = orig.oklad;
           emp.oklad_obr = orig.oklad_obr || orig.oklad;
         }
+        if (orig && orig.stazh_override) {
+          emp.stazh_override = true;
+          emp.stazh_years = orig.stazh_years || 0;
+        }
+        if (orig && orig.lviv_fop_fixed) {
+          emp.lviv_fop_fixed = orig.lviv_fop_fixed;
+        }
       });
     }
     const data = { months: saveHistory, currentMonth, notes: getNotes() };
