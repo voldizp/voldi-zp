@@ -20562,7 +20562,7 @@
           "norma": 176,
           "pct_normy": 1,
           "stavka": 27000,
-          "stazh_years": 3,
+          "stazh_years": 4,
           "stazh_prem": 450,
           "vidpusk": 0,
           "likar_fss": 0,
@@ -20591,7 +20591,8 @@
           "prem_norma": 0,
           "prem_tonazh": 0,
           "prem_plan": 0,
-          "pakDocDopl": 3000
+          "pakDocDopl": 3000,
+          "stazh_override": true
         },
         {
           "name": "Яльохін Ярослав",
@@ -24523,7 +24524,8 @@
           ],
           "prem_norma": 0,
           "prem_tonazh": 0,
-          "prem_plan": 0
+          "prem_plan": 0,
+          "stazh_override": true
         },
         {
           "name": "Яльохін Ярослав",
