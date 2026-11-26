@@ -2033,23 +2033,24 @@ async function saveToGithub() {
       const r = await fetch(GH_API, {headers: {'Authorization': 'token ' + GH_TOKEN}});
       if (r.ok) { const j = await r.json(); sha = j.sha; }
     } catch(e) {}
-    // Перед збереженням відновлюємо oklad/oklad_obr з оригінального data.json
-    // щоб не перезаписати правильні значення розрахованими зі старої бази
+    // При збереженні — для поточного місяця зберігаємо ТІЛЬКИ вхідні поля з оригіналу
+    // щоб розраховані поля (f1, taxes, kartu, f2, stavka, dopList, prem_*, etc.) не потрапляли в data.json
+    const INPUT_FIELDS = ['name','dept','posada','oform','oklad','oklad_obr','hod','norma','stazh_years','stazh_override','no_stazh',
+      'mob','sumish','inше','vidpusk','likar_fss','avans','do_vypl',
+      'lviv','lviv_fop_fixed','lviv_sales_pct','lviv_shokobum','lviv_fop_base',
+      'lutsk_sumish_fixed','lutsk_pryb_fixed','lutsk_f1_base','lutsk_target_hands',
+      'lutsk_pdv_pct','rожище','lviv_fop_fixed'];
     const saveHistory = JSON.parse(JSON.stringify(HISTORY));
     if (saveHistory[currentMonth] && saveHistory[currentMonth].employees) {
-      saveHistory[currentMonth].employees.forEach(emp => {
+      saveHistory[currentMonth].employees = saveHistory[currentMonth].employees.map(emp => {
         const orig = (window._currentMonthBaseMap || {})[emp.name];
-        if (orig && orig.oklad) {
-          emp.oklad = orig.oklad;
-          emp.oklad_obr = orig.oklad_obr || orig.oklad;
-        }
-        if (orig && orig.stazh_override) {
-          emp.stazh_override = true;
-          emp.stazh_years = orig.stazh_years || 0;
-        }
-        if (orig && orig.lviv_fop_fixed) {
-          emp.lviv_fop_fixed = orig.lviv_fop_fixed;
-        }
+        const base = orig || emp;
+        const clean = {};
+        INPUT_FIELDS.forEach(f => { if (base[f] !== undefined && base[f] !== null) clean[f] = base[f]; });
+        // avans/do_vypl беремо з розрахованого emp (вводяться вручну після розрахунку)
+        if (emp.avans !== undefined) clean.avans = emp.avans;
+        if (emp.do_vypl !== undefined) clean.do_vypl = emp.do_vypl;
+        return clean;
       });
     }
     const data = { months: saveHistory, currentMonth, notes: getNotes() };
