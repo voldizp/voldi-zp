@@ -2036,10 +2036,10 @@ async function saveToGithub() {
     // При збереженні — для поточного місяця зберігаємо ТІЛЬКИ вхідні поля з оригіналу
     // щоб розраховані поля (f1, taxes, kartu, f2, stavka, dopList, prem_*, etc.) не потрапляли в data.json
     const INPUT_FIELDS = ['name','dept','posada','oform','oklad','oklad_obr','hod','norma','stazh_years','stazh_override','no_stazh',
-      'mob','sumish','inше','vidpusk','likar_fss','nochni','transport','note','shtraf','perekydka',
-      'lviv','lviv_fop_fixed','lviv_sales_pct','lviv_shokobum','lviv_fop_base','lviv_fop_pct','lviv_mob_fixed','lviv_povor_f1',
-      'lutsk','lutsk_sumish_fixed','lutsk_pryb_fixed','lutsk_f1_base','lutsk_f1_oklad','lutsk_target_hands','lutsk_pdv_pct',
-      'rожище','no_prem'];
+      'mob','sumish','inше','vidpusk','likar_fss','avans','do_vypl',
+      'lviv','lviv_fop_fixed','lviv_sales_pct','lviv_shokobum','lviv_fop_base',
+      'lutsk_sumish_fixed','lutsk_pryb_fixed','lutsk_f1_base','lutsk_target_hands',
+      'lutsk_pdv_pct','rожище','lviv_fop_fixed'];
     const saveHistory = JSON.parse(JSON.stringify(HISTORY));
     if (saveHistory[currentMonth] && saveHistory[currentMonth].employees) {
       saveHistory[currentMonth].employees = saveHistory[currentMonth].employees.map(emp => {
