@@ -1269,6 +1269,8 @@ function doImport() {
       if (ghBase.lutsk_pryb_fixed != null) overrides.lutsk_pryb_fixed = ghBase.lutsk_pryb_fixed;
       if (ghBase.lviv_fop_fixed != null) overrides.lviv_fop_fixed = ghBase.lviv_fop_fixed;
       if (ghBase.mob != null) overrides.mob = ghBase.mob;
+      if (ghBase.stazh_override) { overrides.stazh_override = true; overrides.stazh_years = ghBase.stazh_years || 0; }
+      if (ghBase.no_stazh != null) overrides.no_stazh = ghBase.no_stazh;
       base = Object.assign({}, base, overrides);
     }
     
